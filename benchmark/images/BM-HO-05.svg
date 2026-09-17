@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <rect width="100%" height="100%" fill="#EFF6FF"/>
+  <circle cx="300" cy="225" r="180" fill="#BFDBFE" stroke="#2563EB" stroke-width="4"/>
+  <circle cx="300" cy="225" r="140" fill="#FFFFFF" opacity="0.9"/>
+  <text x="50%" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="#2563EB" text-anchor="middle">BM-HO-05 · Western</text>
+  <text x="50%" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#1F2937" text-anchor="middle">Smoked Pulled Pork Sandwich with Coleslaw</text>
+  <text x="50%" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#6B7280" text-anchor="middle">American BBQ | Reference: 785 kcal (390g)</text>
+  <g>
+    <text x="50%" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Pulled Pork on Brioche Bun (250g · 560 kcal)</text>
+    <text x="50%" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Creamy Mayonnaise Coleslaw (140g · 225 kcal)</text>
+  </g>
+  <text x="50%" y="385" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9CA3AF" text-anchor="middle">USDA FDC Standard BBQ</text>
+</svg>

@@ -1,0 +1,1466 @@
+{
+  "benchmark_set": "primary",
+  "timestamp": "2026-08-28T06:29:55.465Z",
+  "total_images_evaluated": 30,
+  "summary_metrics": {
+    "our_app": {
+      "calorie_MAE": 189.6,
+      "calorie_MAPE": 26.8,
+      "calorie_median_error": 176,
+      "within_reference_range_pct": 20,
+      "component_recall_pct": 75.6,
+      "component_precision_pct": 71.4,
+      "wins": 7
+    },
+    "gemini_direct": {
+      "calorie_MAE": 84.9,
+      "calorie_MAPE": 12,
+      "calorie_median_error": 78.5,
+      "within_reference_range_pct": 0,
+      "wins": 23
+    },
+    "ties": 0
+  },
+  "items": [
+    {
+      "item_id": "BM-SA-01",
+      "category": "South Asian",
+      "cuisine": "South Asian (Hyderabadi)",
+      "meal_name": "Chicken Biryani with Mirchi Ka Salan & Raita",
+      "difficulty": "Very Difficult - Composite",
+      "reference": {
+        "calories": 920,
+        "calorie_range": [
+          850,
+          990
+        ],
+        "protein": 52.4,
+        "carbs": 98.6,
+        "fat": 36.2,
+        "grams": 550
+      },
+      "our_app": {
+        "calories": 1305,
+        "protein": 63.5,
+        "carbs": 163.1,
+        "fat": 45.2,
+        "grams": 830,
+        "error_calories": 385,
+        "error_calories_pct": 41.8,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 100,
+        "component_precision": 75,
+        "energy_check_delta": 8
+      },
+      "gemini_direct": {
+        "calories": 810,
+        "protein": 44,
+        "carbs": 90.7,
+        "fat": 29.7,
+        "grams": 550,
+        "error_calories": 110,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-SA-02",
+      "category": "South Asian",
+      "cuisine": "South Asian (Kerala Feast)",
+      "meal_name": "Kerala Feast with Rice, Parotta, Chicken Curry & Veg Curry",
+      "difficulty": "Very Difficult - Composite",
+      "reference": {
+        "calories": 1247,
+        "calorie_range": [
+          1150,
+          1350
+        ],
+        "protein": 49.7,
+        "carbs": 149.1,
+        "fat": 51.4,
+        "grams": 750
+      },
+      "our_app": {
+        "calories": 1534,
+        "protein": 70.5,
+        "carbs": 187.9,
+        "fat": 56.2,
+        "grams": 820,
+        "error_calories": 287,
+        "error_calories_pct": 23,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 6,
+        "component_recall": 100,
+        "component_precision": 83,
+        "energy_check_delta": 5
+      },
+      "gemini_direct": {
+        "calories": 1097,
+        "protein": 41.7,
+        "carbs": 137.2,
+        "fat": 42.1,
+        "grams": 750,
+        "error_calories": 150,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 5,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-SA-03",
+      "category": "South Asian",
+      "cuisine": "South Asian (South Indian Breakfast)",
+      "meal_name": "Masala Dosa with Sambar & Coconut Chutney",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 515,
+        "calorie_range": [
+          480,
+          560
+        ],
+        "protein": 11.8,
+        "carbs": 72.4,
+        "fat": 20.2,
+        "grams": 380
+      },
+      "our_app": {
+        "calories": 395,
+        "protein": 10.9,
+        "carbs": 53,
+        "fat": 15.8,
+        "grams": 320,
+        "error_calories": 120,
+        "error_calories_pct": 23.3,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 67,
+        "component_precision": 67,
+        "energy_check_delta": 3
+      },
+      "gemini_direct": {
+        "calories": 453,
+        "protein": 9.9,
+        "carbs": 66.6,
+        "fat": 16.6,
+        "grams": 380,
+        "error_calories": 62,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-SA-04",
+      "category": "South Asian",
+      "cuisine": "South Asian (North Indian)",
+      "meal_name": "Paneer Butter Masala with 2 Garlic Naan",
+      "difficulty": "Difficult",
+      "reference": {
+        "calories": 990,
+        "calorie_range": [
+          920,
+          1070
+        ],
+        "protein": 34.4,
+        "carbs": 108.8,
+        "fat": 47.8,
+        "grams": 440
+      },
+      "our_app": {
+        "calories": 792,
+        "protein": 32.2,
+        "carbs": 88.2,
+        "fat": 34.6,
+        "grams": 260,
+        "error_calories": 198,
+        "error_calories_pct": 20,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 1
+      },
+      "gemini_direct": {
+        "calories": 871,
+        "protein": 28.9,
+        "carbs": 100.1,
+        "fat": 39.2,
+        "grams": 440,
+        "error_calories": 119,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-SA-05",
+      "category": "South Asian",
+      "cuisine": "South Asian (Snacks & Dessert)",
+      "meal_name": "2 Fried Samosas with Gulab Jamun & Chai",
+      "difficulty": "Difficult - High Sugar/Fat",
+      "reference": {
+        "calories": 1055,
+        "calorie_range": [
+          980,
+          1140
+        ],
+        "protein": 17.6,
+        "carbs": 158.4,
+        "fat": 43.6,
+        "grams": 420
+      },
+      "our_app": {
+        "calories": 844,
+        "protein": 14.7,
+        "carbs": 128.2,
+        "fat": 30.4,
+        "grams": 405,
+        "error_calories": 211,
+        "error_calories_pct": 20,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 0,
+        "component_precision": 0,
+        "energy_check_delta": 1
+      },
+      "gemini_direct": {
+        "calories": 928,
+        "protein": 14.8,
+        "carbs": 145.7,
+        "fat": 35.8,
+        "grams": 420,
+        "error_calories": 127,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-SA-06",
+      "category": "South Asian",
+      "cuisine": "South Asian (Healthy Home Thali)",
+      "meal_name": "Dal Tadka with 2 Whole Wheat Rotis, Rice & Cucumber Salad",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 615,
+        "calorie_range": [
+          570,
+          660
+        ],
+        "protein": 22.8,
+        "carbs": 113.6,
+        "fat": 8.4,
+        "grams": 530
+      },
+      "our_app": {
+        "calories": 664,
+        "protein": 17.7,
+        "carbs": 104.3,
+        "fat": 19.6,
+        "grams": 345,
+        "error_calories": 49,
+        "error_calories_pct": 8,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 100,
+        "component_precision": 75,
+        "energy_check_delta": 0
+      },
+      "gemini_direct": {
+        "calories": 541,
+        "protein": 19.2,
+        "carbs": 104.5,
+        "fat": 6.9,
+        "grams": 530,
+        "error_calories": 74,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-EA-01",
+      "category": "East/Southeast Asian",
+      "cuisine": "Thai",
+      "meal_name": "Chicken Pad Thai with Crushed Peanuts & Lime",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 730,
+        "calorie_range": [
+          680,
+          790
+        ],
+        "protein": 34.6,
+        "carbs": 92.4,
+        "fat": 25.8,
+        "grams": 380
+      },
+      "our_app": {
+        "calories": 753,
+        "protein": 79.2,
+        "carbs": 59.8,
+        "fat": 20.9,
+        "grams": 515,
+        "error_calories": 23,
+        "error_calories_pct": 3.2,
+        "within_range": true,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 67,
+        "component_precision": 50,
+        "energy_check_delta": 9
+      },
+      "gemini_direct": {
+        "calories": 642,
+        "protein": 29.1,
+        "carbs": 85,
+        "fat": 21.2,
+        "grams": 380,
+        "error_calories": 88,
+        "error_calories_pct": 12.1,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-EA-02",
+      "category": "East/Southeast Asian",
+      "cuisine": "Japanese",
+      "meal_name": "Pan-Seared Salmon Teriyaki with White Rice & Edamame",
+      "difficulty": "Simple",
+      "reference": {
+        "calories": 645,
+        "calorie_range": [
+          600,
+          690
+        ],
+        "protein": 48.2,
+        "carbs": 68.4,
+        "fat": 19.8,
+        "grams": 430
+      },
+      "our_app": {
+        "calories": 565,
+        "protein": 24,
+        "carbs": 77,
+        "fat": 17.5,
+        "grams": 400,
+        "error_calories": 80,
+        "error_calories_pct": 12.4,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 67,
+        "component_precision": 67,
+        "energy_check_delta": 3
+      },
+      "gemini_direct": {
+        "calories": 568,
+        "protein": 40.5,
+        "carbs": 62.9,
+        "fat": 16.2,
+        "grams": 430,
+        "error_calories": 77,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-EA-03",
+      "category": "East/Southeast Asian",
+      "cuisine": "Japanese",
+      "meal_name": "Tonkotsu Pork Ramen with Soft-Boiled Nitamago Egg",
+      "difficulty": "Difficult - Heavy Broth & Fat",
+      "reference": {
+        "calories": 820,
+        "calorie_range": [
+          760,
+          890
+        ],
+        "protein": 38.5,
+        "carbs": 84,
+        "fat": 36.5,
+        "grams": 650
+      },
+      "our_app": {
+        "calories": 1049,
+        "protein": 83.7,
+        "carbs": 123.4,
+        "fat": 22.6,
+        "grams": 615,
+        "error_calories": 229,
+        "error_calories_pct": 27.9,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 75,
+        "component_precision": 75,
+        "energy_check_delta": 17
+      },
+      "gemini_direct": {
+        "calories": 722,
+        "protein": 32.3,
+        "carbs": 77.3,
+        "fat": 29.9,
+        "grams": 650,
+        "error_calories": 98,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 4,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-EA-04",
+      "category": "East/Southeast Asian",
+      "cuisine": "Chinese",
+      "meal_name": "Chicken Fried Rice with Sunny-Side Egg",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 615,
+        "calorie_range": [
+          570,
+          660
+        ],
+        "protein": 31.4,
+        "carbs": 78.2,
+        "fat": 19.6,
+        "grams": 360
+      },
+      "our_app": {
+        "calories": 904,
+        "protein": 77.9,
+        "carbs": 106.3,
+        "fat": 16.9,
+        "grams": 595,
+        "error_calories": 289,
+        "error_calories_pct": 47,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 100,
+        "component_precision": 50,
+        "energy_check_delta": 15
+      },
+      "gemini_direct": {
+        "calories": 541,
+        "protein": 26.4,
+        "carbs": 71.9,
+        "fat": 16.1,
+        "grams": 360,
+        "error_calories": 74,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-EA-05",
+      "category": "East/Southeast Asian",
+      "cuisine": "Vietnamese",
+      "meal_name": "Beef Pho Noodle Soup with Herbs & Bean Sprouts",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 485,
+        "calorie_range": [
+          440,
+          530
+        ],
+        "protein": 36.2,
+        "carbs": 62.8,
+        "fat": 9.4,
+        "grams": 620
+      },
+      "our_app": {
+        "calories": 607,
+        "protein": 47.2,
+        "carbs": 56.4,
+        "fat": 19.5,
+        "grams": 360,
+        "error_calories": 122,
+        "error_calories_pct": 25.2,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 67,
+        "component_precision": 100,
+        "energy_check_delta": 17
+      },
+      "gemini_direct": {
+        "calories": 427,
+        "protein": 30.4,
+        "carbs": 57.8,
+        "fat": 7.7,
+        "grams": 620,
+        "error_calories": 58,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-EA-06",
+      "category": "East/Southeast Asian",
+      "cuisine": "Cantonese",
+      "meal_name": "Steamed Dim Sum Platter (Shumai & Har Gow)",
+      "difficulty": "Simple",
+      "reference": {
+        "calories": 410,
+        "calorie_range": [
+          370,
+          450
+        ],
+        "protein": 24.8,
+        "carbs": 46.2,
+        "fat": 13.8,
+        "grams": 310
+      },
+      "our_app": {
+        "calories": 377,
+        "protein": 57.1,
+        "carbs": 12.3,
+        "fat": 9.4,
+        "grams": 230,
+        "error_calories": 33,
+        "error_calories_pct": 8,
+        "within_range": true,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 15
+      },
+      "gemini_direct": {
+        "calories": 361,
+        "protein": 20.8,
+        "carbs": 42.5,
+        "fat": 11.3,
+        "grams": 310,
+        "error_calories": 49,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-WE-01",
+      "category": "Western",
+      "cuisine": "American Fast Food",
+      "meal_name": "Cheeseburger with Medium French Fries",
+      "difficulty": "Simple - Fast Food Baseline",
+      "reference": {
+        "calories": 670,
+        "calorie_range": [
+          620,
+          720
+        ],
+        "protein": 23.4,
+        "carbs": 72.8,
+        "fat": 31.8,
+        "grams": 270
+      },
+      "our_app": {
+        "calories": 574,
+        "protein": 27.7,
+        "carbs": 58.9,
+        "fat": 26.4,
+        "grams": 300,
+        "error_calories": 96,
+        "error_calories_pct": 14.3,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 67,
+        "energy_check_delta": 10
+      },
+      "gemini_direct": {
+        "calories": 590,
+        "protein": 19.7,
+        "carbs": 67,
+        "fat": 26.1,
+        "grams": 270,
+        "error_calories": 80,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-WE-02",
+      "category": "Western",
+      "cuisine": "American / Italian",
+      "meal_name": "2 Slices Pepperoni Pizza",
+      "difficulty": "Simple",
+      "reference": {
+        "calories": 596,
+        "calorie_range": [
+          550,
+          640
+        ],
+        "protein": 26.2,
+        "carbs": 61.8,
+        "fat": 26.4,
+        "grams": 214
+      },
+      "our_app": {
+        "calories": 195,
+        "protein": 8.1,
+        "carbs": 19.8,
+        "fat": 9.3,
+        "grams": 100,
+        "error_calories": 401,
+        "error_calories_pct": 67.3,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 0,
+        "component_precision": 0,
+        "energy_check_delta": 0
+      },
+      "gemini_direct": {
+        "calories": 524,
+        "protein": 22,
+        "carbs": 56.9,
+        "fat": 21.6,
+        "grams": 214,
+        "error_calories": 72,
+        "error_calories_pct": 12.1,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 1,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-WE-03",
+      "category": "Western",
+      "cuisine": "American Steakhouse",
+      "meal_name": "Grilled Sirloin Steak with Mashed Potatoes & Green Beans",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 765,
+        "calorie_range": [
+          710,
+          820
+        ],
+        "protein": 62.4,
+        "carbs": 42.6,
+        "fat": 36.8,
+        "grams": 510
+      },
+      "our_app": {
+        "calories": 596,
+        "protein": 61.9,
+        "carbs": 10.9,
+        "fat": 32.6,
+        "grams": 342,
+        "error_calories": 169,
+        "error_calories_pct": 22.1,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 11
+      },
+      "gemini_direct": {
+        "calories": 673,
+        "protein": 52.4,
+        "carbs": 39.2,
+        "fat": 30.2,
+        "grams": 510,
+        "error_calories": 92,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-WE-04",
+      "category": "Western",
+      "cuisine": "American Breakfast",
+      "meal_name": "Buttermilk Pancakes with Butter & Maple Syrup",
+      "difficulty": "Moderate - High Sugar",
+      "reference": {
+        "calories": 645,
+        "calorie_range": [
+          600,
+          690
+        ],
+        "protein": 12.2,
+        "carbs": 118.4,
+        "fat": 14.8,
+        "grams": 330
+      },
+      "our_app": {
+        "calories": 234,
+        "protein": 10,
+        "carbs": 23.3,
+        "fat": 11,
+        "grams": 135,
+        "error_calories": 411,
+        "error_calories_pct": 63.7,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 33,
+        "component_precision": 50,
+        "energy_check_delta": 2
+      },
+      "gemini_direct": {
+        "calories": 568,
+        "protein": 10.2,
+        "carbs": 108.9,
+        "fat": 12.1,
+        "grams": 330,
+        "error_calories": 77,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-WE-05",
+      "category": "Western",
+      "cuisine": "Continental Breakfast",
+      "meal_name": "Rolled Oatmeal with Blueberries, Banana & Peanut Butter",
+      "difficulty": "Simple - Healthy Fuel",
+      "reference": {
+        "calories": 425,
+        "calorie_range": [
+          390,
+          460
+        ],
+        "protein": 14.2,
+        "carbs": 68.6,
+        "fat": 12.8,
+        "grams": 360
+      },
+      "our_app": {
+        "calories": 216,
+        "protein": 7,
+        "carbs": 29.5,
+        "fat": 9.3,
+        "grams": 215,
+        "error_calories": 209,
+        "error_calories_pct": 49.2,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 67,
+        "component_precision": 67,
+        "energy_check_delta": 14
+      },
+      "gemini_direct": {
+        "calories": 374,
+        "protein": 11.9,
+        "carbs": 63.1,
+        "fat": 10.5,
+        "grams": 360,
+        "error_calories": 51,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-WE-06",
+      "category": "Western",
+      "cuisine": "American Casual",
+      "meal_name": "Grilled Chicken Caesar Salad with Croutons & Parmesan",
+      "difficulty": "Moderate - Dressing Hidden Fat",
+      "reference": {
+        "calories": 520,
+        "calorie_range": [
+          480,
+          560
+        ],
+        "protein": 48.6,
+        "carbs": 18.2,
+        "fat": 28.4,
+        "grams": 320
+      },
+      "our_app": {
+        "calories": 440,
+        "protein": 56.7,
+        "carbs": 3.6,
+        "fat": 20.8,
+        "grams": 265,
+        "error_calories": 80,
+        "error_calories_pct": 15.4,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 67,
+        "component_precision": 67,
+        "energy_check_delta": 12
+      },
+      "gemini_direct": {
+        "calories": 458,
+        "protein": 40.8,
+        "carbs": 16.7,
+        "fat": 23.3,
+        "grams": 320,
+        "error_calories": 62,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-ME-01",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Levantine / Middle Eastern",
+      "meal_name": "Chicken Shawarma Platter with Hummus & Warm Pita",
+      "difficulty": "Difficult - Tahini/Oil Density",
+      "reference": {
+        "calories": 810,
+        "calorie_range": [
+          750,
+          870
+        ],
+        "protein": 52.8,
+        "carbs": 76.4,
+        "fat": 32.6,
+        "grams": 460
+      },
+      "our_app": {
+        "calories": 628,
+        "protein": 64.6,
+        "carbs": 50.6,
+        "fat": 18,
+        "grams": 340,
+        "error_calories": 182,
+        "error_calories_pct": 22.5,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 75,
+        "component_precision": 100,
+        "energy_check_delta": 5
+      },
+      "gemini_direct": {
+        "calories": 713,
+        "protein": 44.4,
+        "carbs": 70.3,
+        "fat": 26.7,
+        "grams": 460,
+        "error_calories": 97,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 4,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-ME-02",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Greek / Mediterranean",
+      "meal_name": "Greek Salad with Block Feta & Kalamata Olives",
+      "difficulty": "Moderate - Heavy Olive Oil",
+      "reference": {
+        "calories": 485,
+        "calorie_range": [
+          450,
+          520
+        ],
+        "protein": 13.8,
+        "carbs": 14.6,
+        "fat": 41.5,
+        "grams": 340
+      },
+      "our_app": {
+        "calories": 180,
+        "protein": 8.2,
+        "carbs": 2.9,
+        "fat": 15.3,
+        "grams": 95,
+        "error_calories": 305,
+        "error_calories_pct": 62.9,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 67,
+        "component_precision": 100,
+        "energy_check_delta": 2
+      },
+      "gemini_direct": {
+        "calories": 427,
+        "protein": 11.6,
+        "carbs": 13.4,
+        "fat": 34,
+        "grams": 340,
+        "error_calories": 58,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-ME-03",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Middle Eastern (Vegetarian)",
+      "meal_name": "Crispy Falafel Plate with Tahini Sauce & Tabbouleh",
+      "difficulty": "Difficult - Fried Chickpeas + Tahini",
+      "reference": {
+        "calories": 620,
+        "calorie_range": [
+          570,
+          670
+        ],
+        "protein": 19.4,
+        "carbs": 64.8,
+        "fat": 34.2,
+        "grams": 360
+      },
+      "our_app": {
+        "calories": 614,
+        "protein": 29.9,
+        "carbs": 87.8,
+        "fat": 18.1,
+        "grams": 400,
+        "error_calories": 6,
+        "error_calories_pct": 1,
+        "within_range": true,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 20
+      },
+      "gemini_direct": {
+        "calories": 546,
+        "protein": 16.3,
+        "carbs": 59.6,
+        "fat": 28,
+        "grams": 360,
+        "error_calories": 74,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-ME-04",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "North African / Middle Eastern",
+      "meal_name": "Poached Shakshuka in Spiced Tomato Pepper Sauce",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 420,
+        "calorie_range": [
+          390,
+          460
+        ],
+        "protein": 24.2,
+        "carbs": 18.6,
+        "fat": 28.5,
+        "grams": 420
+      },
+      "our_app": {
+        "calories": 333,
+        "protein": 13.9,
+        "carbs": 42.4,
+        "fat": 11.7,
+        "grams": 135,
+        "error_calories": 87,
+        "error_calories_pct": 20.7,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 50,
+        "component_precision": 50,
+        "energy_check_delta": 2
+      },
+      "gemini_direct": {
+        "calories": 370,
+        "protein": 20.3,
+        "carbs": 17.1,
+        "fat": 23.4,
+        "grams": 420,
+        "error_calories": 50,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-ME-05",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Turkish / Middle Eastern",
+      "meal_name": "Grilled Lamb & Beef Kebab Platter with Bulgur Pilaf",
+      "difficulty": "Moderate - Meat Fat Content",
+      "reference": {
+        "calories": 740,
+        "calorie_range": [
+          690,
+          800
+        ],
+        "protein": 46.8,
+        "carbs": 52.4,
+        "fat": 38.6,
+        "grams": 450
+      },
+      "our_app": {
+        "calories": 405,
+        "protein": 32,
+        "carbs": 6.8,
+        "fat": 28.1,
+        "grams": 180,
+        "error_calories": 335,
+        "error_calories_pct": 45.3,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 1,
+        "component_recall": 0,
+        "component_precision": 0,
+        "energy_check_delta": 3
+      },
+      "gemini_direct": {
+        "calories": 651,
+        "protein": 39.3,
+        "carbs": 48.2,
+        "fat": 31.7,
+        "grams": 450,
+        "error_calories": 89,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-ME-06",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Mediterranean Balanced",
+      "meal_name": "Herb Grilled Salmon with Quinoa & Roasted Asparagus",
+      "difficulty": "Simple - High Protein Clean",
+      "reference": {
+        "calories": 545,
+        "calorie_range": [
+          510,
+          580
+        ],
+        "protein": 45.2,
+        "carbs": 41.6,
+        "fat": 21.4,
+        "grams": 410
+      },
+      "our_app": {
+        "calories": 375,
+        "protein": 23,
+        "carbs": 40.9,
+        "fat": 14.1,
+        "grams": 300,
+        "error_calories": 170,
+        "error_calories_pct": 31.2,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 8
+      },
+      "gemini_direct": {
+        "calories": 480,
+        "protein": 38,
+        "carbs": 38.3,
+        "fat": 17.5,
+        "grams": 410,
+        "error_calories": 65,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-CP-01",
+      "category": "Composite/Difficult",
+      "cuisine": "Mexican / Tex-Mex",
+      "meal_name": "Loaded Chicken Burrito Bowl with Guacamole & Sour Cream",
+      "difficulty": "Very Difficult - Multi-Layer Composite",
+      "reference": {
+        "calories": 840,
+        "calorie_range": [
+          780,
+          910
+        ],
+        "protein": 48.5,
+        "carbs": 82.4,
+        "fat": 36.5,
+        "grams": 540
+      },
+      "our_app": {
+        "calories": 906,
+        "protein": 76.2,
+        "carbs": 94.4,
+        "fat": 25.3,
+        "grams": 780,
+        "error_calories": 66,
+        "error_calories_pct": 7.9,
+        "within_range": true,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 6,
+        "component_recall": 100,
+        "component_precision": 50,
+        "energy_check_delta": 4
+      },
+      "gemini_direct": {
+        "calories": 739,
+        "protein": 40.7,
+        "carbs": 75.8,
+        "fat": 29.9,
+        "grams": 540,
+        "error_calories": 101,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-CP-02",
+      "category": "Composite/Difficult",
+      "cuisine": "American All-Day Breakfast",
+      "meal_name": "Classic Full Diner Breakfast Platter",
+      "difficulty": "Very Difficult - Multi-Meat & Fat",
+      "reference": {
+        "calories": 895,
+        "calorie_range": [
+          830,
+          960
+        ],
+        "protein": 38.6,
+        "carbs": 52.8,
+        "fat": 59.4,
+        "grams": 390
+      },
+      "our_app": {
+        "calories": 611,
+        "protein": 58.5,
+        "carbs": 30.1,
+        "fat": 27.7,
+        "grams": 330,
+        "error_calories": 284,
+        "error_calories_pct": 31.7,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 100,
+        "component_precision": 75,
+        "energy_check_delta": 7
+      },
+      "gemini_direct": {
+        "calories": 788,
+        "protein": 32.4,
+        "carbs": 48.6,
+        "fat": 48.7,
+        "grams": 390,
+        "error_calories": 107,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-CP-03",
+      "category": "Composite/Difficult",
+      "cuisine": "Italian-American",
+      "meal_name": "Fettuccine Alfredo with Grilled Chicken Breast",
+      "difficulty": "Difficult - Hidden Heavy Cream",
+      "reference": {
+        "calories": 960,
+        "calorie_range": [
+          890,
+          1040
+        ],
+        "protein": 54.2,
+        "carbs": 72.8,
+        "fat": 50.6,
+        "grams": 460
+      },
+      "our_app": {
+        "calories": 580,
+        "protein": 61.2,
+        "carbs": 61.8,
+        "fat": 7.6,
+        "grams": 360,
+        "error_calories": 380,
+        "error_calories_pct": 39.6,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 67,
+        "component_precision": 100,
+        "energy_check_delta": 20
+      },
+      "gemini_direct": {
+        "calories": 845,
+        "protein": 45.5,
+        "carbs": 67,
+        "fat": 41.5,
+        "grams": 460,
+        "error_calories": 115,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-CP-04",
+      "category": "Composite/Difficult",
+      "cuisine": "British Classic",
+      "meal_name": "Beer-Battered Fish & Chips with Tartar Sauce & Mushy Peas",
+      "difficulty": "Very Difficult - Deep Fry Oil Absorption",
+      "reference": {
+        "calories": 1040,
+        "calorie_range": [
+          960,
+          1130
+        ],
+        "protein": 42.6,
+        "carbs": 106.8,
+        "fat": 49.2,
+        "grams": 520
+      },
+      "our_app": {
+        "calories": 588,
+        "protein": 18.7,
+        "carbs": 38.7,
+        "fat": 40.8,
+        "grams": 215,
+        "error_calories": 452,
+        "error_calories_pct": 43.5,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 9
+      },
+      "gemini_direct": {
+        "calories": 915,
+        "protein": 35.8,
+        "carbs": 98.3,
+        "fat": 40.3,
+        "grams": 520,
+        "error_calories": 125,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-CP-05",
+      "category": "Composite/Difficult",
+      "cuisine": "Modern Brunch",
+      "meal_name": "Sourdough Avocado Toast with 2 Poached Eggs & Bacon",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 685,
+        "calorie_range": [
+          640,
+          730
+        ],
+        "protein": 29.8,
+        "carbs": 52.4,
+        "fat": 40.2,
+        "grams": 370
+      },
+      "our_app": {
+        "calories": 674,
+        "protein": 64,
+        "carbs": 42.5,
+        "fat": 27,
+        "grams": 375,
+        "error_calories": 11,
+        "error_calories_pct": 1.6,
+        "within_range": true,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 100,
+        "component_precision": 75,
+        "energy_check_delta": 5
+      },
+      "gemini_direct": {
+        "calories": 603,
+        "protein": 25,
+        "carbs": 48.2,
+        "fat": 33,
+        "grams": 370,
+        "error_calories": 82,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-CP-06",
+      "category": "Composite/Difficult",
+      "cuisine": "Fitness / Sports Nutrition",
+      "meal_name": "Whey Protein Shake with Whole Milk, Banana & PB",
+      "difficulty": "Simple - High Protein Liquid",
+      "reference": {
+        "calories": 540,
+        "calorie_range": [
+          500,
+          580
+        ],
+        "protein": 44.8,
+        "carbs": 52.6,
+        "fat": 17.5,
+        "grams": 480
+      },
+      "our_app": {
+        "calories": 557,
+        "protein": 94.9,
+        "carbs": 7.1,
+        "fat": 16.2,
+        "grams": 170,
+        "error_calories": 17,
+        "error_calories_pct": 3.1,
+        "within_range": true,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 3
+      },
+      "gemini_direct": {
+        "calories": 475,
+        "protein": 37.6,
+        "carbs": 48.4,
+        "fat": 14.4,
+        "grams": 480,
+        "error_calories": 65,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 3,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    }
+  ]
+}

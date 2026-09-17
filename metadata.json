@@ -1,0 +1,6 @@
+{
+  "name": "Junk Food & Calorie Tracker",
+  "description": "Daily food log and dashboard to track junk food, calorie limits, and fitness goals like weight loss or muscle building.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

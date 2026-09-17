@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <rect width="100%" height="100%" fill="#FEF2F2"/>
+  <circle cx="300" cy="225" r="180" fill="#FECACA" stroke="#DC2626" stroke-width="4"/>
+  <circle cx="300" cy="225" r="140" fill="#FFFFFF" opacity="0.9"/>
+  <text x="50%" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="#DC2626" text-anchor="middle">BM-EA-03 · East/Southeast Asian</text>
+  <text x="50%" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#1F2937" text-anchor="middle">Tonkotsu Pork Ramen with Soft-Boiled Nitamago Egg</text>
+  <text x="50%" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#6B7280" text-anchor="middle">Japanese | Reference: 820 kcal (650g)</text>
+  <g>
+    <text x="50%" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Ramen Wheat Noodles (220g · 348 kcal)</text>
+    <text x="50%" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Tonkotsu Broth & Seasoned Oil (300g · 230 kcal)</text>
+    <text x="50%" y="258" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Chashu Pork Belly Slices (70g · 164 kcal)</text>
+    <text x="50%" y="282" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Soft-Boiled Nitamago Egg (60g · 78 kcal)</text>
+  </g>
+  <text x="50%" y="385" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9CA3AF" text-anchor="middle">Standardized Japanese Nutrition Standards / USDA</text>
+</svg>

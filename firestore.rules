@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net - Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // UserProfile Validator
+    function isValidUserProfile(data) {
+      return data.keys().hasAll(['heightCm', 'weightKg', 'desiredWeightKg', 'targetCalories', 'maxJunkCaloriePercent', 'updatedAt'])
+        && data.heightCm is number
+        && data.weightKg is number
+        && data.desiredWeightKg is number
+        && data.targetCalories is number
+        && data.maxJunkCaloriePercent is number
+        && data.updatedAt is number;
+    }
+
+    // DailyStat Validator
+    function isValidDailyStat(data) {
+      return data.keys().hasAll(['waterGlasses', 'updatedAt'])
+        && data.waterGlasses is number
+        && data.updatedAt is number;
+    }
+
+    // FoodItem Validator
+    function isValidFoodItem(data, uid) {
+      return data.keys().hasAll(['userId', 'name', 'isJunk', 'calories', 'protein', 'carbs', 'fat', 'date', 'createdAt', 'mealType'])
+        && data.userId is string && data.userId == uid && data.userId.size() <= 128
+        && data.name is string && data.name.size() <= 200
+        && data.isJunk is bool
+        && data.calories is number
+        && data.protein is number
+        && data.carbs is number
+        && data.fat is number
+        && data.date is string && data.date.size() <= 10
+        && data.mealType is string
+        && data.createdAt is number;
+    }
+
+    match /users/{userId} {
+      // Strictly require authenticated request.auth.uid == userId
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId)
+        && isValidId(userId)
+        && isValidUserProfile(incoming());
+        
+      allow delete: if false;
+
+      match /foodLogs/{logId} {
+        allow get, list: if isOwner(userId);
+        
+        allow create, update: if isOwner(userId)
+          && isValidId(userId) && isValidId(logId)
+          && isValidFoodItem(incoming(), userId);
+          
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(logId);
+      }
+
+      match /dailyStats/{dateStr} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidDailyStat(incoming());
+        allow delete: if false;
+      }
+
+      match /recipes/{recipeId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(userId) && isValidId(recipeId) && incoming().userId == userId;
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(recipeId);
+      }
+
+      match /groceryList/{itemId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(userId) && isValidId(itemId) && incoming().userId == userId;
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(itemId);
+      }
+    }
+  }
+}

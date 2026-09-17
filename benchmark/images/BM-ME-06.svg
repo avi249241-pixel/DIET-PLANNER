@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <rect width="100%" height="100%" fill="#F0FDF4"/>
+  <circle cx="300" cy="225" r="180" fill="#BBF7D0" stroke="#16A34A" stroke-width="4"/>
+  <circle cx="300" cy="225" r="140" fill="#FFFFFF" opacity="0.9"/>
+  <text x="50%" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="#16A34A" text-anchor="middle">BM-ME-06 · Middle Eastern/Mediterranean</text>
+  <text x="50%" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#1F2937" text-anchor="middle">Herb Grilled Salmon with Quinoa & Roasted Asparagus</text>
+  <text x="50%" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#6B7280" text-anchor="middle">Mediterranean Balanced | Reference: 545 kcal (410g)</text>
+  <g>
+    <text x="50%" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Pan-Seared Salmon Fillet (170g · 350 kcal)</text>
+    <text x="50%" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Cooked Quinoa (160g · 192 kcal)</text>
+    <text x="50%" y="258" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Roasted Asparagus Spears (80g · 32 kcal)</text>
+  </g>
+  <text x="50%" y="385" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9CA3AF" text-anchor="middle">USDA FDC #175168, #168917</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <rect width="100%" height="100%" fill="#FFF7ED"/>
+  <circle cx="300" cy="225" r="180" fill="#FED7AA" stroke="#EA580C" stroke-width="4"/>
+  <circle cx="300" cy="225" r="140" fill="#FFFFFF" opacity="0.9"/>
+  <text x="50%" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="#EA580C" text-anchor="middle">BM-HO-02 · South Asian</text>
+  <text x="50%" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#1F2937" text-anchor="middle">Chana Masala with 2 Puris</text>
+  <text x="50%" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#6B7280" text-anchor="middle">South Asian | Reference: 680 kcal (380g)</text>
+  <g>
+    <text x="50%" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Chana Masala Chickpeas (220g · 361 kcal)</text>
+    <text x="50%" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• 2 Deep-Fried Puris (120g · 396 kcal)</text>
+  </g>
+  <text x="50%" y="385" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9CA3AF" text-anchor="middle">IFCT 2017 / USDA FDC #234527</text>
+</svg>

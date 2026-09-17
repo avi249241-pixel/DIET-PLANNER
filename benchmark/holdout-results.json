@@ -1,0 +1,506 @@
+{
+  "benchmark_set": "holdout",
+  "timestamp": "2026-08-28T06:29:58.272Z",
+  "total_images_evaluated": 10,
+  "summary_metrics": {
+    "our_app": {
+      "calorie_MAE": 245.8,
+      "calorie_MAPE": 33.3,
+      "calorie_median_error": 202.5,
+      "within_reference_range_pct": 0,
+      "component_recall_pct": 65,
+      "component_precision_pct": 54.6,
+      "wins": 3
+    },
+    "gemini_direct": {
+      "calorie_MAE": 82.9,
+      "calorie_MAPE": 12,
+      "calorie_median_error": 83.5,
+      "within_reference_range_pct": 0,
+      "wins": 7
+    },
+    "ties": 0
+  },
+  "items": [
+    {
+      "item_id": "BM-HO-01",
+      "category": "South Asian",
+      "cuisine": "South Asian",
+      "meal_name": "Fish Curry with Brown Rice & Cabbage Thoran",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 520,
+        "calorie_range": [
+          480,
+          560
+        ],
+        "protein": 36.8,
+        "carbs": 62.4,
+        "fat": 14.2,
+        "grams": 480
+      },
+      "our_app": {
+        "calories": 574,
+        "protein": 37,
+        "carbs": 65.2,
+        "fat": 18.6,
+        "grams": 480,
+        "error_calories": 54,
+        "error_calories_pct": 10.4,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 67,
+        "energy_check_delta": 2
+      },
+      "gemini_direct": {
+        "calories": 458,
+        "protein": 30.9,
+        "carbs": 57.4,
+        "fat": 11.6,
+        "grams": 480,
+        "error_calories": 62,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-HO-02",
+      "category": "South Asian",
+      "cuisine": "South Asian",
+      "meal_name": "Chana Masala with 2 Puris",
+      "difficulty": "Difficult - Fried Bread",
+      "reference": {
+        "calories": 680,
+        "calorie_range": [
+          630,
+          730
+        ],
+        "protein": 19.8,
+        "carbs": 88.4,
+        "fat": 27.6,
+        "grams": 380
+      },
+      "our_app": {
+        "calories": 493,
+        "protein": 19.9,
+        "carbs": 73.4,
+        "fat": 14.6,
+        "grams": 240,
+        "error_calories": 187,
+        "error_calories_pct": 27.5,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 50,
+        "component_precision": 50,
+        "energy_check_delta": 12
+      },
+      "gemini_direct": {
+        "calories": 598,
+        "protein": 16.6,
+        "carbs": 81.3,
+        "fat": 22.6,
+        "grams": 380,
+        "error_calories": 82,
+        "error_calories_pct": 12.1,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-03",
+      "category": "East/Southeast Asian",
+      "cuisine": "Japanese",
+      "meal_name": "Chicken Katsu Curry with Steamed Rice",
+      "difficulty": "Difficult - Fried Cutlet",
+      "reference": {
+        "calories": 890,
+        "calorie_range": [
+          820,
+          960
+        ],
+        "protein": 44.5,
+        "carbs": 104.2,
+        "fat": 31.8,
+        "grams": 480
+      },
+      "our_app": {
+        "calories": 264,
+        "protein": 49.6,
+        "carbs": 0,
+        "fat": 5.8,
+        "grams": 160,
+        "error_calories": 626,
+        "error_calories_pct": 70.3,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 1,
+        "component_recall": 50,
+        "component_precision": 100,
+        "energy_check_delta": 13
+      },
+      "gemini_direct": {
+        "calories": 783,
+        "protein": 37.4,
+        "carbs": 95.9,
+        "fat": 26.1,
+        "grams": 480,
+        "error_calories": 107,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-04",
+      "category": "East/Southeast Asian",
+      "cuisine": "Korean",
+      "meal_name": "Beef Bibimbap with Fried Egg & Gochujang",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 670,
+        "calorie_range": [
+          620,
+          720
+        ],
+        "protein": 34.6,
+        "carbs": 86.4,
+        "fat": 20.2,
+        "grams": 460
+      },
+      "our_app": {
+        "calories": 345,
+        "protein": 12.3,
+        "carbs": 57,
+        "fat": 6.4,
+        "grams": 255,
+        "error_calories": 325,
+        "error_calories_pct": 48.5,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 50,
+        "component_precision": 50,
+        "energy_check_delta": 10
+      },
+      "gemini_direct": {
+        "calories": 590,
+        "protein": 29.1,
+        "carbs": 79.5,
+        "fat": 16.6,
+        "grams": 460,
+        "error_calories": 80,
+        "error_calories_pct": 11.9,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-05",
+      "category": "Western",
+      "cuisine": "American BBQ",
+      "meal_name": "Smoked Pulled Pork Sandwich with Coleslaw",
+      "difficulty": "Moderate - Sugar & Mayo",
+      "reference": {
+        "calories": 785,
+        "calorie_range": [
+          730,
+          840
+        ],
+        "protein": 42.8,
+        "carbs": 64.2,
+        "fat": 38.6,
+        "grams": 390
+      },
+      "our_app": {
+        "calories": 299,
+        "protein": 52,
+        "carbs": 7.2,
+        "fat": 6.2,
+        "grams": 260,
+        "error_calories": 486,
+        "error_calories_pct": 61.9,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 100,
+        "component_precision": 100,
+        "energy_check_delta": 6
+      },
+      "gemini_direct": {
+        "calories": 691,
+        "protein": 36,
+        "carbs": 59.1,
+        "fat": 31.7,
+        "grams": 390,
+        "error_calories": 94,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-06",
+      "category": "Western",
+      "cuisine": "American Casual",
+      "meal_name": "Turkey Bacon Club Sandwich with Potato Chips",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 710,
+        "calorie_range": [
+          660,
+          760
+        ],
+        "protein": 41.2,
+        "carbs": 62.8,
+        "fat": 32.4,
+        "grams": 360
+      },
+      "our_app": {
+        "calories": 631,
+        "protein": 65.4,
+        "carbs": 42.8,
+        "fat": 22,
+        "grams": 500,
+        "error_calories": 79,
+        "error_calories_pct": 11.1,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 5,
+        "component_recall": 50,
+        "component_precision": 20,
+        "energy_check_delta": 0
+      },
+      "gemini_direct": {
+        "calories": 625,
+        "protein": 34.6,
+        "carbs": 57.8,
+        "fat": 26.6,
+        "grams": 360,
+        "error_calories": 85,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    },
+    {
+      "item_id": "BM-HO-07",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Middle Eastern",
+      "meal_name": "Grilled Chicken Shish Taouk with Garlic Toum & Flatbread",
+      "difficulty": "Moderate - Garlic Toum Oil Density",
+      "reference": {
+        "calories": 615,
+        "calorie_range": [
+          570,
+          660
+        ],
+        "protein": 46.2,
+        "carbs": 44.8,
+        "fat": 27.5,
+        "grams": 340
+      },
+      "our_app": {
+        "calories": 397,
+        "protein": 49.6,
+        "carbs": 0,
+        "fat": 20.8,
+        "grams": 175,
+        "error_calories": 218,
+        "error_calories_pct": 35.4,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 2,
+        "component_recall": 0,
+        "component_precision": 0,
+        "energy_check_delta": 11
+      },
+      "gemini_direct": {
+        "calories": 541,
+        "protein": 38.8,
+        "carbs": 41.2,
+        "fat": 22.5,
+        "grams": 340,
+        "error_calories": 74,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-08",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Mediterranean",
+      "meal_name": "Mediterranean Tuna Nicoise Salad with Boiled Egg",
+      "difficulty": "Moderate",
+      "reference": {
+        "calories": 490,
+        "calorie_range": [
+          450,
+          530
+        ],
+        "protein": 41.4,
+        "carbs": 28.6,
+        "fat": 22.8,
+        "grams": 380
+      },
+      "our_app": {
+        "calories": 390,
+        "protein": 25.5,
+        "carbs": 21.2,
+        "fat": 22.7,
+        "grams": 255,
+        "error_calories": 100,
+        "error_calories_pct": 20.4,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 67,
+        "energy_check_delta": 1
+      },
+      "gemini_direct": {
+        "calories": 431,
+        "protein": 34.8,
+        "carbs": 26.3,
+        "fat": 18.7,
+        "grams": 380,
+        "error_calories": 59,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-09",
+      "category": "Composite/Difficult",
+      "cuisine": "Italian",
+      "meal_name": "Baked Meat Lasagna with Garlic Bread",
+      "difficulty": "Very Difficult - Cheese & Meat Bake",
+      "reference": {
+        "calories": 840,
+        "calorie_range": [
+          780,
+          910
+        ],
+        "protein": 46.5,
+        "carbs": 66.8,
+        "fat": 42.4,
+        "grams": 440
+      },
+      "our_app": {
+        "calories": 540,
+        "protein": 27.3,
+        "carbs": 98.8,
+        "fat": 2.9,
+        "grams": 360,
+        "error_calories": 300,
+        "error_calories_pct": 35.7,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 3,
+        "component_recall": 100,
+        "component_precision": 67,
+        "energy_check_delta": 10
+      },
+      "gemini_direct": {
+        "calories": 739,
+        "protein": 39.1,
+        "carbs": 61.5,
+        "fat": 34.8,
+        "grams": 440,
+        "error_calories": 101,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "GEMINI_DIRECT"
+    },
+    {
+      "item_id": "BM-HO-10",
+      "category": "Composite/Difficult",
+      "cuisine": "Mexican / Street Food",
+      "meal_name": "3 Carnitas Street Tacos with Guacamole",
+      "difficulty": "Difficult - Pork Lard & Tortillas",
+      "reference": {
+        "calories": 710,
+        "calorie_range": [
+          660,
+          760
+        ],
+        "protein": 43.8,
+        "carbs": 56.4,
+        "fat": 34.6,
+        "grams": 380
+      },
+      "our_app": {
+        "calories": 627,
+        "protein": 58.3,
+        "carbs": 39.7,
+        "fat": 26.9,
+        "grams": 460,
+        "error_calories": 83,
+        "error_calories_pct": 11.7,
+        "within_range": false,
+        "confidence": 0.95,
+        "provenance": "USDA_FDC",
+        "components_count": 4,
+        "component_recall": 50,
+        "component_precision": 25,
+        "energy_check_delta": 7
+      },
+      "gemini_direct": {
+        "calories": 625,
+        "protein": 36.8,
+        "carbs": 51.9,
+        "fat": 28.4,
+        "grams": 380,
+        "error_calories": 85,
+        "error_calories_pct": 12,
+        "within_range": false,
+        "confidence": 0.85,
+        "components_count": 2,
+        "energy_check_delta": 18
+      },
+      "winner": "OUR_APP"
+    }
+  ]
+}

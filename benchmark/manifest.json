@@ -1,0 +1,2111 @@
+{
+  "benchmark_version": "1.0.0",
+  "created_at": "2026-08-28T06:26:35.412Z",
+  "total_primary_images": 30,
+  "total_holdout_images": 10,
+  "categories": [
+    "South Asian",
+    "East/Southeast Asian",
+    "Western",
+    "Middle Eastern/Mediterranean",
+    "Composite/Difficult"
+  ],
+  "items": [
+    {
+      "id": "BM-SA-01",
+      "set": "primary",
+      "category": "South Asian",
+      "cuisine": "South Asian (Hyderabadi)",
+      "meal_name": "Chicken Biryani with Mirchi Ka Salan & Raita",
+      "description": "Authentic chicken dum biryani with basmati rice and chicken, served with mirchi ka salan peanut curry and cucumber raita",
+      "difficulty": "Very Difficult - Composite",
+      "source": "IFCT 2017 #B042 + USDA FDC #234520",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 550,
+        "calories": 920,
+        "calorie_range": [
+          850,
+          990
+        ],
+        "protein_g": 52.4,
+        "carbs_g": 98.6,
+        "fat_g": 36.2,
+        "sugar_g": 7.5,
+        "sodium_mg": 1340,
+        "source_citation": "IFCT 2017 #B042 + USDA FDC #234520",
+        "cooking_fat_assumptions": [
+          "1.5 tbsp ghee and vegetable oil in dum cooking"
+        ],
+        "components": [
+          {
+            "name": "Chicken Biryani (Rice + Meat)",
+            "grams": 350,
+            "calories": 630,
+            "protein": 36.8,
+            "carbs": 78.4,
+            "fat": 18.2
+          },
+          {
+            "name": "Mirchi Ka Salan Peanut Curry",
+            "grams": 120,
+            "calories": 210,
+            "protein": 6.8,
+            "carbs": 12.4,
+            "fat": 15.6
+          },
+          {
+            "name": "Cucumber Onion Raita",
+            "grams": 80,
+            "calories": 80,
+            "protein": 8.8,
+            "carbs": 7.8,
+            "fat": 2.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-SA-01.svg"
+    },
+    {
+      "id": "BM-SA-02",
+      "set": "primary",
+      "category": "South Asian",
+      "cuisine": "South Asian (Kerala Feast)",
+      "meal_name": "Kerala Feast with Rice, Parotta, Chicken Curry & Veg Curry",
+      "description": "South Asian platter with white rice, 1 flaky parotta, chicken curry, coconut vegetable curry, green beans poriyal, and roasted papadum",
+      "difficulty": "Very Difficult - Composite",
+      "source": "USDA FDC #168878, #234501, #234506, #234511, #234512",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 750,
+        "calories": 1247,
+        "calorie_range": [
+          1150,
+          1350
+        ],
+        "protein_g": 49.7,
+        "carbs_g": 149.1,
+        "fat_g": 51.4,
+        "sugar_g": 9.1,
+        "sodium_mg": 1850,
+        "source_citation": "USDA FDC #168878, #234501, #234506",
+        "cooking_fat_assumptions": [
+          "Layered parotta with oil, coconut milk in curry"
+        ],
+        "components": [
+          {
+            "name": "White Rice",
+            "grams": 250,
+            "calories": 325,
+            "protein": 6.8,
+            "carbs": 70.5,
+            "fat": 0.8
+          },
+          {
+            "name": "Parotta Flatbread",
+            "grams": 80,
+            "calories": 261,
+            "protein": 5.8,
+            "carbs": 39.6,
+            "fat": 9
+          },
+          {
+            "name": "Chicken Curry",
+            "grams": 180,
+            "calories": 333,
+            "protein": 29.7,
+            "carbs": 7.6,
+            "fat": 20.7
+          },
+          {
+            "name": "Coconut Vegetable Curry",
+            "grams": 150,
+            "calories": 218,
+            "protein": 4.2,
+            "carbs": 14.3,
+            "fat": 16.5
+          },
+          {
+            "name": "Green Beans Poriyal",
+            "grams": 90,
+            "calories": 76,
+            "protein": 2.2,
+            "carbs": 7.4,
+            "fat": 4.6
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-SA-02.svg"
+    },
+    {
+      "id": "BM-SA-03",
+      "set": "primary",
+      "category": "South Asian",
+      "cuisine": "South Asian (South Indian Breakfast)",
+      "meal_name": "Masala Dosa with Sambar & Coconut Chutney",
+      "description": "Crisp dosa filled with spiced potato masala, served with 1 cup vegetable sambar and coconut chutney",
+      "difficulty": "Moderate",
+      "source": "IFCT 2017 / USDA FDC #234504",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 380,
+        "calories": 515,
+        "calorie_range": [
+          480,
+          560
+        ],
+        "protein_g": 11.8,
+        "carbs_g": 72.4,
+        "fat_g": 20.2,
+        "sugar_g": 5.4,
+        "sodium_mg": 920,
+        "source_citation": "IFCT 2017 #B015 + USDA FDC #234509, #234515",
+        "cooking_fat_assumptions": [
+          "Dosa griddled in 1 tsp oil"
+        ],
+        "components": [
+          {
+            "name": "Masala Dosa",
+            "grams": 200,
+            "calories": 336,
+            "protein": 6.8,
+            "carbs": 54.2,
+            "fat": 10.6
+          },
+          {
+            "name": "Vegetable Sambar",
+            "grams": 140,
+            "calories": 105,
+            "protein": 4.5,
+            "carbs": 16,
+            "fat": 2.8
+          },
+          {
+            "name": "Coconut Chutney",
+            "grams": 40,
+            "calories": 74,
+            "protein": 0.5,
+            "carbs": 2.2,
+            "fat": 6.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-SA-03.svg"
+    },
+    {
+      "id": "BM-SA-04",
+      "set": "primary",
+      "category": "South Asian",
+      "cuisine": "South Asian (North Indian)",
+      "meal_name": "Paneer Butter Masala with 2 Garlic Naan",
+      "description": "Cubes of paneer cheese in rich tomato-butter-cream gravy served with 2 pieces of tandoor baked garlic naan",
+      "difficulty": "Difficult",
+      "source": "USDA FDC #234525 + #234503",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 440,
+        "calories": 990,
+        "calorie_range": [
+          920,
+          1070
+        ],
+        "protein_g": 34.4,
+        "carbs_g": 108.8,
+        "fat_g": 47.8,
+        "sugar_g": 11.2,
+        "sodium_mg": 1620,
+        "source_citation": "USDA FDC #234525, #234503",
+        "cooking_fat_assumptions": [
+          "Butter and cream in gravy, brushed butter on naan"
+        ],
+        "components": [
+          {
+            "name": "Paneer Butter Masala",
+            "grams": 240,
+            "calories": 504,
+            "protein": 20.4,
+            "carbs": 14.9,
+            "fat": 40.8
+          },
+          {
+            "name": "2 Garlic Naan",
+            "grams": 200,
+            "calories": 486,
+            "protein": 14,
+            "carbs": 93.9,
+            "fat": 7
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-SA-04.svg"
+    },
+    {
+      "id": "BM-SA-05",
+      "set": "primary",
+      "category": "South Asian",
+      "cuisine": "South Asian (Snacks & Dessert)",
+      "meal_name": "2 Fried Samosas with Gulab Jamun & Chai",
+      "description": "Two deep-fried spiced potato samosas with mint chutney, two milk-solid gulab jamun balls in sugar syrup, and 1 cup spiced whole milk chai",
+      "difficulty": "Difficult - High Sugar/Fat",
+      "source": "USDA FDC #234530, #234531",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 420,
+        "calories": 1055,
+        "calorie_range": [
+          980,
+          1140
+        ],
+        "protein_g": 17.6,
+        "carbs_g": 158.4,
+        "fat_g": 43.6,
+        "sugar_g": 62,
+        "sodium_mg": 980,
+        "source_citation": "USDA FDC #234530, #234531 + IFCT 2017",
+        "cooking_fat_assumptions": [
+          "Deep fried pastries, syrup soaked desserts"
+        ],
+        "components": [
+          {
+            "name": "2 Samosas",
+            "grams": 160,
+            "calories": 493,
+            "protein": 7.2,
+            "carbs": 51.5,
+            "fat": 28
+          },
+          {
+            "name": "2 Gulab Jamun",
+            "grams": 110,
+            "calories": 426,
+            "protein": 4.6,
+            "carbs": 71,
+            "fat": 14.1
+          },
+          {
+            "name": "Masala Chai",
+            "grams": 150,
+            "calories": 136,
+            "protein": 5.8,
+            "carbs": 15.9,
+            "fat": 1.5
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-SA-05.svg"
+    },
+    {
+      "id": "BM-SA-06",
+      "set": "primary",
+      "category": "South Asian",
+      "cuisine": "South Asian (Healthy Home Thali)",
+      "meal_name": "Dal Tadka with 2 Whole Wheat Rotis, Rice & Cucumber Salad",
+      "description": "Yellow lentil dal tempered with cumin and ghee, 2 handmade whole wheat chapati rotis, 150g steamed rice, and fresh cucumber salad",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #172421, #234502, #168878",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 530,
+        "calories": 615,
+        "calorie_range": [
+          570,
+          660
+        ],
+        "protein_g": 22.8,
+        "carbs_g": 113.6,
+        "fat_g": 8.4,
+        "sugar_g": 4.8,
+        "sodium_mg": 680,
+        "source_citation": "USDA FDC #172421, #234502, #168878",
+        "cooking_fat_assumptions": [
+          "1 tsp ghee in dal tempering"
+        ],
+        "components": [
+          {
+            "name": "Yellow Dal Tadka",
+            "grams": 200,
+            "calories": 232,
+            "protein": 18,
+            "carbs": 40.2,
+            "fat": 0.8
+          },
+          {
+            "name": "2 Whole Wheat Rotis",
+            "grams": 100,
+            "calories": 297,
+            "protein": 9.3,
+            "carbs": 56.4,
+            "fat": 3.7
+          },
+          {
+            "name": "Steamed White Rice",
+            "grams": 150,
+            "calories": 195,
+            "protein": 4.1,
+            "carbs": 42.3,
+            "fat": 0.5
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-SA-06.svg"
+    },
+    {
+      "id": "BM-EA-01",
+      "set": "primary",
+      "category": "East/Southeast Asian",
+      "cuisine": "Thai",
+      "meal_name": "Chicken Pad Thai with Crushed Peanuts & Lime",
+      "description": "Stir-fried rice noodles with chicken breast slices, egg, tofu, bean sprouts, crushed peanuts, and sweet-savory tamarind sauce",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #234523",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 380,
+        "calories": 730,
+        "calorie_range": [
+          680,
+          790
+        ],
+        "protein_g": 34.6,
+        "carbs_g": 92.4,
+        "fat_g": 25.8,
+        "sugar_g": 18.2,
+        "sodium_mg": 1420,
+        "source_citation": "USDA FDC #234523",
+        "cooking_fat_assumptions": [
+          "Wok fried in peanut oil, crushed peanuts"
+        ],
+        "components": [
+          {
+            "name": "Stir-Fried Rice Noodles & Veggies",
+            "grams": 240,
+            "calories": 461,
+            "protein": 18.7,
+            "carbs": 73.2,
+            "fat": 11
+          },
+          {
+            "name": "Chicken Breast & Tofu",
+            "grams": 110,
+            "calories": 185,
+            "protein": 13.8,
+            "carbs": 2.2,
+            "fat": 13.2
+          },
+          {
+            "name": "Crushed Peanuts",
+            "grams": 30,
+            "calories": 170,
+            "protein": 7.8,
+            "carbs": 4.8,
+            "fat": 14.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-EA-01.svg"
+    },
+    {
+      "id": "BM-EA-02",
+      "set": "primary",
+      "category": "East/Southeast Asian",
+      "cuisine": "Japanese",
+      "meal_name": "Pan-Seared Salmon Teriyaki with White Rice & Edamame",
+      "description": "Pan-seared salmon fillet glazed with teriyaki sauce, served with steamed white rice and steamed edamame",
+      "difficulty": "Simple",
+      "source": "USDA FDC #175168, #168878",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 430,
+        "calories": 645,
+        "calorie_range": [
+          600,
+          690
+        ],
+        "protein_g": 48.2,
+        "carbs_g": 68.4,
+        "fat_g": 19.8,
+        "sugar_g": 8.4,
+        "sodium_mg": 890,
+        "source_citation": "USDA FDC #175168 (Salmon), #168878 (Rice)",
+        "cooking_fat_assumptions": [
+          "Salmon natural omega-3 fats, 1 tsp pan searing oil"
+        ],
+        "components": [
+          {
+            "name": "Pan-Seared Salmon Fillet",
+            "grams": 160,
+            "calories": 330,
+            "protein": 35.4,
+            "carbs": 0,
+            "fat": 19.7
+          },
+          {
+            "name": "Steamed White Rice",
+            "grams": 180,
+            "calories": 234,
+            "protein": 4.9,
+            "carbs": 50.8,
+            "fat": 0.5
+          },
+          {
+            "name": "Teriyaki Glaze & Edamame",
+            "grams": 90,
+            "calories": 121,
+            "protein": 8.2,
+            "carbs": 12.6,
+            "fat": 4.6
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-EA-02.svg"
+    },
+    {
+      "id": "BM-EA-03",
+      "set": "primary",
+      "category": "East/Southeast Asian",
+      "cuisine": "Japanese",
+      "meal_name": "Tonkotsu Pork Ramen with Soft-Boiled Nitamago Egg",
+      "description": "Rich pork bone broth ramen with fresh wheat noodles, 2 slices chashu pork belly, soft-boiled marinated egg, bamboo shoots, and scallions",
+      "difficulty": "Difficult - Heavy Broth & Fat",
+      "source": "Standardized Japanese Nutrition Standards / USDA",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 650,
+        "calories": 820,
+        "calorie_range": [
+          760,
+          890
+        ],
+        "protein_g": 38.5,
+        "carbs_g": 84,
+        "fat_g": 36.5,
+        "sugar_g": 4.2,
+        "sodium_mg": 2100,
+        "source_citation": "Standard Japanese Broth Analysis + USDA FDC #171287",
+        "cooking_fat_assumptions": [
+          "Rendered pork fat in broth, chashu pork belly"
+        ],
+        "components": [
+          {
+            "name": "Ramen Wheat Noodles",
+            "grams": 220,
+            "calories": 348,
+            "protein": 12.8,
+            "carbs": 68,
+            "fat": 2.2
+          },
+          {
+            "name": "Tonkotsu Broth & Seasoned Oil",
+            "grams": 300,
+            "calories": 230,
+            "protein": 8.5,
+            "carbs": 6,
+            "fat": 19.5
+          },
+          {
+            "name": "Chashu Pork Belly Slices",
+            "grams": 70,
+            "calories": 164,
+            "protein": 10.9,
+            "carbs": 1.2,
+            "fat": 13
+          },
+          {
+            "name": "Soft-Boiled Nitamago Egg",
+            "grams": 60,
+            "calories": 78,
+            "protein": 6.3,
+            "carbs": 0.8,
+            "fat": 5.3
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-EA-03.svg"
+    },
+    {
+      "id": "BM-EA-04",
+      "set": "primary",
+      "category": "East/Southeast Asian",
+      "cuisine": "Chinese",
+      "meal_name": "Chicken Fried Rice with Sunny-Side Egg",
+      "description": "Wok-tossed Jasmine rice with diced chicken breast, carrots, peas, green onions, soy sauce, topped with 1 fried egg",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #234522, #173423",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 360,
+        "calories": 615,
+        "calorie_range": [
+          570,
+          660
+        ],
+        "protein_g": 31.4,
+        "carbs_g": 78.2,
+        "fat_g": 19.6,
+        "sugar_g": 3.8,
+        "sodium_mg": 1180,
+        "source_citation": "USDA FDC #234522 (Fried Rice), #173423 (Egg)",
+        "cooking_fat_assumptions": [
+          "Wok fried in 1.5 tbsp vegetable oil"
+        ],
+        "components": [
+          {
+            "name": "Chicken Fried Rice",
+            "grams": 300,
+            "calories": 522,
+            "protein": 25.1,
+            "carbs": 76.2,
+            "fat": 13.2
+          },
+          {
+            "name": "Fried Sunny Egg",
+            "grams": 60,
+            "calories": 93,
+            "protein": 6.3,
+            "carbs": 0.6,
+            "fat": 7.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-EA-04.svg"
+    },
+    {
+      "id": "BM-EA-05",
+      "set": "primary",
+      "category": "East/Southeast Asian",
+      "cuisine": "Vietnamese",
+      "meal_name": "Beef Pho Noodle Soup with Herbs & Bean Sprouts",
+      "description": "Aromatic beef bone broth with flat rice noodles, thinly sliced lean beef sirloin, fresh basil, cilantro, and bean sprouts",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #174036 (Lean Beef) + Standardized Rice Noodle Soup Analysis",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 620,
+        "calories": 485,
+        "calorie_range": [
+          440,
+          530
+        ],
+        "protein_g": 36.2,
+        "carbs_g": 62.8,
+        "fat_g": 9.4,
+        "sugar_g": 4.5,
+        "sodium_mg": 1640,
+        "source_citation": "Standard Vietnamese Pho Composition / USDA",
+        "cooking_fat_assumptions": [
+          "Simmered bone broth skimmed of excess tallow"
+        ],
+        "components": [
+          {
+            "name": "Flat Rice Pho Noodles",
+            "grams": 200,
+            "calories": 218,
+            "protein": 3.6,
+            "carbs": 48,
+            "fat": 0.8
+          },
+          {
+            "name": "Lean Beef Slices",
+            "grams": 120,
+            "calories": 178,
+            "protein": 28.4,
+            "carbs": 0,
+            "fat": 6.8
+          },
+          {
+            "name": "Simmered Spiced Broth & Herbs",
+            "grams": 300,
+            "calories": 89,
+            "protein": 4.2,
+            "carbs": 8.8,
+            "fat": 2.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-EA-05.svg"
+    },
+    {
+      "id": "BM-EA-06",
+      "set": "primary",
+      "category": "East/Southeast Asian",
+      "cuisine": "Cantonese",
+      "meal_name": "Steamed Dim Sum Platter (Shumai & Har Gow)",
+      "description": "Steamed shrimp dumplings (har gow), pork & shrimp open dumplings (shumai), and steamed gai lan greens with oyster sauce",
+      "difficulty": "Simple",
+      "source": "USDA FDC Dim Sum Tables",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 310,
+        "calories": 410,
+        "calorie_range": [
+          370,
+          450
+        ],
+        "protein_g": 24.8,
+        "carbs_g": 46.2,
+        "fat_g": 13.8,
+        "sugar_g": 5.2,
+        "sodium_mg": 980,
+        "source_citation": "USDA Standard Steamed Dumpling References",
+        "cooking_fat_assumptions": [
+          "Steamed with sesame oil touch in filling"
+        ],
+        "components": [
+          {
+            "name": "Pork & Shrimp Shumai (3 pcs)",
+            "grams": 110,
+            "calories": 188,
+            "protein": 12.2,
+            "carbs": 14.8,
+            "fat": 8.9
+          },
+          {
+            "name": "Shrimp Har Gow (3 pcs)",
+            "grams": 100,
+            "calories": 152,
+            "protein": 10.4,
+            "carbs": 21.6,
+            "fat": 2.4
+          },
+          {
+            "name": "Steamed Chinese Greens w/ Sauce",
+            "grams": 100,
+            "calories": 70,
+            "protein": 2.2,
+            "carbs": 9.8,
+            "fat": 2.5
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-EA-06.svg"
+    },
+    {
+      "id": "BM-WE-01",
+      "set": "primary",
+      "category": "Western",
+      "cuisine": "American Fast Food",
+      "meal_name": "Cheeseburger with Medium French Fries",
+      "description": "Standard single beef cheeseburger with cheddar cheese, pickles, ketchup, and medium french fries",
+      "difficulty": "Simple - Fast Food Baseline",
+      "source": "USDA FDC #170701, #170699",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 270,
+        "calories": 670,
+        "calorie_range": [
+          620,
+          720
+        ],
+        "protein_g": 23.4,
+        "carbs_g": 72.8,
+        "fat_g": 31.8,
+        "sugar_g": 6.8,
+        "sodium_mg": 1120,
+        "source_citation": "USDA FDC #170701, #170699",
+        "cooking_fat_assumptions": [
+          "Deep fried potatoes in vegetable oil"
+        ],
+        "components": [
+          {
+            "name": "Single Cheeseburger",
+            "grams": 150,
+            "calories": 372,
+            "protein": 19.8,
+            "carbs": 33.4,
+            "fat": 17.5
+          },
+          {
+            "name": "Medium French Fries",
+            "grams": 120,
+            "calories": 298,
+            "protein": 3.6,
+            "carbs": 39.4,
+            "fat": 14.3
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-WE-01.svg"
+    },
+    {
+      "id": "BM-WE-02",
+      "set": "primary",
+      "category": "Western",
+      "cuisine": "American / Italian",
+      "meal_name": "2 Slices Pepperoni Pizza",
+      "description": "Two slices of 14-inch crust pepperoni pizza with tomato sauce, mozzarella, and pepperoni",
+      "difficulty": "Simple",
+      "source": "USDA FDC #170702",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 214,
+        "calories": 596,
+        "calorie_range": [
+          550,
+          640
+        ],
+        "protein_g": 26.2,
+        "carbs_g": 61.8,
+        "fat_g": 26.4,
+        "sugar_g": 7.6,
+        "sodium_mg": 1380,
+        "source_citation": "USDA FDC #170702",
+        "cooking_fat_assumptions": [
+          "Cured pork fat and mozzarella cheese oil"
+        ],
+        "components": [
+          {
+            "name": "2 Slices Pepperoni Pizza",
+            "grams": 214,
+            "calories": 596,
+            "protein": 26.2,
+            "carbs": 61.8,
+            "fat": 26.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-WE-02.svg"
+    },
+    {
+      "id": "BM-WE-03",
+      "set": "primary",
+      "category": "Western",
+      "cuisine": "American Steakhouse",
+      "meal_name": "Grilled Sirloin Steak with Mashed Potatoes & Green Beans",
+      "description": "8 oz grilled USDA choice lean beef sirloin steak, buttered mashed potatoes, and steamed green beans",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #174036, #170379",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 510,
+        "calories": 765,
+        "calorie_range": [
+          710,
+          820
+        ],
+        "protein_g": 62.4,
+        "carbs_g": 42.6,
+        "fat_g": 36.8,
+        "sugar_g": 4.2,
+        "sodium_mg": 780,
+        "source_citation": "USDA FDC #174036, #170379",
+        "cooking_fat_assumptions": [
+          "Steak grilled with 1 tbsp butter, butter in potatoes"
+        ],
+        "components": [
+          {
+            "name": "Grilled Sirloin Steak",
+            "grams": 220,
+            "calories": 477,
+            "protein": 57.4,
+            "carbs": 0,
+            "fat": 26
+          },
+          {
+            "name": "Buttered Mashed Potatoes",
+            "grams": 200,
+            "calories": 236,
+            "protein": 3.8,
+            "carbs": 35.4,
+            "fat": 9.6
+          },
+          {
+            "name": "Steamed Green Beans",
+            "grams": 90,
+            "calories": 52,
+            "protein": 1.2,
+            "carbs": 7.2,
+            "fat": 2.2
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-WE-03.svg"
+    },
+    {
+      "id": "BM-WE-04",
+      "set": "primary",
+      "category": "Western",
+      "cuisine": "American Breakfast",
+      "meal_name": "Buttermilk Pancakes with Butter & Maple Syrup",
+      "description": "Three buttermilk pancakes topped with 1 pat of butter and 4 tbsp pure maple syrup",
+      "difficulty": "Moderate - High Sugar",
+      "source": "USDA FDC #172686 + Standard Pancake Recipe",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 330,
+        "calories": 645,
+        "calorie_range": [
+          600,
+          690
+        ],
+        "protein_g": 12.2,
+        "carbs_g": 118.4,
+        "fat_g": 14.8,
+        "sugar_g": 54,
+        "sodium_mg": 760,
+        "source_citation": "USDA FDC Standard Pancake Data",
+        "cooking_fat_assumptions": [
+          "14g butter melting on pancakes"
+        ],
+        "components": [
+          {
+            "name": "3 Buttermilk Pancakes",
+            "grams": 240,
+            "calories": 420,
+            "protein": 11.8,
+            "carbs": 66.4,
+            "fat": 11.2
+          },
+          {
+            "name": "Butter Pat",
+            "grams": 14,
+            "calories": 102,
+            "protein": 0.1,
+            "carbs": 0,
+            "fat": 11.5
+          },
+          {
+            "name": "Maple Syrup",
+            "grams": 76,
+            "calories": 198,
+            "protein": 0,
+            "carbs": 52,
+            "fat": 0.1
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-WE-04.svg"
+    },
+    {
+      "id": "BM-WE-05",
+      "set": "primary",
+      "category": "Western",
+      "cuisine": "Continental Breakfast",
+      "meal_name": "Rolled Oatmeal with Blueberries, Banana & Peanut Butter",
+      "description": "Warm rolled oats cooked in water, topped with fresh blueberries, sliced banana, and 1 tbsp natural peanut butter",
+      "difficulty": "Simple - Healthy Fuel",
+      "source": "USDA FDC #173904, #173944",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 360,
+        "calories": 425,
+        "calorie_range": [
+          390,
+          460
+        ],
+        "protein_g": 14.2,
+        "carbs_g": 68.6,
+        "fat_g": 12.8,
+        "sugar_g": 19.4,
+        "sodium_mg": 95,
+        "source_citation": "USDA FDC #173904, #173944",
+        "cooking_fat_assumptions": [
+          "16g natural peanut butter fats"
+        ],
+        "components": [
+          {
+            "name": "Cooked Rolled Oats",
+            "grams": 200,
+            "calories": 142,
+            "protein": 5,
+            "carbs": 24,
+            "fat": 3
+          },
+          {
+            "name": "Sliced Banana & Blueberries",
+            "grams": 144,
+            "calories": 189,
+            "protein": 2.2,
+            "carbs": 44.2,
+            "fat": 0.6
+          },
+          {
+            "name": "Natural Peanut Butter",
+            "grams": 16,
+            "calories": 94,
+            "protein": 4,
+            "carbs": 3.2,
+            "fat": 8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-WE-05.svg"
+    },
+    {
+      "id": "BM-WE-06",
+      "set": "primary",
+      "category": "Western",
+      "cuisine": "American Casual",
+      "meal_name": "Grilled Chicken Caesar Salad with Croutons & Parmesan",
+      "description": "Romaine lettuce, 150g sliced grilled chicken breast, garlic herb croutons, shaved parmesan cheese, and creamy Caesar dressing",
+      "difficulty": "Moderate - Dressing Hidden Fat",
+      "source": "USDA FDC #171077 + Standard Caesar Recipe",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 320,
+        "calories": 520,
+        "calorie_range": [
+          480,
+          560
+        ],
+        "protein_g": 48.6,
+        "carbs_g": 18.2,
+        "fat_g": 28.4,
+        "sugar_g": 3.2,
+        "sodium_mg": 940,
+        "source_citation": "USDA FDC #171077",
+        "cooking_fat_assumptions": [
+          "2 tbsp Caesar dressing (160 kcal, 19g fat)"
+        ],
+        "components": [
+          {
+            "name": "Grilled Chicken Breast Strips",
+            "grams": 150,
+            "calories": 248,
+            "protein": 46.5,
+            "carbs": 0,
+            "fat": 5.4
+          },
+          {
+            "name": "Romaine Lettuce & Croutons",
+            "grams": 120,
+            "calories": 112,
+            "protein": 3.2,
+            "carbs": 16.8,
+            "fat": 3.4
+          },
+          {
+            "name": "Caesar Dressing & Parmesan",
+            "grams": 50,
+            "calories": 160,
+            "protein": 3.9,
+            "carbs": 1.4,
+            "fat": 19.6
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-WE-06.svg"
+    },
+    {
+      "id": "BM-ME-01",
+      "set": "primary",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Levantine / Middle Eastern",
+      "meal_name": "Chicken Shawarma Platter with Hummus & Warm Pita",
+      "description": "Spiced chicken shawarma strips, 1/2 cup tahini hummus, 1 warm pita bread, and Mediterranean salad",
+      "difficulty": "Difficult - Tahini/Oil Density",
+      "source": "USDA FDC #170889, #172688",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 460,
+        "calories": 810,
+        "calorie_range": [
+          750,
+          870
+        ],
+        "protein_g": 52.8,
+        "carbs_g": 76.4,
+        "fat_g": 32.6,
+        "sugar_g": 5.8,
+        "sodium_mg": 1490,
+        "source_citation": "USDA FDC #170889, #172688",
+        "cooking_fat_assumptions": [
+          "Hummus enriched with tahini and olive oil"
+        ],
+        "components": [
+          {
+            "name": "Spiced Chicken Shawarma",
+            "grams": 180,
+            "calories": 315,
+            "protein": 38.2,
+            "carbs": 2.4,
+            "fat": 16.8
+          },
+          {
+            "name": "Tahini Hummus with Olive Oil",
+            "grams": 120,
+            "calories": 248,
+            "protein": 9.4,
+            "carbs": 17.2,
+            "fat": 16.2
+          },
+          {
+            "name": "1 Warm White Pita Bread",
+            "grams": 60,
+            "calories": 165,
+            "protein": 5.5,
+            "carbs": 33.4,
+            "fat": 1.2
+          },
+          {
+            "name": "Tomato Cucumber Salad",
+            "grams": 100,
+            "calories": 82,
+            "protein": 1.7,
+            "carbs": 6.8,
+            "fat": 5.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-ME-01.svg"
+    },
+    {
+      "id": "BM-ME-02",
+      "set": "primary",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Greek / Mediterranean",
+      "meal_name": "Greek Salad with Block Feta & Kalamata Olives",
+      "description": "Cucumbers, tomatoes, red onion, bell peppers, topped with 80g feta cheese, kalamata olives, and olive oil",
+      "difficulty": "Moderate - Heavy Olive Oil",
+      "source": "USDA FDC #171413",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 340,
+        "calories": 485,
+        "calorie_range": [
+          450,
+          520
+        ],
+        "protein_g": 13.8,
+        "carbs_g": 14.6,
+        "fat_g": 41.5,
+        "sugar_g": 7.2,
+        "sodium_mg": 1180,
+        "source_citation": "USDA FDC Standard Greek Salad",
+        "cooking_fat_assumptions": [
+          "2 tbsp Extra Virgin Olive Oil dressing"
+        ],
+        "components": [
+          {
+            "name": "Mediterranean Vegetables",
+            "grams": 200,
+            "calories": 48,
+            "protein": 2,
+            "carbs": 10.4,
+            "fat": 0.6
+          },
+          {
+            "name": "Block Feta Cheese & Olives",
+            "grams": 110,
+            "calories": 258,
+            "protein": 11.8,
+            "carbs": 4.2,
+            "fat": 21.9
+          },
+          {
+            "name": "Extra Virgin Olive Oil",
+            "grams": 20,
+            "calories": 179,
+            "protein": 0,
+            "carbs": 0,
+            "fat": 20
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-ME-02.svg"
+    },
+    {
+      "id": "BM-ME-03",
+      "set": "primary",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Middle Eastern (Vegetarian)",
+      "meal_name": "Crispy Falafel Plate with Tahini Sauce & Tabbouleh",
+      "description": "5 golden chickpea falafels with sesame tahini drizzle, parsley-bulgur tabbouleh salad, and pickled turnips",
+      "difficulty": "Difficult - Fried Chickpeas + Tahini",
+      "source": "USDA FDC Standard Falafel Tables",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 360,
+        "calories": 620,
+        "calorie_range": [
+          570,
+          670
+        ],
+        "protein_g": 19.4,
+        "carbs_g": 64.8,
+        "fat_g": 34.2,
+        "sugar_g": 6.2,
+        "sodium_mg": 980,
+        "source_citation": "USDA Standard Falafel & Tabbouleh",
+        "cooking_fat_assumptions": [
+          "Deep fried chickpea patties"
+        ],
+        "components": [
+          {
+            "name": "5 Fried Chickpea Falafels",
+            "grams": 160,
+            "calories": 372,
+            "protein": 13.8,
+            "carbs": 43.6,
+            "fat": 17.8
+          },
+          {
+            "name": "Sesame Tahini Dressing",
+            "grams": 40,
+            "calories": 142,
+            "protein": 3.6,
+            "carbs": 4.8,
+            "fat": 12.6
+          },
+          {
+            "name": "Parsley Bulgur Tabbouleh",
+            "grams": 160,
+            "calories": 146,
+            "protein": 3.8,
+            "carbs": 18.2,
+            "fat": 7.2
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-ME-03.svg"
+    },
+    {
+      "id": "BM-ME-04",
+      "set": "primary",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "North African / Middle Eastern",
+      "meal_name": "Poached Shakshuka in Spiced Tomato Pepper Sauce",
+      "description": "3 farm eggs poached in spiced tomato, bell pepper, garlic, cumin sauce with fresh cilantro",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #171287",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 420,
+        "calories": 420,
+        "calorie_range": [
+          390,
+          460
+        ],
+        "protein_g": 24.2,
+        "carbs_g": 18.6,
+        "fat_g": 28.5,
+        "sugar_g": 9.4,
+        "sodium_mg": 860,
+        "source_citation": "USDA FDC Standard Shakshuka Base",
+        "cooking_fat_assumptions": [
+          "1.5 tbsp olive oil in tomato reduction"
+        ],
+        "components": [
+          {
+            "name": "3 Whole Poached Eggs",
+            "grams": 150,
+            "calories": 232,
+            "protein": 18.9,
+            "carbs": 1.6,
+            "fat": 15.9
+          },
+          {
+            "name": "Simmered Tomato Pepper Sauce",
+            "grams": 270,
+            "calories": 188,
+            "protein": 5.3,
+            "carbs": 17,
+            "fat": 12.6
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-ME-04.svg"
+    },
+    {
+      "id": "BM-ME-05",
+      "set": "primary",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Turkish / Middle Eastern",
+      "meal_name": "Grilled Lamb & Beef Kebab Platter with Bulgur Pilaf",
+      "description": "Two skewers of grilled spiced minced lamb/beef kebab with tomato bulgur pilaf and grilled peppers",
+      "difficulty": "Moderate - Meat Fat Content",
+      "source": "USDA FDC Standard Kebab Analysis",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 450,
+        "calories": 740,
+        "calorie_range": [
+          690,
+          800
+        ],
+        "protein_g": 46.8,
+        "carbs_g": 52.4,
+        "fat_g": 38.6,
+        "sugar_g": 5.2,
+        "sodium_mg": 1280,
+        "source_citation": "USDA FDC Kebab Standards",
+        "cooking_fat_assumptions": [
+          "20% fat minced lamb/beef blend"
+        ],
+        "components": [
+          {
+            "name": "2 Grilled Lamb/Beef Kebabs",
+            "grams": 200,
+            "calories": 464,
+            "protein": 36.2,
+            "carbs": 3.8,
+            "fat": 33.4
+          },
+          {
+            "name": "Tomato Bulgur Pilaf & Peppers",
+            "grams": 250,
+            "calories": 276,
+            "protein": 10.6,
+            "carbs": 48.6,
+            "fat": 5.2
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-ME-05.svg"
+    },
+    {
+      "id": "BM-ME-06",
+      "set": "primary",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Mediterranean Balanced",
+      "meal_name": "Herb Grilled Salmon with Quinoa & Roasted Asparagus",
+      "description": "Pan-seared Atlantic salmon fillet, 1 cup cooked quinoa, and 8 spears roasted asparagus with lemon",
+      "difficulty": "Simple - High Protein Clean",
+      "source": "USDA FDC #175168, #168917",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 410,
+        "calories": 545,
+        "calorie_range": [
+          510,
+          580
+        ],
+        "protein_g": 45.2,
+        "carbs_g": 41.6,
+        "fat_g": 21.4,
+        "sugar_g": 2.4,
+        "sodium_mg": 280,
+        "source_citation": "USDA FDC #175168 (Salmon), #168917 (Quinoa)",
+        "cooking_fat_assumptions": [
+          "1 tsp olive oil on asparagus and salmon"
+        ],
+        "components": [
+          {
+            "name": "Pan-Seared Salmon Fillet",
+            "grams": 170,
+            "calories": 350,
+            "protein": 37.6,
+            "carbs": 0,
+            "fat": 20.9
+          },
+          {
+            "name": "Cooked Quinoa",
+            "grams": 160,
+            "calories": 192,
+            "protein": 7,
+            "carbs": 34.1,
+            "fat": 3
+          },
+          {
+            "name": "Roasted Asparagus Spears",
+            "grams": 80,
+            "calories": 32,
+            "protein": 2.2,
+            "carbs": 4.2,
+            "fat": 0.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-ME-06.svg"
+    },
+    {
+      "id": "BM-CP-01",
+      "set": "primary",
+      "category": "Composite/Difficult",
+      "cuisine": "Mexican / Tex-Mex",
+      "meal_name": "Loaded Chicken Burrito Bowl with Guacamole & Sour Cream",
+      "description": "White rice, black beans, grilled chicken thighs, fresh tomato salsa, sour cream, and guacamole",
+      "difficulty": "Very Difficult - Multi-Layer Composite",
+      "source": "Chipotle Official Nutrition Disclosures / USDA FDC",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 540,
+        "calories": 840,
+        "calorie_range": [
+          780,
+          910
+        ],
+        "protein_g": 48.5,
+        "carbs_g": 82.4,
+        "fat_g": 36.5,
+        "sugar_g": 6.8,
+        "sodium_mg": 1680,
+        "source_citation": "Chipotle Official Standards / USDA FDC",
+        "cooking_fat_assumptions": [
+          "Avocado in guacamole, dairy fat in sour cream"
+        ],
+        "components": [
+          {
+            "name": "White Rice & Black Beans",
+            "grams": 290,
+            "calories": 340,
+            "protein": 12,
+            "carbs": 62,
+            "fat": 5.5
+          },
+          {
+            "name": "Grilled Chicken Thighs",
+            "grams": 120,
+            "calories": 216,
+            "protein": 32.4,
+            "carbs": 1,
+            "fat": 8.4
+          },
+          {
+            "name": "Guacamole, Sour Cream & Salsa",
+            "grams": 130,
+            "calories": 284,
+            "protein": 3,
+            "carbs": 19.4,
+            "fat": 22.6
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-CP-01.svg"
+    },
+    {
+      "id": "BM-CP-02",
+      "set": "primary",
+      "category": "Composite/Difficult",
+      "cuisine": "American All-Day Breakfast",
+      "meal_name": "Classic Full Diner Breakfast Platter",
+      "description": "2 scrambled eggs with butter, 3 strips crispy bacon, 2 pork sausages, 1 hash brown patty, and 2 slices buttered toast",
+      "difficulty": "Very Difficult - Multi-Meat & Fat",
+      "source": "USDA FDC Standard Diner Analysis",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 390,
+        "calories": 895,
+        "calorie_range": [
+          830,
+          960
+        ],
+        "protein_g": 38.6,
+        "carbs_g": 52.8,
+        "fat_g": 59.4,
+        "sugar_g": 4.6,
+        "sodium_mg": 1940,
+        "source_citation": "USDA FDC #173423, #170699",
+        "cooking_fat_assumptions": [
+          "Bacon rendered fat, butter on toast"
+        ],
+        "components": [
+          {
+            "name": "2 Scrambled Eggs with Butter",
+            "grams": 110,
+            "calories": 187,
+            "protein": 12.1,
+            "carbs": 2.2,
+            "fat": 14.3
+          },
+          {
+            "name": "3 Bacon Strips & 2 Sausages",
+            "grams": 120,
+            "calories": 360,
+            "protein": 18.5,
+            "carbs": 2,
+            "fat": 31.2
+          },
+          {
+            "name": "Hash Brown Patty & Buttered Toast",
+            "grams": 160,
+            "calories": 348,
+            "protein": 8,
+            "carbs": 48.6,
+            "fat": 13.9
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-CP-02.svg"
+    },
+    {
+      "id": "BM-CP-03",
+      "set": "primary",
+      "category": "Composite/Difficult",
+      "cuisine": "Italian-American",
+      "meal_name": "Fettuccine Alfredo with Grilled Chicken Breast",
+      "description": "Fettuccine pasta in heavy cream, parmesan, butter Alfredo sauce, topped with sliced grilled chicken breast",
+      "difficulty": "Difficult - Hidden Heavy Cream",
+      "source": "USDA FDC #168936 + Standard Alfredo Recipe",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 460,
+        "calories": 960,
+        "calorie_range": [
+          890,
+          1040
+        ],
+        "protein_g": 54.2,
+        "carbs_g": 72.8,
+        "fat_g": 50.6,
+        "sugar_g": 3.8,
+        "sodium_mg": 1280,
+        "source_citation": "Standard Restaurant Pasta Alfredo Laboratory Composition",
+        "cooking_fat_assumptions": [
+          "Heavy cream, butter, parmesan cheese in sauce"
+        ],
+        "components": [
+          {
+            "name": "Cooked Fettuccine Pasta",
+            "grams": 220,
+            "calories": 348,
+            "protein": 12.8,
+            "carbs": 68,
+            "fat": 2
+          },
+          {
+            "name": "Creamy Alfredo Sauce",
+            "grams": 110,
+            "calories": 380,
+            "protein": 7.4,
+            "carbs": 4.8,
+            "fat": 37.8
+          },
+          {
+            "name": "Sliced Grilled Chicken Breast",
+            "grams": 130,
+            "calories": 215,
+            "protein": 40.3,
+            "carbs": 0,
+            "fat": 4.7
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-CP-03.svg"
+    },
+    {
+      "id": "BM-CP-04",
+      "set": "primary",
+      "category": "Composite/Difficult",
+      "cuisine": "British Classic",
+      "meal_name": "Beer-Battered Fish & Chips with Tartar Sauce & Mushy Peas",
+      "description": "Deep fried beer battered cod fish fillet, large thick-cut chips, 2 tbsp tartar sauce, and mushy peas",
+      "difficulty": "Very Difficult - Deep Fry Oil Absorption",
+      "source": "UK National Diet & Nutrition Survey / USDA",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 520,
+        "calories": 1040,
+        "calorie_range": [
+          960,
+          1130
+        ],
+        "protein_g": 42.6,
+        "carbs_g": 106.8,
+        "fat_g": 49.2,
+        "sugar_g": 5.4,
+        "sodium_mg": 1420,
+        "source_citation": "UK Food Standards Agency Fried Fish & Chip Analysis",
+        "cooking_fat_assumptions": [
+          "Heavy oil retention in beer batter crust and chips"
+        ],
+        "components": [
+          {
+            "name": "Beer Battered Cod Fillet",
+            "grams": 200,
+            "calories": 440,
+            "protein": 32.4,
+            "carbs": 24.8,
+            "fat": 23.6
+          },
+          {
+            "name": "Thick-Cut Potato Chips",
+            "grams": 200,
+            "calories": 428,
+            "protein": 5.2,
+            "carbs": 62.4,
+            "fat": 17.8
+          },
+          {
+            "name": "Tartar Sauce & Mushy Peas",
+            "grams": 120,
+            "calories": 172,
+            "protein": 5,
+            "carbs": 19.6,
+            "fat": 8.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-CP-04.svg"
+    },
+    {
+      "id": "BM-CP-05",
+      "set": "primary",
+      "category": "Composite/Difficult",
+      "cuisine": "Modern Brunch",
+      "meal_name": "Sourdough Avocado Toast with 2 Poached Eggs & Bacon",
+      "description": "Two slices toasted sourdough with mashed avocado, 2 poached eggs, and 2 bacon strips",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #172688, #171705, #171287",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 370,
+        "calories": 685,
+        "calorie_range": [
+          640,
+          730
+        ],
+        "protein_g": 29.8,
+        "carbs_g": 52.4,
+        "fat_g": 40.2,
+        "sugar_g": 3.6,
+        "sodium_mg": 890,
+        "source_citation": "USDA FDC #172688, #171705, #171287",
+        "cooking_fat_assumptions": [
+          "130g avocado mashed on toast"
+        ],
+        "components": [
+          {
+            "name": "2 Slices Sourdough Toast",
+            "grams": 120,
+            "calories": 288,
+            "protein": 9.6,
+            "carbs": 56.4,
+            "fat": 2.2
+          },
+          {
+            "name": "Fresh Mashed Avocado",
+            "grams": 130,
+            "calories": 208,
+            "protein": 2.6,
+            "carbs": 11.1,
+            "fat": 19.1
+          },
+          {
+            "name": "2 Poached Eggs & Bacon",
+            "grams": 120,
+            "calories": 189,
+            "protein": 17.6,
+            "carbs": 1.3,
+            "fat": 18
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-CP-05.svg"
+    },
+    {
+      "id": "BM-CP-06",
+      "set": "primary",
+      "category": "Composite/Difficult",
+      "cuisine": "Fitness / Sports Nutrition",
+      "meal_name": "Whey Protein Shake with Whole Milk, Banana & PB",
+      "description": "1 scoop whey protein isolate, 1.5 cups whole milk, 1 banana, and 1 tbsp creamy peanut butter",
+      "difficulty": "Simple - High Protein Liquid",
+      "source": "USDA FDC #234510, #173423",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 480,
+        "calories": 540,
+        "calorie_range": [
+          500,
+          580
+        ],
+        "protein_g": 44.8,
+        "carbs_g": 52.6,
+        "fat_g": 17.5,
+        "sugar_g": 34.2,
+        "sodium_mg": 320,
+        "source_citation": "USDA FDC #234510",
+        "cooking_fat_assumptions": [
+          "Whole milk natural butterfat and natural peanut oil"
+        ],
+        "components": [
+          {
+            "name": "Whey Protein Isolate",
+            "grams": 30,
+            "calories": 113,
+            "protein": 25.5,
+            "carbs": 0.9,
+            "fat": 0.5
+          },
+          {
+            "name": "Whole Dairy Milk",
+            "grams": 360,
+            "calories": 223,
+            "protein": 12.2,
+            "carbs": 17.6,
+            "fat": 12.2
+          },
+          {
+            "name": "Banana & Peanut Butter",
+            "grams": 134,
+            "calories": 199,
+            "protein": 5.3,
+            "carbs": 30.2,
+            "fat": 8.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-CP-06.svg"
+    },
+    {
+      "id": "BM-HO-01",
+      "set": "holdout",
+      "category": "South Asian",
+      "cuisine": "South Asian",
+      "meal_name": "Fish Curry with Brown Rice & Cabbage Thoran",
+      "description": "South Asian kingfish curry in kokum-chili-coconut gravy, served with brown rice and cabbage thoran",
+      "difficulty": "Moderate",
+      "source": "IFCT 2017 / USDA FDC #234524",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 480,
+        "calories": 520,
+        "calorie_range": [
+          480,
+          560
+        ],
+        "protein_g": 36.8,
+        "carbs_g": 62.4,
+        "fat_g": 14.2,
+        "sugar_g": 3.8,
+        "sodium_mg": 740,
+        "source_citation": "USDA FDC #234524",
+        "cooking_fat_assumptions": [
+          "1 tsp coconut oil in curry and thoran"
+        ],
+        "components": [
+          {
+            "name": "Fish Curry",
+            "grams": 200,
+            "calories": 270,
+            "protein": 32.4,
+            "carbs": 6.4,
+            "fat": 12.8
+          },
+          {
+            "name": "Cooked Brown Rice",
+            "grams": 180,
+            "calories": 221,
+            "protein": 4.9,
+            "carbs": 46.1,
+            "fat": 1.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-01.svg"
+    },
+    {
+      "id": "BM-HO-02",
+      "set": "holdout",
+      "category": "South Asian",
+      "cuisine": "South Asian",
+      "meal_name": "Chana Masala with 2 Puris",
+      "description": "Spiced chickpea curry in onion-tomato gravy served with 2 deep-fried puffed wheat puris",
+      "difficulty": "Difficult - Fried Bread",
+      "source": "IFCT 2017 / USDA FDC #234527",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 380,
+        "calories": 680,
+        "calorie_range": [
+          630,
+          730
+        ],
+        "protein_g": 19.8,
+        "carbs_g": 88.4,
+        "fat_g": 27.6,
+        "sugar_g": 7.4,
+        "sodium_mg": 920,
+        "source_citation": "USDA FDC #234527",
+        "cooking_fat_assumptions": [
+          "Puris deep fried in vegetable oil"
+        ],
+        "components": [
+          {
+            "name": "Chana Masala Chickpeas",
+            "grams": 220,
+            "calories": 361,
+            "protein": 19.6,
+            "carbs": 60.3,
+            "fat": 5.7
+          },
+          {
+            "name": "2 Deep-Fried Puris",
+            "grams": 120,
+            "calories": 396,
+            "protein": 7.8,
+            "carbs": 48.2,
+            "fat": 19.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-02.svg"
+    },
+    {
+      "id": "BM-HO-03",
+      "set": "holdout",
+      "category": "East/Southeast Asian",
+      "cuisine": "Japanese",
+      "meal_name": "Chicken Katsu Curry with Steamed Rice",
+      "description": "Deep-fried panko-crusted chicken breast cutlet with Japanese savory brown curry gravy over steamed white rice",
+      "difficulty": "Difficult - Fried Cutlet",
+      "source": "Japanese Standard Recipe Analysis",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 480,
+        "calories": 890,
+        "calorie_range": [
+          820,
+          960
+        ],
+        "protein_g": 44.5,
+        "carbs_g": 104.2,
+        "fat_g": 31.8,
+        "sugar_g": 8.5,
+        "sodium_mg": 1420,
+        "source_citation": "Standard Japanese Katsu Curry",
+        "cooking_fat_assumptions": [
+          "Panko breading oil absorption"
+        ],
+        "components": [
+          {
+            "name": "Panko Fried Chicken Cutlet",
+            "grams": 160,
+            "calories": 395,
+            "protein": 36.2,
+            "carbs": 18.4,
+            "fat": 20.2
+          },
+          {
+            "name": "Japanese Curry Gravy & Rice",
+            "grams": 340,
+            "calories": 470,
+            "protein": 9.2,
+            "carbs": 82.6,
+            "fat": 11
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-03.svg"
+    },
+    {
+      "id": "BM-HO-04",
+      "set": "holdout",
+      "category": "East/Southeast Asian",
+      "cuisine": "Korean",
+      "meal_name": "Beef Bibimbap with Fried Egg & Gochujang",
+      "description": "Steamed rice topped with seasoned beef bulgogi, sautéed vegetables, kimchi, sunny egg, and gochujang chili paste",
+      "difficulty": "Moderate",
+      "source": "Korean Food Standards",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 460,
+        "calories": 670,
+        "calorie_range": [
+          620,
+          720
+        ],
+        "protein_g": 34.6,
+        "carbs_g": 86.4,
+        "fat_g": 20.2,
+        "sugar_g": 12.4,
+        "sodium_mg": 1380,
+        "source_citation": "Korean Nutrition Society",
+        "cooking_fat_assumptions": [
+          "Sesame oil drizzle"
+        ],
+        "components": [
+          {
+            "name": "Rice & Vegetables",
+            "grams": 280,
+            "calories": 365,
+            "protein": 8.4,
+            "carbs": 72.8,
+            "fat": 4.8
+          },
+          {
+            "name": "Beef Bulgogi & Fried Egg",
+            "grams": 180,
+            "calories": 305,
+            "protein": 28.2,
+            "carbs": 13.6,
+            "fat": 15.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-04.svg"
+    },
+    {
+      "id": "BM-HO-05",
+      "set": "holdout",
+      "category": "Western",
+      "cuisine": "American BBQ",
+      "meal_name": "Smoked Pulled Pork Sandwich with Coleslaw",
+      "description": "Slow-smoked pulled pork shoulder tossed in BBQ sauce on a brioche bun with creamy coleslaw",
+      "difficulty": "Moderate - Sugar & Mayo",
+      "source": "USDA FDC Standard BBQ",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 390,
+        "calories": 785,
+        "calorie_range": [
+          730,
+          840
+        ],
+        "protein_g": 42.8,
+        "carbs_g": 64.2,
+        "fat_g": 38.6,
+        "sugar_g": 28,
+        "sodium_mg": 1540,
+        "source_citation": "USDA FDC Pulled Pork Standards",
+        "cooking_fat_assumptions": [
+          "Pork shoulder natural fat, mayo in slaw"
+        ],
+        "components": [
+          {
+            "name": "Pulled Pork on Brioche Bun",
+            "grams": 250,
+            "calories": 560,
+            "protein": 39.8,
+            "carbs": 52.4,
+            "fat": 20.8
+          },
+          {
+            "name": "Creamy Mayonnaise Coleslaw",
+            "grams": 140,
+            "calories": 225,
+            "protein": 1.8,
+            "carbs": 11.8,
+            "fat": 19.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-05.svg"
+    },
+    {
+      "id": "BM-HO-06",
+      "set": "holdout",
+      "category": "Western",
+      "cuisine": "American Casual",
+      "meal_name": "Turkey Bacon Club Sandwich with Potato Chips",
+      "description": "Triple-decker wheat bread with smoked turkey breast, crispy bacon, cheddar, lettuce, tomato, mayo, and kettle chips",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #172688",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 360,
+        "calories": 710,
+        "calorie_range": [
+          660,
+          760
+        ],
+        "protein_g": 41.2,
+        "carbs_g": 62.8,
+        "fat_g": 32.4,
+        "sugar_g": 5.4,
+        "sodium_mg": 1680,
+        "source_citation": "USDA FDC Standard Club Sandwich",
+        "cooking_fat_assumptions": [
+          "Mayonnaise spread, bacon and cheddar"
+        ],
+        "components": [
+          {
+            "name": "Turkey Bacon Cheddar Club",
+            "grams": 300,
+            "calories": 515,
+            "protein": 38.6,
+            "carbs": 44.2,
+            "fat": 21.8
+          },
+          {
+            "name": "Potato Chips",
+            "grams": 40,
+            "calories": 195,
+            "protein": 2.6,
+            "carbs": 21.6,
+            "fat": 11.2
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-06.svg"
+    },
+    {
+      "id": "BM-HO-07",
+      "set": "holdout",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Middle Eastern",
+      "meal_name": "Grilled Chicken Shish Taouk with Garlic Toum & Flatbread",
+      "description": "Lemon-garlic chicken breast skewers, 2 tbsp whipped garlic toum emulsion, and warm flatbread",
+      "difficulty": "Moderate - Garlic Toum Oil Density",
+      "source": "USDA FDC #171077",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 340,
+        "calories": 615,
+        "calorie_range": [
+          570,
+          660
+        ],
+        "protein_g": 46.2,
+        "carbs_g": 44.8,
+        "fat_g": 27.5,
+        "sugar_g": 2.8,
+        "sodium_mg": 1120,
+        "source_citation": "USDA FDC #171077",
+        "cooking_fat_assumptions": [
+          "Whipped garlic toum made with pure oil emulsion"
+        ],
+        "components": [
+          {
+            "name": "Grilled Chicken Skewers",
+            "grams": 180,
+            "calories": 288,
+            "protein": 41.4,
+            "carbs": 1.2,
+            "fat": 12.8
+          },
+          {
+            "name": "Flatbread & Garlic Toum",
+            "grams": 110,
+            "calories": 390,
+            "protein": 7.4,
+            "carbs": 43.6,
+            "fat": 20.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-07.svg"
+    },
+    {
+      "id": "BM-HO-08",
+      "set": "holdout",
+      "category": "Middle Eastern/Mediterranean",
+      "cuisine": "Mediterranean",
+      "meal_name": "Mediterranean Tuna Nicoise Salad with Boiled Egg",
+      "description": "Yellowfin tuna in water, baby potatoes, green beans, hard-boiled egg, kalamata olives, and dijon vinaigrette",
+      "difficulty": "Moderate",
+      "source": "USDA FDC #175168",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 380,
+        "calories": 490,
+        "calorie_range": [
+          450,
+          530
+        ],
+        "protein_g": 41.4,
+        "carbs_g": 28.6,
+        "fat_g": 22.8,
+        "sugar_g": 3.4,
+        "sodium_mg": 860,
+        "source_citation": "USDA Standard Nicoise",
+        "cooking_fat_assumptions": [
+          "Olive oil vinaigrette"
+        ],
+        "components": [
+          {
+            "name": "Tuna & Vegetables",
+            "grams": 290,
+            "calories": 289,
+            "protein": 39.4,
+            "carbs": 27.2,
+            "fat": 1.6
+          },
+          {
+            "name": "Boiled Egg, Olives & Vinaigrette",
+            "grams": 90,
+            "calories": 217,
+            "protein": 7,
+            "carbs": 2.6,
+            "fat": 20.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-08.svg"
+    },
+    {
+      "id": "BM-HO-09",
+      "set": "holdout",
+      "category": "Composite/Difficult",
+      "cuisine": "Italian",
+      "meal_name": "Baked Meat Lasagna with Garlic Bread",
+      "description": "Baked pasta with beef bolognese, ricotta cheese, marinara sauce, melted mozzarella, and garlic bread",
+      "difficulty": "Very Difficult - Cheese & Meat Bake",
+      "source": "USDA FDC Standard Lasagna",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 440,
+        "calories": 840,
+        "calorie_range": [
+          780,
+          910
+        ],
+        "protein_g": 46.5,
+        "carbs_g": 66.8,
+        "fat_g": 42.4,
+        "sugar_g": 8.2,
+        "sodium_mg": 1480,
+        "source_citation": "USDA FDC Standard Lasagna",
+        "cooking_fat_assumptions": [
+          "Ricotta, beef bolognese, butter on garlic bread"
+        ],
+        "components": [
+          {
+            "name": "Baked Beef Lasagna",
+            "grams": 350,
+            "calories": 630,
+            "protein": 41.2,
+            "carbs": 48.6,
+            "fat": 30.8
+          },
+          {
+            "name": "Toasted Garlic Bread",
+            "grams": 60,
+            "calories": 185,
+            "protein": 4.5,
+            "carbs": 22.4,
+            "fat": 8.8
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-09.svg"
+    },
+    {
+      "id": "BM-HO-10",
+      "set": "holdout",
+      "category": "Composite/Difficult",
+      "cuisine": "Mexican / Street Food",
+      "meal_name": "3 Carnitas Street Tacos with Guacamole",
+      "description": "Three corn tortillas with shredded pork carnitas, onion, cilantro, salsa verde, and guacamole",
+      "difficulty": "Difficult - Pork Lard & Tortillas",
+      "source": "USDA FDC Standard Carnitas",
+      "license": "CC0-PublicDomain",
+      "reference": {
+        "total_grams": 380,
+        "calories": 710,
+        "calorie_range": [
+          660,
+          760
+        ],
+        "protein_g": 43.8,
+        "carbs_g": 56.4,
+        "fat_g": 34.6,
+        "sugar_g": 3.8,
+        "sodium_mg": 1240,
+        "source_citation": "USDA FDC Standard Street Tacos",
+        "cooking_fat_assumptions": [
+          "Pork braised in natural lard"
+        ],
+        "components": [
+          {
+            "name": "3 Carnitas Tacos",
+            "grams": 300,
+            "calories": 570,
+            "protein": 41.2,
+            "carbs": 46.8,
+            "fat": 24.6
+          },
+          {
+            "name": "Guacamole & Salsa",
+            "grams": 80,
+            "calories": 138,
+            "protein": 2.2,
+            "carbs": 9.4,
+            "fat": 10.4
+          }
+        ]
+      },
+      "image_path": "benchmark/images/BM-HO-10.svg"
+    }
+  ]
+}

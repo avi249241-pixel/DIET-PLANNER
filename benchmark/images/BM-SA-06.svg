@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450">
+  <rect width="100%" height="100%" fill="#FFF7ED"/>
+  <circle cx="300" cy="225" r="180" fill="#FED7AA" stroke="#EA580C" stroke-width="4"/>
+  <circle cx="300" cy="225" r="140" fill="#FFFFFF" opacity="0.9"/>
+  <text x="50%" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="bold" fill="#EA580C" text-anchor="middle">BM-SA-06 · South Asian</text>
+  <text x="50%" y="135" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#1F2937" text-anchor="middle">Dal Tadka with 2 Whole Wheat Rotis, Rice & Cucumber Salad</text>
+  <text x="50%" y="165" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#6B7280" text-anchor="middle">South Asian (Healthy Home Thali) | Reference: 615 kcal (530g)</text>
+  <g>
+    <text x="50%" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Yellow Dal Tadka (200g · 232 kcal)</text>
+    <text x="50%" y="234" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• 2 Whole Wheat Rotis (100g · 297 kcal)</text>
+    <text x="50%" y="258" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#374151" text-anchor="middle">• Steamed White Rice (150g · 195 kcal)</text>
+  </g>
+  <text x="50%" y="385" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#9CA3AF" text-anchor="middle">USDA FDC #172421, #234502, #168878</text>
+</svg>
