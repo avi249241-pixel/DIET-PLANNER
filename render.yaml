@@ -6,6 +6,8 @@ services:
     buildCommand: bun install && bun run build
     startCommand: bun run start
     envVars:
+      - key: BUN_VERSION
+        value: 1.4.0
       - key: NODE_ENV
         value: production
       - key: GEMINI_API_KEY

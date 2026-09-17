@@ -55,7 +55,7 @@ The backend service configuration is predefined in [render.yaml](file:///c:/User
 | 🔍 **Vercel Direct Deployment** | `https://diet-planner-piew9407v-avi-2f26.vercel.app` | 🟢 Verified & Active |
 | 💻 **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
 | 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run start` or `start-server.bat` |
-| ⚙️ **Render Backend Service** | `https://diet-planner-backend.onrender.com` | Blueprint ready in `render.yaml` |
+| ⚙️ **Render Backend Service** | `https://diet-planner-backend-5e78.onrender.com` | Live assigned service URL |
 | 🌐 *Cloudflare Tunnel (Old Demo)* | `https://dam-integer-beings-bunny.trycloudflare.com` | ⚠️ *Temporary local demo (superseded by permanent Vercel deployment)* |
 | 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Requires `GEMINI_API_KEY` on backend |
 | **Weekly Habit Audit** | `POST /api/ai/weekly-audit` | Gemini habit coaching & macro analysis |
