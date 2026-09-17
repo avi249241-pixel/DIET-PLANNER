@@ -246,8 +246,11 @@ export function MainLogScreen() {
     // Tag components as user_confirmed
     const confirmedFoods: ComponentFood[] = (meal.composition || []).map(f => ({
       ...f,
-      evidence: 'user_confirmed',
-      source: 'USER_EDITED'
+      evidence: 'user_confirmed' as const,
+      source: 'USER_EDITED' as const,
+      preparationState: (f.preparationState as any) || 'PREPARED',
+      oilState: (f.oilState as any) || 'MODERATE_OIL',
+      assumptions: f.assumptions || []
     }));
 
     const created = await addFoodItem({

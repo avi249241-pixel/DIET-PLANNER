@@ -2,13 +2,17 @@
 <img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
 </div>
 
-# Run and deploy your AI Studio app
+# 🥗 Diet Planner - AI Nutrition & Habit Coach
 
-This contains everything you need to run your app locally.
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_Production-black?logo=vercel)](https://diet-planner-sooty.vercel.app)
 
-View your app in AI Studio: https://ai.studio/apps/b46ca9dc-3486-45d4-9dd5-0bd7ec1783dd
+> 🚀 **Live Production Application**: **[https://diet-planner-sooty.vercel.app](https://diet-planner-sooty.vercel.app)**
+> 
+> Direct Deployment: `https://diet-planner-piew9407v-avi-2f26.vercel.app`
 
-## Run Locally
+---
+
+## 💻 Run Locally or Deploy
 
 **Prerequisites:**  Node.js
 

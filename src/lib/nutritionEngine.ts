@@ -773,6 +773,9 @@ export function calculateDeterministicMealTotals(
   if (appliedPrior) {
     notes.push(`Personal Prior (v${appliedPrior.version}): ${appliedPrior.reasoning}`);
   }
+  if (atwaterDiagnostic.isInconsistent) {
+    notes.push(atwaterDiagnostic.reason);
+  }
 
   const uncertainty: ScientificUncertainty = {
     foodIdentificationConfidence: Math.min(0.98, overallConfidence + 0.05),

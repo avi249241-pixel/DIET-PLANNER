@@ -8,3 +8,6 @@ coverage/
 server.mjs
 .env*
 !.env.example
+
+.vercel
+.env*

@@ -51,11 +51,12 @@ The backend service configuration is predefined in [render.yaml](file:///c:/User
 
 | Service | Target URL | Status / Notes |
 | :--- | :--- | :--- |
-| 🌐 **Live Public HTTPS URL** | **[https://dam-integer-beings-bunny.trycloudflare.com](https://dam-integer-beings-bunny.trycloudflare.com)** | 🟢 **ACTIVE & ACCESSIBLE WORLDWIDE** |
+| 🚀 **Permanent Vercel Production URL** | **[https://diet-planner-sooty.vercel.app](https://diet-planner-sooty.vercel.app)** | 🟢 **LIVE & ACCESSIBLE WORLDWIDE** |
+| 🔍 **Vercel Direct Deployment** | `https://diet-planner-piew9407v-avi-2f26.vercel.app` | 🟢 Verified & Active |
 | 💻 **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
 | 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run start` or `start-server.bat` |
-| ☁️ **Vercel Production Domain** | `https://diet-planner.vercel.app` (or custom domain) | Deploy via `bun run deploy:prod` after `npx vercel login` |
-| ⚙️ **Render Backend Service** | `https://diet-planner-backend.onrender.com` | Deployed via Git push / Render Blueprint |
+| ⚙️ **Render Backend Service** | `https://diet-planner-backend.onrender.com` | Blueprint ready in `render.yaml` |
+| 🌐 *Cloudflare Tunnel (Old Demo)* | `https://dam-integer-beings-bunny.trycloudflare.com` | ⚠️ *Temporary local demo (superseded by permanent Vercel deployment)* |
 | 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Requires `GEMINI_API_KEY` on backend |
 | **Weekly Habit Audit** | `POST /api/ai/weekly-audit` | Gemini habit coaching & macro analysis |
 | **Personalized Recommendations**| `POST /api/ai/personalized-recommendations` | Gemini meal suggestion engine |
