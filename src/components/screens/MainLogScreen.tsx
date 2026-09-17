@@ -2,8 +2,21 @@ import React, { useState, useRef } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { useAuth } from '../../AuthContext';
 import { auth } from '../../lib/firebase';
-import { MealType, FoodItem } from '../../types';
+import { MealType, FoodItem, ConfirmedMealRecord } from '../../types';
 import { MealAnalysisResult, ComponentFood, calculateDeterministicMealTotals } from '../../lib/nutritionEngine';
+import {
+  computePerceptualHash,
+  computeCorrectionDeltas,
+  deriveCategoryPrior,
+  detectFoodCategory,
+  loadUserConfirmedMeals,
+  saveUserConfirmedMeal,
+  loadUserCorrectionLog,
+  appendUserCorrectionLog,
+  loadUserCategoryPriors,
+  saveUserCategoryPrior,
+  RECOMPUTE_THRESHOLD_N
+} from '../../lib/personalMemory';
 import {
   Camera,
   PlusCircle,
@@ -81,10 +94,19 @@ export function MainLogScreen() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [analyzedMeal, setAnalyzedMeal] = useState<MealAnalysisResult | null>(null);
+  const [initialPrediction, setInitialPrediction] = useState<MealAnalysisResult | null>(null);
   const [selectedClarification, setSelectedClarification] = useState<string | null>(null);
   const [primaryPhotoBase64, setPrimaryPhotoBase64] = useState<string | null>(null);
   const [secondPhotoBase64, setSecondPhotoBase64] = useState<string | null>(null);
   const [scaleCue, setScaleCue] = useState<string>('');
+
+  // Personal Food Memory Match State
+  const [memoryMatch, setMemoryMatch] = useState<{
+    matchedMeal: ConfirmedMealRecord;
+    similarity: number;
+    reason: string;
+  } | null>(null);
+  const [isCheckingMemory, setIsCheckingMemory] = useState(false);
 
   // Manual Form State
   const [name, setName] = useState('');
@@ -140,6 +162,7 @@ export function MainLogScreen() {
       }
 
       setAnalyzedMeal(data.data as MealAnalysisResult);
+      setInitialPrediction(data.data as MealAnalysisResult);
     } catch (err: any) {
       console.error('Vision analysis pipeline error:', err);
       setAnalysisError(err.message || 'Network error analyzing photo. Please enter meal details manually.');
@@ -148,7 +171,7 @@ export function MainLogScreen() {
     }
   };
 
-  // Primary photo selected (Fast path for simple items, initial pass for complex)
+  // Primary photo selected: Checks personal memory first before running full vision pipeline
   const handlePhotoSelected = async (file: File) => {
     try {
       const base64Data = await new Promise<string>((resolve, reject) => {
@@ -160,10 +183,109 @@ export function MainLogScreen() {
 
       setPrimaryPhotoBase64(base64Data);
       setSecondPhotoBase64(null);
+      setMemoryMatch(null);
+
+      // 1. Personal Food Memory Check: match against user's past confirmed meals
+      setIsCheckingMemory(true);
+      try {
+        const uid = user?.uid || 'default-user';
+        const confirmedMeals = await loadUserConfirmedMeals(uid);
+
+        if (confirmedMeals && confirmedMeals.length > 0) {
+          const photoHash = await computePerceptualHash(base64Data);
+          let idToken = await auth.currentUser?.getIdToken();
+          if (!idToken) {
+            idToken = `test-token-${uid}`;
+          }
+
+          const memResp = await fetch('/api/ai/match-meal-memory', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`
+            },
+            body: JSON.stringify({
+              imageBase64: base64Data,
+              photoHash,
+              confirmedMeals
+            })
+          });
+
+          const memData = await memResp.json();
+          if (memData.success && memData.data?.matchFound && memData.data?.matchedMeal) {
+            setMemoryMatch({
+              matchedMeal: memData.data.matchedMeal,
+              similarity: memData.data.similarity,
+              reason: memData.data.reason
+            });
+            setIsCheckingMemory(false);
+            return; // Stop here and present one-tap prompt to user!
+          }
+        }
+      } catch (memErr) {
+        console.warn('Personal memory check non-blocking notice (running full vision):', memErr);
+      } finally {
+        setIsCheckingMemory(false);
+      }
+
+      // 2. Fall-through to standard vision analysis if no confident memory match
       await runAnalysisWithPhotos(base64Data, null, scaleCue);
     } catch (err: any) {
       console.error('File reading error:', err);
       setAnalysisError('Failed to read image file.');
+    }
+  };
+
+  // One-Tap Confirmation from Personal Food Memory
+  const handleConfirmMemoryMatch = async () => {
+    if (!memoryMatch) return;
+    const meal = memoryMatch.matchedMeal;
+    const todayStr = new Date().toISOString().split('T')[0];
+    const uid = user?.uid || 'default-user';
+
+    // Tag components as user_confirmed
+    const confirmedFoods: ComponentFood[] = (meal.composition || []).map(f => ({
+      ...f,
+      evidence: 'user_confirmed',
+      source: 'USER_EDITED'
+    }));
+
+    const created = await addFoodItem({
+      userId: uid,
+      name: meal.mealName,
+      isJunk: false,
+      calories: meal.totalCalories,
+      protein: meal.protein,
+      carbs: meal.carbs,
+      fat: meal.fat,
+      sugar: meal.sugar,
+      sodium: meal.sodium,
+      portion: `${meal.composition?.length || 1} items (Personal Memory)`,
+      healthScore: 90,
+      grade: 'A',
+      mealType: meal.mealType,
+      date: todayStr,
+      nutritionSource: 'AUTHORITATIVE_DB',
+      confidence: 0.98,
+      foods: confirmedFoods
+    });
+
+    // Refresh timestamp in confirmedMeals
+    await saveUserConfirmedMeal(uid, {
+      ...meal,
+      timestamp: Date.now()
+    });
+
+    setSubmittedItem(created);
+    setMemoryMatch(null);
+    setPrimaryPhotoBase64(null);
+  };
+
+  // Rejection of Personal Food Memory Match: proceeds directly to full vision recognition
+  const handleRejectMemoryMatch = async () => {
+    setMemoryMatch(null);
+    if (primaryPhotoBase64) {
+      await runAnalysisWithPhotos(primaryPhotoBase64, null, scaleCue);
     }
   };
 
@@ -198,31 +320,22 @@ export function MainLogScreen() {
     setSelectedClarification(option);
 
     // Deterministically modify oil state on components and re-sum
-    let targetOil: ComponentFood['oilState'] = 'MODERATE_OIL';
-    if (option.toLowerCase().includes('light') || option.toLowerCase().includes('minimal') || option.toLowerCase().includes('smaller')) {
-      targetOil = 'LOW_OIL';
-    } else if (option.toLowerCase().includes('rich') || option.toLowerCase().includes('fried') || option.toLowerCase().includes('generous') || option.toLowerCase().includes('large')) {
-      targetOil = 'HIGH_OIL';
-    }
-
-    const updatedComponents: ComponentFood[] = analyzedMeal.foods.map((food) => {
-      let fatMultiplier = 1.0;
-      if (targetOil === 'LOW_OIL') fatMultiplier = 0.85;
-      else if (targetOil === 'HIGH_OIL') fatMultiplier = 1.25;
-
-      const newFat = Math.round(food.fat * fatMultiplier * 10) / 10;
-      const newCal = Math.round((food.protein * 4) + (food.carbs * 4) + (newFat * 9));
-
-      return {
-        ...food,
-        evidence: 'user_confirmed' as const,
-        oilState: targetOil,
-        fat: newFat,
-        calories: newCal
-      };
+    const optLower = option.toLowerCase();
+    const updatedFoods = analyzedMeal.foods.map(f => {
+      if (f.evidence === 'unobservable_unknown' || f.name.toLowerCase().includes('curry') || f.name.toLowerCase().includes('masala')) {
+        return {
+          ...f,
+          oilState: (optLower.includes('rich') || optLower.includes('deep-fried') || optLower.includes('heavy') || optLower.includes('generous')
+            ? 'HIGH_OIL'
+            : optLower.includes('light') || optLower.includes('minimal') || optLower.includes('smaller')
+            ? 'LOW_OIL'
+            : 'MODERATE_OIL') as any
+        };
+      }
+      return f;
     });
 
-    const recalculated = calculateDeterministicMealTotals(updatedComponents, {
+    const recalculated = calculateDeterministicMealTotals(updatedFoods, {
       mealName: analyzedMeal.name,
       mealType: analyzedMeal.mealType,
       cuisineType: analyzedMeal.cuisineType,
@@ -238,9 +351,11 @@ export function MainLogScreen() {
   // Confirm and persist analyzed meal
   const handleConfirmAnalyzedMeal = async () => {
     if (!analyzedMeal) return;
+    const uid = user?.uid || 'default-user';
+    const todayStr = new Date().toISOString().split('T')[0];
 
     const created = await addFoodItem({
-      userId: user?.uid || 'default-user',
+      userId: uid,
       name: analyzedMeal.name,
       isJunk: analyzedMeal.isJunk,
       calories: analyzedMeal.calories,
@@ -259,14 +374,80 @@ export function MainLogScreen() {
       healthScore: analyzedMeal.healthScore,
       grade: analyzedMeal.grade,
       mealType: analyzedMeal.mealType,
-      date: new Date().toISOString().split('T')[0],
+      date: todayStr,
       nutritionSource: analyzedMeal.nutritionSource,
       confidence: analyzedMeal.confidence,
       foods: analyzedMeal.foods
     });
 
+    // 1. Correction Feedback Logging (Diff initial prediction vs final confirmed values)
+    if (initialPrediction) {
+      const category = analyzedMeal.foodCategory || detectFoodCategory(analyzedMeal.name);
+      const deltas = computeCorrectionDeltas({
+        userId: uid,
+        mealName: analyzedMeal.name,
+        mealId: created.id,
+        foodCategory: category,
+        predicted: initialPrediction,
+        confirmed: analyzedMeal
+      });
+
+      if (deltas.length > 0) {
+        await appendUserCorrectionLog(uid, deltas);
+
+        // Recompute category priors if cadence threshold (N >= 3) reached
+        try {
+          const allCorrections = await loadUserCorrectionLog(uid);
+          const categoryCorrections = allCorrections.filter(c => c.foodCategory === category);
+          const existingPriors = await loadUserCategoryPriors(uid);
+          const existingPrior = existingPriors[category] || null;
+
+          if (categoryCorrections.length >= RECOMPUTE_THRESHOLD_N) {
+            const updatedPrior = deriveCategoryPrior({
+              userId: uid,
+              category,
+              existingPrior,
+              corrections: categoryCorrections
+            });
+            await saveUserCategoryPrior(uid, updatedPrior);
+          }
+        } catch (priorErr) {
+          console.warn('Category prior derivation notice:', priorErr);
+        }
+      }
+    }
+
+    // 2. Personal Food Memory Cache Update
+    if (primaryPhotoBase64) {
+      try {
+        const photoHash = await computePerceptualHash(primaryPhotoBase64);
+        await saveUserConfirmedMeal(uid, {
+          id: `meal-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+          userId: uid,
+          mealName: analyzedMeal.name,
+          photoHash,
+          composition: analyzedMeal.foods,
+          totalCalories: analyzedMeal.calories,
+          protein: analyzedMeal.protein,
+          carbs: analyzedMeal.carbs,
+          fat: analyzedMeal.fat,
+          sugar: analyzedMeal.sugar,
+          sodium: analyzedMeal.sodium,
+          evidenceClasses: (analyzedMeal.foods || []).map(f => f.evidence || 'user_confirmed'),
+          massDistribution: analyzedMeal.massDistribution,
+          massBasis: analyzedMeal.massBasis,
+          mealType: analyzedMeal.mealType,
+          date: todayStr,
+          timestamp: Date.now()
+        });
+      } catch (memSaveErr) {
+        console.warn('Personal memory save notice:', memSaveErr);
+      }
+    }
+
     setSubmittedItem(created);
     setAnalyzedMeal(null);
+    setInitialPrediction(null);
     setSelectedClarification(null);
     setPrimaryPhotoBase64(null);
     setSecondPhotoBase64(null);
@@ -518,6 +699,61 @@ export function MainLogScreen() {
             </>
           )}
         </div>
+
+        {/* Checking Personal Food Memory indicator */}
+        {isCheckingMemory && (
+          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl flex items-center gap-3 text-xs text-slate-300">
+            <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
+            <span>Checking Personal Food Memory against your confirmed meals...</span>
+          </div>
+        )}
+
+        {/* Personal Food Memory Match Card (One-Tap Confirmation) */}
+        {memoryMatch && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-emerald-950/40 border-2 border-emerald-500/50 rounded-2xl p-5 shadow-2xl space-y-4 backdrop-blur-md"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 text-emerald-400">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                    Personal Food Memory Match ({Math.round(memoryMatch.similarity * 100)}%)
+                  </span>
+                  <h3 className="text-base font-black text-white mt-1">
+                    Same as {memoryMatch.matchedMeal.mealName} from {memoryMatch.matchedMeal.date}?
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Past confirmed: {memoryMatch.matchedMeal.totalCalories} kcal &bull; {memoryMatch.matchedMeal.protein}g P &bull; {memoryMatch.matchedMeal.carbs}g C &bull; {memoryMatch.matchedMeal.fat}g F
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+              <button
+                type="button"
+                onClick={handleConfirmMemoryMatch}
+                className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer text-xs"
+              >
+                <Check className="w-4 h-4" />
+                Yes, One-Tap Log
+              </button>
+              <button
+                type="button"
+                onClick={handleRejectMemoryMatch}
+                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 px-4 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 cursor-pointer text-xs"
+              >
+                <XCircle className="w-4 h-4" />
+                No, this is different
+              </button>
+            </div>
+          </motion.div>
+        )}
 
         {analysisError && (
           <div className="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl flex items-start gap-3 text-xs text-rose-300">

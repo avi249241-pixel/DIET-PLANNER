@@ -274,3 +274,58 @@ export interface FoodPreset {
   tag: string;
 }
 
+// --------------------------------------------------------------------------
+// PERSONAL FOOD MEMORY & CORRECTION FEEDBACK LOG TYPES
+// --------------------------------------------------------------------------
+
+export interface ConfirmedMealRecord {
+  id: string;
+  userId: string;
+  mealName: string;
+  photoHash: string; // 64-bit perceptual hash (e.g. 16-hex character dHash)
+  embedding?: number[];
+  composition: ComponentFoodItem[];
+  totalCalories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  sugar?: number;
+  sodium?: number;
+  evidenceClasses?: Record<string, EvidenceClass> | EvidenceClass[];
+  massDistribution?: MassDistribution;
+  massBasis?: MassBasis;
+  mealType: MealType;
+  date: string;
+  timestamp: number;
+}
+
+export interface CorrectionLogEntry {
+  id: string;
+  userId: string;
+  mealId?: string;
+  mealName?: string;
+  foodCategory: string; // e.g. 'curry', 'salad', 'bowl', 'protein', 'rice', 'bread'
+  fieldName: string; // e.g. 'oil_grams', 'calories', 'portion_grams', 'fat'
+  predictedValue: number;
+  confirmedValue: number;
+  delta: number; // confirmedValue - predictedValue
+  evidenceClass: EvidenceClass; // Evidence class at prediction time
+  timestamp: number;
+}
+
+export interface CategoryPrior {
+  id: string; // Category key (e.g. 'curry', 'salad')
+  userId: string;
+  category: string;
+  version: number;
+  oilMassAdjustmentFactor: number; // e.g. 1.20 (+20% oil mass prior)
+  portionAdjustmentFactor: number; // e.g. 1.05 (+5% serving portion prior)
+  calorieAdjustmentOffset: number; // e.g. +35 kcal
+  confidenceOffset: number; // e.g. -0.05
+  sampleCount: number; // Number of corrections incorporated
+  traceableCorrectionIds: string[]; // Explicit IDs of corrections that derived this prior
+  reasoning: string;
+  updatedAt: number;
+}
+
+

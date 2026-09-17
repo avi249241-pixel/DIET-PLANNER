@@ -18,6 +18,13 @@ import {
   ComponentFood
 } from "./src/lib/nutritionEngine";
 import { requireAuth } from "./src/middleware/auth";
+import {
+  computeFallbackHash,
+  cleanBase64,
+  findBestMealMatch,
+  HIGH_SIMILARITY_THRESHOLD,
+  deriveCategoryPrior
+} from "./src/lib/personalMemory";
 
 
 
@@ -152,6 +159,73 @@ async function startServer() {
       },
     });
   };
+
+  // 0. Personal Food Memory Matcher (Fast-path for previously confirmed repeat meals)
+  app.post("/api/ai/match-meal-memory", async (req, res) => {
+    try {
+      const { imageBase64, photoHash, confirmedMeals } = req.body;
+      const mealsList = Array.isArray(confirmedMeals) ? confirmedMeals : [];
+
+      if (!mealsList || mealsList.length === 0) {
+        return res.json({
+          success: true,
+          data: {
+            matchFound: false,
+            similarity: 0,
+            reason: "Personal food memory is empty for this user."
+          }
+        });
+      }
+
+      if (!imageBase64 && !photoHash) {
+        return res.status(400).json({
+          success: false,
+          error: "Either imageBase64 or photoHash must be provided."
+        });
+      }
+
+      const queryHash = photoHash || computeFallbackHash(cleanBase64(imageBase64 || ""));
+      const matchResult = findBestMealMatch(queryHash, mealsList, HIGH_SIMILARITY_THRESHOLD);
+
+      return res.json({
+        success: true,
+        data: matchResult
+      });
+    } catch (err: any) {
+      console.warn("Personal food memory match notice:", cleanErrorMessage(err));
+      // Non-blocking silent fallback to full recognition pipeline
+      return res.json({
+        success: true,
+        data: {
+          matchFound: false,
+          similarity: 0,
+          reason: "Memory lookup encountered an error; falling back to full vision pipeline."
+        }
+      });
+    }
+  });
+
+  // Recompute Category Priors helper
+  app.post("/api/ai/recompute-category-priors", (req, res) => {
+    try {
+      const { category, existingPrior, corrections } = req.body;
+      const userId = (req as any).user?.uid || "default-user";
+      if (!category) {
+        return res.status(400).json({ success: false, error: "category is required." });
+      }
+
+      const prior = deriveCategoryPrior({
+        userId,
+        category,
+        existingPrior,
+        corrections: corrections || []
+      });
+
+      return res.json({ success: true, data: prior });
+    } catch (err: any) {
+      return res.status(500).json({ success: false, error: err.message });
+    }
+  });
 
   // 1. Production-Grade AI Food Analysis Pipeline (Photo / Text / Multi-Photo / Scale Cue)
   app.post("/api/ai/analyze-food", async (req, res) => {

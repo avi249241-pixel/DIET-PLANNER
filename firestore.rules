@@ -87,6 +87,27 @@ service cloud.firestore {
         allow create, update: if isOwner(userId) && isValidId(userId) && isValidId(itemId) && incoming().userId == userId;
         allow delete: if isOwner(userId) && isValidId(userId) && isValidId(itemId);
       }
+
+      // Personal Food Memory (Confirmed Meals Cache)
+      match /confirmedMeals/{mealId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(userId) && isValidId(mealId) && incoming().userId == userId;
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(mealId);
+      }
+
+      // Append-Only Correction Feedback Audit Log
+      match /correctionLog/{correctionId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(correctionId) && incoming().userId == userId;
+        allow update, delete: if false;
+      }
+
+      // Per-User Derived Category Confidence Priors
+      match /categoryPriors/{categoryId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(userId) && isValidId(categoryId) && incoming().userId == userId;
+        allow delete: if false;
+      }
     }
   }
 }

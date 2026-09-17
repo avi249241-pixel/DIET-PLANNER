@@ -8,7 +8,8 @@
  * 4. Zero silent fallback guarantee
  */
 
-import { EvidenceClass, MassBasis, MassDistribution, AtwaterDiagnostic } from '../types';
+import { EvidenceClass, MassBasis, MassDistribution, AtwaterDiagnostic, CategoryPrior } from '../types';
+import { detectFoodCategory } from './personalMemory';
 
 export interface ComponentFood {
   name: string;
@@ -72,12 +73,14 @@ export interface ScientificUncertainty {
   autoLogBlocked?: boolean;
   autoLogBlockReason?: string;
   unobservableUnknownMassShare?: number;
+  appliedPrior?: CategoryPrior;
 }
 
 export interface MealAnalysisResult {
   name: string;
   mealType: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Late Night';
   cuisineType?: string;
+  foodCategory?: string;
   portion: string;
   totalGrams: number;
   massDistribution?: MassDistribution;
@@ -108,6 +111,7 @@ export interface MealAnalysisResult {
   complexMealDetected?: boolean;
   suggestsSecondPhoto?: boolean;
   scaleCueApplied?: string;
+  appliedPrior?: CategoryPrior;
   swapSuggestion?: string;
   verdict?: string;
 }
@@ -562,6 +566,7 @@ export function calculateDeterministicMealTotals(
     massBasis?: MassBasis;
     scaleCue?: string;
     hasSecondPhoto?: boolean;
+    categoryPriors?: Record<string, CategoryPrior> | CategoryPrior[];
   }
 ): MealAnalysisResult {
   if (!foods || foods.length === 0) {
@@ -576,6 +581,16 @@ export function calculateDeterministicMealTotals(
     calorieRange: f.calorieRange ? [...f.calorieRange] : undefined,
     assumptions: f.assumptions ? [...f.assumptions] : []
   }));
+
+  const mealCategory = detectFoodCategory(normalizedFoods.map(f => f.name).join(' '), options?.mealName);
+  let appliedPrior: CategoryPrior | undefined = undefined;
+  if (options?.categoryPriors) {
+    if (Array.isArray(options.categoryPriors)) {
+      appliedPrior = options.categoryPriors.find(p => p.category === mealCategory);
+    } else {
+      appliedPrior = options.categoryPriors[mealCategory];
+    }
+  }
 
   let totalCalories = 0;
   let totalProtein = 0;
@@ -643,7 +658,7 @@ export function calculateDeterministicMealTotals(
       };
     }
 
-    // Component-level calorie range
+    // Component-level calorie range with category prior adjustments
     let compOilMin = 0.95;
     let compOilMax = 1.10;
     if (food.oilState === 'HIGH_OIL') {
@@ -653,6 +668,13 @@ export function calculateDeterministicMealTotals(
       compOilMin = 0.90;
       compOilMax = 1.05;
     }
+
+    // Widen upper oil bounds if user category prior indicates heavier oil preparation
+    if (appliedPrior && isUnobservableUnknownFood(food) && appliedPrior.oilMassAdjustmentFactor) {
+      compOilMax = Math.round(compOilMax * appliedPrior.oilMassAdjustmentFactor * 100) / 100;
+      food.mass_g.p90 = Math.round(food.mass_g.p90 * appliedPrior.oilMassAdjustmentFactor);
+    }
+
     const calPerG = g > 0 ? cal / g : 0;
     food.calorieRange = [
       Math.round(food.mass_g.p10 * calPerG * compOilMin),
@@ -747,6 +769,11 @@ export function calculateDeterministicMealTotals(
   const overallConfidence = normalizedFoods.length > 0 ? Math.round((confidenceSum / normalizedFoods.length) * 100) / 100 : 0.85;
   const nutritionSource = hasUsda && !hasAi ? 'USDA_FDC' : hasUsda && hasAi ? 'MIXED' : 'GEMINI_ESTIMATE';
 
+  const notes = [...(options?.estimationNotes || [])];
+  if (appliedPrior) {
+    notes.push(`Personal Prior (v${appliedPrior.version}): ${appliedPrior.reasoning}`);
+  }
+
   const uncertainty: ScientificUncertainty = {
     foodIdentificationConfidence: Math.min(0.98, overallConfidence + 0.05),
     portionConfidence: resolvedMassBasis === 'two_view_calibrated' ? 0.95 : totalGrams > 0 ? 0.88 : 0.75,
@@ -760,7 +787,8 @@ export function calculateDeterministicMealTotals(
     informationGainExpectedKcal,
     autoLogBlocked,
     autoLogBlockReason,
-    unobservableUnknownMassShare
+    unobservableUnknownMassShare,
+    appliedPrior
   };
 
   const isJunk = evaluateIsJunkFood({
@@ -788,6 +816,7 @@ export function calculateDeterministicMealTotals(
     name: options?.mealName || normalizedFoods.map(f => f.name).join(' + '),
     mealType: options?.mealType || (new Date().getHours() < 11 ? 'Breakfast' : new Date().getHours() < 16 ? 'Lunch' : 'Dinner'),
     cuisineType: options?.cuisineType || 'Mixed',
+    foodCategory: mealCategory,
     portion: totalGrams > 0 ? `${totalGrams}g (${normalizedFoods.length} items)` : `${normalizedFoods.length} items`,
     totalGrams,
     massDistribution: mealMassDistribution,
@@ -815,7 +844,8 @@ export function calculateDeterministicMealTotals(
     uncertainty,
     nutritionSource,
     foods: normalizedFoods,
-    estimationNotes: options?.estimationNotes || [],
+    appliedPrior,
+    estimationNotes: notes,
     energyCheckDelta,
     energyConsistencyReason,
     swapSuggestion: isJunk 
