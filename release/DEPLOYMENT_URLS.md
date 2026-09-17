@@ -47,17 +47,16 @@ The backend service configuration is predefined in [render.yaml](file:///c:/User
 
 ---
 
-## 3. Dedicated Endpoints & Verification URLs
-
-Once your backend and frontend are deployed, the active endpoints are:
+## 3. Dedicated Endpoints & Live Verification URLs
 
 | Service | Target URL | Status / Notes |
 | :--- | :--- | :--- |
-| **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
-| **Local Production Server** | `http://localhost:3000` | Run via `bun run start` or `start-server.bat` |
-| **Vercel Production Domain** | `https://diet-planner.vercel.app` (or your custom domain) | Deployed via `bun run deploy:prod` |
-| **Render Backend Service** | `https://diet-planner-backend.onrender.com` | Deployed via Git push / Render Blueprint |
-| **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Requires `GEMINI_API_KEY` on backend |
+| 🌐 **Live Public HTTPS URL** | **[https://dam-integer-beings-bunny.trycloudflare.com](https://dam-integer-beings-bunny.trycloudflare.com)** | 🟢 **ACTIVE & ACCESSIBLE WORLDWIDE** |
+| 💻 **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
+| 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run start` or `start-server.bat` |
+| ☁️ **Vercel Production Domain** | `https://diet-planner.vercel.app` (or custom domain) | Deploy via `bun run deploy:prod` after `npx vercel login` |
+| ⚙️ **Render Backend Service** | `https://diet-planner-backend.onrender.com` | Deployed via Git push / Render Blueprint |
+| 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Requires `GEMINI_API_KEY` on backend |
 | **Weekly Habit Audit** | `POST /api/ai/weekly-audit` | Gemini habit coaching & macro analysis |
 | **Personalized Recommendations**| `POST /api/ai/personalized-recommendations` | Gemini meal suggestion engine |
 | **USDA Food Search** | `GET /api/food/search?q={query}` | USDA FoodData Central provider |
