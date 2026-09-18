@@ -120,6 +120,7 @@ export function MainLogScreen() {
   const [sodium, setSodium] = useState<number | ''>('');
   const [isJunk, setIsJunk] = useState(false);
   const [submittedItem, setSubmittedItem] = useState<FoodItem | null>(null);
+  const [isSubmittingManual, setIsSubmittingManual] = useState(false);
 
   // Vision Analysis Runner supporting Single Photo, Multi-Photo, and Scale Cue
   const runAnalysisWithPhotos = async (
@@ -153,10 +154,43 @@ export function MainLogScreen() {
         })
       });
 
-      const data = await response.json();
+      // Fix 1: Check response.ok first before attempting response.json()
+      // When Render backend is cold-starting or offline, Vercel proxy returns HTML 502/503/504
+      if (!response.ok) {
+        let errMsg =
+          'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually';
+        try {
+          const errData = await response.json();
+          if (
+            errData &&
+            errData.error &&
+            response.status !== 502 &&
+            response.status !== 503 &&
+            response.status !== 504
+          ) {
+            errMsg = errData.error;
+          }
+        } catch {
+          // Body is non-JSON HTML error page (e.g. from Vercel proxy or Render 502), preserve friendly message
+        }
+        setAnalysisError(errMsg);
+        return;
+      }
 
-      if (!response.ok || !data.success) {
-        const errMsg = data.error || `Analysis failed (${response.status} ${response.statusText})`;
+      let data: any;
+      try {
+        data = await response.json();
+      } catch {
+        setAnalysisError(
+          'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually'
+        );
+        return;
+      }
+
+      if (!data.success) {
+        const errMsg =
+          data.error ||
+          'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually';
         setAnalysisError(errMsg);
         return;
       }
@@ -165,7 +199,9 @@ export function MainLogScreen() {
       setInitialPrediction(data.data as MealAnalysisResult);
     } catch (err: any) {
       console.error('Vision analysis pipeline error:', err);
-      setAnalysisError(err.message || 'Network error analyzing photo. Please enter meal details manually.');
+      setAnalysisError(
+        'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually'
+      );
     } finally {
       setIsAnalyzing(false);
     }
@@ -458,53 +494,67 @@ export function MainLogScreen() {
 
   const handleManualSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmittingManual) return;
     if (!name || calories === '' || protein === '' || carbs === '' || fat === '') return;
 
-    let mockGrade: 'A' | 'B' | 'C' | 'D' | 'F' = 'B';
-    let mockHealthScore = 80;
+    setIsSubmittingManual(true);
+    try {
+      let mockGrade: 'A' | 'B' | 'C' | 'D' | 'F' = 'B';
+      let mockHealthScore = 80;
 
-    if (isJunk) {
-      mockGrade = 'D';
-      mockHealthScore = 42;
-    } else if (Number(protein) >= 25 && Number(calories) <= 650) {
-      mockGrade = 'A';
-      mockHealthScore = 95;
-    } else if (Number(calories) > 800) {
-      mockGrade = 'C';
-      mockHealthScore = 65;
+      if (isJunk) {
+        mockGrade = 'D';
+        mockHealthScore = 42;
+      } else if (Number(protein) >= 25 && Number(calories) <= 650) {
+        mockGrade = 'A';
+        mockHealthScore = 95;
+      } else if (Number(calories) > 800) {
+        mockGrade = 'C';
+        mockHealthScore = 65;
+      }
+
+      const foodPayload: any = {
+        userId: user?.uid || 'default-user',
+        name: name.trim(),
+        isJunk,
+        calories: Number(calories),
+        protein: Number(protein),
+        carbs: Number(carbs),
+        fat: Number(fat),
+        portion: portion.trim() || '1 serving',
+        healthScore: mockHealthScore,
+        grade: mockGrade,
+        mealType,
+        date: new Date().toISOString().split('T')[0],
+        nutritionSource: 'LOCAL_AUTHORITATIVE',
+        confidence: 1.0
+      };
+
+      // Strip empty optional numeric fields so Firestore setDoc does not reject with undefined
+      if (sugar !== '') {
+        foodPayload.sugar = Number(sugar);
+      }
+      if (sodium !== '') {
+        foodPayload.sodium = Number(sodium);
+      }
+
+      const created = await addFoodItem(foodPayload);
+
+      setSubmittedItem(created);
+
+      // Reset fields
+      setName('');
+      setPortion('');
+      setCalories('');
+      setProtein('');
+      setCarbs('');
+      setFat('');
+      setSugar('');
+      setSodium('');
+      setIsJunk(false);
+    } finally {
+      setIsSubmittingManual(false);
     }
-
-    const created = await addFoodItem({
-      userId: user?.uid || 'default-user',
-      name: name.trim(),
-      isJunk,
-      calories: Number(calories),
-      protein: Number(protein),
-      carbs: Number(carbs),
-      fat: Number(fat),
-      sugar: sugar !== '' ? Number(sugar) : undefined,
-      sodium: sodium !== '' ? Number(sodium) : undefined,
-      portion: portion.trim() || '1 serving',
-      healthScore: mockHealthScore,
-      grade: mockGrade,
-      mealType,
-      date: new Date().toISOString().split('T')[0],
-      nutritionSource: 'LOCAL_AUTHORITATIVE',
-      confidence: 1.0
-    });
-
-    setSubmittedItem(created);
-
-    // Reset fields
-    setName('');
-    setPortion('');
-    setCalories('');
-    setProtein('');
-    setCarbs('');
-    setFat('');
-    setSugar('');
-    setSodium('');
-    setIsJunk(false);
   };
 
   const getEvidenceBadge = (evidence?: string) => {
@@ -1245,10 +1295,11 @@ export function MainLogScreen() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-[0.99] cursor-pointer mt-4"
+            disabled={isSubmittingManual}
+            className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-black py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-[0.99] cursor-pointer mt-4"
           >
             <PlusCircle className="w-4 h-4" />
-            <span>Add to Local Food Log</span>
+            <span>{isSubmittingManual ? 'Logging Meal...' : 'Add to Local Food Log'}</span>
           </button>
         </form>
       </div>

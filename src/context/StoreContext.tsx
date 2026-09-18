@@ -4,6 +4,7 @@ import { db } from '../lib/firebase';
 import { useAuth } from '../AuthContext';
 import { UserProfile, FoodItem, DailyStats, MealType } from '../types';
 import { initialMockProfile, initialMockFoodItems, initialMockDailyStats, getTodayDateString } from '../mockData';
+import { sanitizeForFirestore } from '../lib/firestoreSanitizer';
 
 export type ScreenType = 'profile' | 'main-log' | 'daily-log' | 'diet-plan' | 'hydration' | 'history' | 'recipes' | 'grocery';
 
@@ -75,7 +76,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
       // Dual-write: Firestore
       if (user && user.uid) {
-        setDoc(doc(db, 'users', user.uid), next, { merge: true }).catch((e) =>
+        setDoc(doc(db, 'users', user.uid), sanitizeForFirestore(next), { merge: true }).catch((e) =>
           console.warn('Firestore profile sync notice:', e)
         );
       }
@@ -111,7 +112,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     if (user && user.uid) {
       try {
         const docRef = doc(db, 'users', user.uid, 'foodLogs', id);
-        await setDoc(docRef, createdItem);
+        await setDoc(docRef, sanitizeForFirestore(createdItem));
       } catch (err) {
         console.warn('Firestore foodLogs write notice:', err);
       }
@@ -141,7 +142,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     if (user && user.uid) {
       try {
         const docRef = doc(db, 'users', user.uid, 'foodLogs', id);
-        await setDoc(docRef, updates, { merge: true });
+        await setDoc(docRef, sanitizeForFirestore(updates), { merge: true });
       } catch (err) {
         console.warn('Firestore foodLogs update notice:', err);
       }
@@ -176,7 +177,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setDailyStats((prev) => {
       const next = { ...prev, waterGlasses: prev.waterGlasses + 1, updatedAt: Date.now() };
       if (user && user.uid) {
-        setDoc(doc(db, 'users', user.uid, 'dailyStats', getTodayDateString()), next, { merge: true }).catch(() => {});
+        setDoc(doc(db, 'users', user.uid, 'dailyStats', getTodayDateString()), sanitizeForFirestore(next), { merge: true }).catch(() => {});
       }
       return next;
     });
@@ -186,7 +187,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setDailyStats((prev) => {
       const next = { ...prev, waterGlasses: Math.max(0, prev.waterGlasses - 1), updatedAt: Date.now() };
       if (user && user.uid) {
-        setDoc(doc(db, 'users', user.uid, 'dailyStats', getTodayDateString()), next, { merge: true }).catch(() => {});
+        setDoc(doc(db, 'users', user.uid, 'dailyStats', getTodayDateString()), sanitizeForFirestore(next), { merge: true }).catch(() => {});
       }
       return next;
     });
@@ -196,7 +197,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setDailyStats((prev) => {
       const next = { ...prev, waterGlasses: 0, updatedAt: Date.now() };
       if (user && user.uid) {
-        setDoc(doc(db, 'users', user.uid, 'dailyStats', getTodayDateString()), next, { merge: true }).catch(() => {});
+        setDoc(doc(db, 'users', user.uid, 'dailyStats', getTodayDateString()), sanitizeForFirestore(next), { merge: true }).catch(() => {});
       }
       return next;
     });
