@@ -35,15 +35,14 @@ You can deploy using the project's root CLI scripts or the helper batch file in 
 
 ---
 
-### B. Backend (Render / PaaS)
-The backend service configuration is predefined in [render.yaml](file:///c:/Users/code/Desktop/DIET%20PLANNER/render.yaml):
+### B. Cloud Backend Architecture (Vercel Serverless + Firebase)
+The backend service operates on a modern serverless architecture:
 
-- **Service Name**: `diet-planner-backend`
-- **Runtime**: Node/Bun native environment
-- **Production Entrypoint**: `dist/server.mjs`
-- **Expected Production Endpoint**: `https://<your-service-name>.onrender.com`
-- **Health Check Endpoint**: `/api/food/search?q=apple`
-- **Windows Local Server Runner**: Double-click [start-server.bat](file:///c:/Users/code/Desktop/DIET%20PLANNER/release/start-server.bat) to run the compiled production backend server locally on `http://localhost:3000`.
+- **Fast Endpoints**: Native Vercel Serverless Functions in `api/` (sub-10s responses, zero cold starts, global edge distribution)
+- **Heavy AI Vision**: Firebase Cloud Function 2nd Gen `analyzeFood` (`functions/src/index.ts`) with scale-to-zero (`minInstances: 0`) and 120s timeout (with local/Vercel fallback)
+- **Production URL**: Handled unified under `https://diet-planner-sooty.vercel.app/api/*`
+- **Health Check Endpoint**: `/api/health`
+- **Windows Local Server Runner**: Double-click [start-server.bat](file:///c:/Users/code/Desktop/DIET%20PLANNER/release/start-server.bat) to run the standalone server locally on `http://localhost:3000`.
 
 ---
 
@@ -55,25 +54,15 @@ The backend service configuration is predefined in [render.yaml](file:///c:/User
 | 🔍 **Vercel Direct Deployment** | `https://diet-planner-piew9407v-avi-2f26.vercel.app` | 🟢 Verified & Active |
 | 💻 **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
 | 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run start` or `start-server.bat` |
-| ⚙️ **Render Backend Service** | `https://diet-planner-backend-5e78.onrender.com` | Live assigned service URL |
-| 🌐 *Cloudflare Tunnel (Old Demo)* | `https://dam-integer-beings-bunny.trycloudflare.com` | ⚠️ *Temporary local demo (superseded by permanent Vercel deployment)* |
-| 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Requires `GEMINI_API_KEY` on backend |
+| ⚡ **Vercel API Gateway** | `https://diet-planner-sooty.vercel.app/api/health` | Fast native serverless functions |
+| 🔥 **Firebase Cloud Functions** | `functions/src/index.ts` (`analyzeFood`) | 2nd Gen Cloud Function (scale-to-zero) |
+| 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Gemini vision + tiered nutrition pipeline |
 | **Weekly Habit Audit** | `POST /api/ai/weekly-audit` | Gemini habit coaching & macro analysis |
 | **Personalized Recommendations**| `POST /api/ai/personalized-recommendations` | Gemini meal suggestion engine |
-| **USDA Food Search** | `GET /api/food/search?q={query}` | USDA FoodData Central provider |
 | **Barcode Lookup** | `GET /api/food/barcode/{code}` | OpenFoodFacts / USDA provider |
 
 ---
 
-## 4. Connecting the Live Frontend to the Live Backend
+## 4. Unified Architecture: Zero CORS, Direct Routing
 
-To route frontend requests seamlessly through your Vercel URL to your Render backend:
-1. Note your live backend URL from Render (e.g. `https://diet-planner-backend.onrender.com`).
-2. Add the API proxy rule in `vercel.json`:
-   ```json
-   {
-     "source": "/api/:match*",
-     "destination": "https://diet-planner-backend.onrender.com/api/:match*"
-   }
-   ```
-3. Run `bun run deploy:prod` to push the update live. All relative `/api/*` network requests will automatically route to Render without CORS issues.
+With all fast endpoints hosted directly in Vercel (`api/*`) and the vision pipeline supported both in Firebase Cloud Functions and Vercel functions, there are no external proxy bottlenecks or cold-start reverse-proxy drops. All client calls use relative paths (`/api/...`) which Vercel resolves natively.

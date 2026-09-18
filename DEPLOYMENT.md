@@ -1,11 +1,12 @@
-# Complete Deployment Guide: Vercel (Frontend) & Render (Backend)
+# Complete Deployment Guide: Split Vercel & Firebase Architecture
 
-This repository is structured as a full-stack application composed of:
-1. **Frontend**: React 19 + TypeScript + Vite Single Page Application (SPA).
-2. **Backend**: Express + Bun/Node server (`dist/server.mjs`) handling Google Gemini 2.5/Flash AI, USDA FoodData Central integration, and Firebase Admin authentication.
+This repository is structured as a modern full-stack application composed of:
+1. **Frontend**: React 19 + TypeScript + Vite Single Page Application (SPA) deployed to **Vercel**.
+2. **Fast API Endpoints**: Native Vercel Serverless Functions under `/api/*` (health checks, meal memory, barcode lookup, recipe breakdown, habit audits, recommendations).
+3. **Heavy Vision Pipeline**: Firebase Cloud Function (`analyzeFood` 2nd gen) with scale-to-zero (`minInstances: 0`) and extended timeout margin for tiered nutrition reconciliation (or Vercel `/api/ai/analyze-food` route fallback).
 
 > [!IMPORTANT]
-> **Two Separate Deployments Required**: The frontend (Vercel) and the backend (Render / Node host) are separate services. Both must be live for the application to function. A frontend-only deployment will render the user interface, but every AI food analysis, barcode lookup, recipe calculation, and habit audit call will fail without the backend.
+> **Render Decommissioned**: Render has been completely replaced with zero cold-start proxy latency. Fast requests run within milliseconds on Vercel's edge network, while vision AI processes cleanly without external reverse-proxy failures.
 
 ---
 
@@ -13,121 +14,54 @@ This repository is structured as a full-stack application composed of:
 
 | Action | Command | Description |
 | :--- | :--- | :--- |
-| **Frontend Preview** | `bun run deploy:preview` | Builds and deploys a preview version with a unique Vercel URL |
-| **Frontend Production** | `bun run deploy:prod` | Builds and deploys directly to the live Vercel production domain |
-| **Backend Local Build** | `bun run build` | Compiles Vite client (`dist/`) and Node server (`dist/server.mjs`) |
-| **Backend Start** | `bun run start` | Boots the production server (`dist/server.mjs`) on `$PORT` (default 3000) |
+| **Frontend & API Preview** | `bun run deploy:preview` | Builds and deploys a preview version with a unique Vercel URL |
+| **Production Deployment** | `bun run deploy:prod` | Builds and deploys directly to the live Vercel production domain |
+| **Firebase Functions Deploy** | `npm run deploy --prefix functions` | Deploys Cloud Function `analyzeFood` to Firebase (Blaze plan required) |
+| **Local Test Suite** | `bun test` | Runs comprehensive unit and integration test suite |
 | **Typecheck** | `bun run lint` | Runs `bunx tsc --noEmit` across all project files |
 
 ---
 
-## 2. Frontend Deployment (Vercel)
+## 2. Fast Endpoints & Frontend Deployment (Vercel)
 
-### A. One-Time Setup
-
-1. **Install the Vercel CLI**:
-   ```bash
-   bun add -g vercel
-   # or: npm install -g vercel
-   ```
-
-2. **Authenticate with Vercel**:
-   ```bash
-   vercel login
-   ```
-   Follow the CLI prompt to verify your email or GitHub/GitLab account.
-
-3. **Link Your Local Project**:
-   ```bash
-   vercel link
-   ```
-   Answer the interactive prompts:
-   - *Set up and deploy?* `yes`
-   - *Which scope do you want to deploy to?* (Choose your Vercel account/team)
-   - *Link to existing project?* `no` (or select existing if already created)
-   - *What's your project's name?* `diet-planner`
-   - *In which directory is your code located?* `./`
-   - *Want to modify these settings?* `no` (Vercel reads `vercel.json` automatically)
+### A. Serverless API Architecture
+All fast backend endpoints are hosted natively under `api/`:
+- `GET /api/health` — Instant health check
+- `GET /api/food/barcode/:code` — Barcode nutrition lookup
+- `POST /api/ai/match-meal-memory` — Vector/lexical meal memory recall
+- `POST /api/ai/recompute-category-priors` — Category prior recalculation
+- `POST /api/ai/analyze-recipe` — Gemini recipe breakdown
+- `POST /api/ai/weekly-audit` — Weekly nutrition audit
+- `POST /api/ai/smart-grocery-list` — AI grocery list generation
+- `POST /api/ai/calculate-profile` — Dynamic TDEE/macro profile calculator
+- `POST /api/ai/personalized-recommendations` — Meal suggestions
+- `POST /api/ai/voice-quick-log` — Voice-to-meal parser
+- `POST /api/ai/analyze-habits` — Habit pattern detection
+- `POST /api/ai/analyze-food` — Multimodal meal analysis (with 60s maxDuration)
 
 ### B. Every-Time Deployment Workflow
-
-* **Preview Deployment**:
-  ```bash
-  bun run deploy:preview
-  ```
-  Vercel will output an inspection URL and a live preview URL (e.g., `https://diet-planner-git-branch-username.vercel.app`).
 
 * **Production Deployment**:
   ```bash
   bun run deploy:prod
   ```
-  Vercel will push your build to the live production domain (e.g., `https://diet-planner.vercel.app`).
-
-### C. Routing Frontend API Requests to the Backend
-
-When the frontend runs on Vercel, client code issues requests to relative endpoints (such as `fetch('/api/ai/analyze-food')`). 
-
-To route these requests to your live backend without CORS restrictions:
-1. Obtain your backend URL from Render (e.g. `https://diet-planner-backend.onrender.com`).
-2. Add an API rewrite rule to [vercel.json](file:///c:/Users/code/Desktop/DIET%20PLANNER/vercel.json) right before the catch-all SPA rewrite:
-
-```json
-{
-  "framework": "vite",
-  "buildCommand": "bun run build",
-  "outputDirectory": "dist",
-  "rewrites": [
-    {
-      "source": "/api/:match*",
-      "destination": "https://diet-planner-backend.onrender.com/api/:match*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
-}
-```
-
-3. Deploy to production: `bun run deploy:prod`.
+  Vercel automatically discovers both the static frontend (`dist/`) and all serverless functions in `api/`.
 
 ---
 
-## 3. Backend Deployment (Render)
+## 3. Heavy Vision Pipeline (Firebase Cloud Functions)
 
-Render provides a zero-maintenance, git-integrated environment that natively supports Node and Bun. A turnkey Blueprint file [render.yaml](file:///c:/Users/code/Desktop/DIET%20PLANNER/render.yaml) is included in the project root.
+The compute-heavy Gemini vision and tiered nutrition reconciliation pipeline (`functions/src/index.ts`) is packaged as a 2nd Gen Firebase Cloud Function:
 
-### A. One-Time Setup via Render Blueprint (Recommended)
-
-1. Push this repository to GitHub or GitLab.
-2. Log in to [dashboard.render.com](https://dashboard.render.com).
-3. Click **New +** in the top navigation and select **Blueprint**.
-4. Connect your repository. Render detects [render.yaml](file:///c:/Users/code/Desktop/DIET%20PLANNER/render.yaml) and automatically configures:
-   - **Service Name**: `diet-planner-backend`
-   - **Runtime**: `node` (includes Bun pre-installed)
-   - **Build Command**: `bun install && bun run build`
-   - **Start Command**: `bun run start` (executes `dist/server.mjs`)
-5. Render will identify the environment variables marked `sync: false` and prompt you to input your secrets (see Environment Variables section below).
-6. Click **Apply**. Render builds and deploys your service.
-
-### B. Every-Time Backend Deployment Workflow
-
-- **Automatic Git Deployments**: Any commit pushed to your tracked branch (`main`) will automatically trigger a clean build and zero-downtime rolling restart on Render.
-- **Manual Trigger**:
-  - In the Render Dashboard, open `diet-planner-backend` and click **Manual Deploy** > **Deploy latest commit**.
-- **CLI Alternative (Render CLI)**:
+- **Function Name**: `analyzeFood`
+- **Region & Runtime**: Node 20 / TypeScript
+- **Scaling**: Scale-to-zero (`minInstances: 0`) for cost efficiency
+- **Timeout**: 120s timeout margin with 512MiB memory
+- **Deployment**:
   ```bash
-  # Trigger deploy using Render Webhook or CLI
-  render blueprints launch
+  npx firebase-tools deploy --only functions
   ```
-
-### C. Port Binding & Process Health
-
-The backend server in [server.ts](file:///c:/Users/code/Desktop/DIET%20PLANNER/server.ts) dynamically binds to:
-```typescript
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
-```
-Render automatically injects the `PORT` environment variable (typically `10000`). The server binds to `0.0.0.0:$PORT` so health checks and traffic ingress function immediately.
+  *Note: Deploying Cloud Functions to Firebase requires upgrading the project to the Blaze pay-as-you-go plan.*
 
 ---
 
@@ -156,21 +90,17 @@ Set these via the Vercel Dashboard (**Project Settings > Environment Variables**
 
 ---
 
-### B. Backend Variables (Render / Host)
+### B. Serverless API & Function Variables (Vercel & Firebase)
 
-Set these in the Render Dashboard (**diet-planner-backend > Environment**):
+Set these in the Vercel Dashboard (**Project Settings > Environment Variables**) and in Firebase Functions config / secret manager:
 
 | Variable Name | Required? | Purpose & Implementation Details |
 | :--- | :---: | :--- |
-| `GEMINI_API_KEY` | **Yes** | Google Gemini API Key. Required by `@google/genai` in `server.ts` for meal photo nutrition estimation, barcode visual validation, recipe breakdown, and habit analysis. |
-| `ALLOWED_ORIGINS` | **Recommended** | Comma-separated list of permitted CORS origins (e.g. `https://diet-planner.vercel.app,http://localhost:5173`). If unset, reflects the caller's origin. |
+| `GEMINI_API_KEY` | **Yes** | Google Gemini API Key. Required by `@google/genai` for meal photo nutrition estimation, barcode visual validation, recipe breakdown, and habit analysis. |
 | `USDA_API_KEY` | Optional | API key for the USDA FoodData Central REST API (`api.nal.usda.gov`). Defaults to `DEMO_KEY` if omitted; dedicated key prevents public rate-limiting. |
-| `NODE_ENV` | **Yes** | Set to `production` (configured automatically in `render.yaml`). Disables Vite development middleware and serves compiled static assets. |
-| `PORT` | Managed | Managed dynamically by Render (e.g. `10000`). Local dev defaults to `3000`. |
-| `FIREBASE_PROJECT_ID` | **Yes** | Project ID used by `firebase-admin` to verify user ID tokens in `src/middleware/auth.ts`. |
+| `FIREBASE_PROJECT_ID` | **Yes** | Project ID used by `firebase-admin` to verify user ID tokens in API routes. |
 | `FIREBASE_CLIENT_EMAIL` | Optional | Service account email for privileged Firebase Admin operations. |
 | `FIREBASE_PRIVATE_KEY` | Optional | Private key for Firebase service account (`"-----BEGIN PRIVATE KEY-----\n..."`). |
-| `GOOGLE_APPLICATION_CREDENTIALS` | Optional | Path to Google Cloud service account JSON file if mounting credentials file on Render. |
 | `ALLOW_TEST_TOKEN` | Security | Set to `"false"` (or leave unset) in production. Setting to `"true"` permits mock `test-token-*` authorization headers for headless test runners. |
 
 #### Optional Relational DB Variables (Drizzle / PostgreSQL)
