@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun build server.ts --target=node --external=vite --external=@tailwindcss/vite --external=@vitejs/plugin-react --external=express --external=@google/genai --outfile=server.mjs && bun server.mjs",
-    "build": "bunx vite build && bun build server.ts --target=node --external=vite --external=@tailwindcss/vite --external=@vitejs/plugin-react --external=express --external=@google/genai --outfile=dist/server.mjs",
-    "start": "bun dist/server.mjs",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/server.mjs",
+    "start": "node dist/server.mjs",
     "build:release": "bun run build && node scripts/build-release.cjs",
     "deploy:preview": "vercel",
     "deploy:prod": "vercel --prod",

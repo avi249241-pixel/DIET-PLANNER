@@ -43,7 +43,7 @@ function AppContent() {
         <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.2)]">
           <Activity className="w-6 h-6 animate-spin text-emerald-400" />
         </div>
-        <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">Loading Baseline Engine...</span>
+        <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">Loading Nutrition Engine...</span>
       </div>
     );
   }
@@ -61,14 +61,14 @@ function AppContent() {
 
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold mb-2">
-              <Zap className="w-3.5 h-3.5" />
-              <span>Prompt 1 &bull; Baseline Scaffold</span>
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+              <span>AI Vision &bull; 3D Plate Engine</span>
             </div>
             <h1 className="text-2xl font-black text-white tracking-tight">
               VibeDiet 3D Tracker
             </h1>
             <p className="text-slate-400 text-xs mt-2 leading-relaxed">
-              3D-native diet & hydration tracker running on local mock state with deterministic Mifflin-St Jeor biometrics.
+              Multi-component food vision, tiered nutritional lookup, adaptive biometrics, and intelligent meal swaps.
             </p>
           </div>
 

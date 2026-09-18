@@ -3,11 +3,9 @@ services:
     name: diet-planner-backend
     runtime: node
     plan: free
-    buildCommand: bun install && bun run build
-    startCommand: bun run start
+    buildCommand: npm install && npm run build
+    startCommand: node dist/server.mjs
     envVars:
-      - key: BUN_VERSION
-        value: 1.4.0
       - key: NODE_ENV
         value: production
       - key: GEMINI_API_KEY

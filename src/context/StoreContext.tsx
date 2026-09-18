@@ -5,7 +5,7 @@ import { useAuth } from '../AuthContext';
 import { UserProfile, FoodItem, DailyStats, MealType } from '../types';
 import { initialMockProfile, initialMockFoodItems, initialMockDailyStats, getTodayDateString } from '../mockData';
 
-export type ScreenType = 'profile' | 'main-log' | 'daily-log' | 'diet-plan' | 'hydration' | 'history';
+export type ScreenType = 'profile' | 'main-log' | 'daily-log' | 'diet-plan' | 'hydration' | 'history' | 'recipes' | 'grocery';
 
 interface StoreContextType {
   userProfile: UserProfile;

@@ -48,7 +48,7 @@ export const initialMockFoodItems: FoodItem[] = [
     mealType: 'Breakfast' as MealType,
     date: getTodayDateString(),
     createdAt: Date.now() - 1000 * 60 * 60 * 5, // 5 hours ago
-    nutritionSource: 'MOCK_SEAM',
+    nutritionSource: 'USDA_FDC',
     confidence: 0.98
   },
   {
@@ -68,7 +68,7 @@ export const initialMockFoodItems: FoodItem[] = [
     mealType: 'Lunch' as MealType,
     date: getTodayDateString(),
     createdAt: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
-    nutritionSource: 'MOCK_SEAM',
+    nutritionSource: 'USDA_FDC',
     confidence: 0.99
   },
   {
@@ -88,7 +88,7 @@ export const initialMockFoodItems: FoodItem[] = [
     mealType: 'Snack' as MealType,
     date: getTodayDateString(),
     createdAt: Date.now() - 1000 * 60 * 45, // 45 mins ago
-    nutritionSource: 'MOCK_SEAM',
+    nutritionSource: 'USDA_FDC',
     confidence: 0.95
   }
 ];

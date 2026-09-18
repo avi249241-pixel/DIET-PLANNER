@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useStore, ScreenType } from '../context/StoreContext';
 import { useAuth } from '../AuthContext';
 import {
@@ -25,29 +25,61 @@ import { DailyLogScreen } from './screens/DailyLogScreen';
 import { DietPlanScreen } from './screens/DietPlanScreen';
 import { HydrationScreen } from './screens/HydrationScreen';
 import { StreakCalendarView } from './StreakCalendarView';
-import { UnimplementedModal } from './screens/UnimplementedModal';
+import { RecipeBuilder } from './RecipeBuilder';
+import { SmartGroceryList } from './SmartGroceryList';
+import { VoiceMealLoggerModal } from './VoiceMealLoggerModal';
+import { LogFoodModal } from './LogFoodModal';
 import { calculateStreak } from '../lib/streakEngine';
 
 export function BaselineDashboard() {
   const { user, logOut } = useAuth();
-  const { activeScreen, setActiveScreen, setUnimplementedFeature, foodItems, dailyStats, userProfile } = useStore();
+  const { activeScreen, setActiveScreen, foodItems, dailyStats, userProfile } = useStore();
+
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
+  const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
 
   const streakAnalysis = calculateStreak(foodItems);
 
   const navItems = [
     { id: 'daily-log' as ScreenType, label: 'Daily Log', icon: Utensils, badge: `${foodItems.length}` },
     { id: 'main-log' as ScreenType, label: 'Quick Log', icon: PlusCircle },
-    { id: 'hydration' as ScreenType, label: 'Hydration', icon: Droplets, badge: `${dailyStats.waterGlasses} gl` },
+    { id: 'recipes' as ScreenType, label: 'Recipes', icon: ChefHat },
+    { id: 'grocery' as ScreenType, label: 'Grocery', icon: ShoppingCart },
     { id: 'diet-plan' as ScreenType, label: 'Diet Plan', icon: Compass },
+    { id: 'hydration' as ScreenType, label: 'Hydration', icon: Droplets, badge: `${dailyStats.waterGlasses} gl` },
     { id: 'history' as ScreenType, label: 'Streaks', icon: Flame, badge: `${streakAnalysis.currentStreak}d` },
-    { id: 'profile' as ScreenType, label: 'Profile Setup', icon: Scale },
+    { id: 'profile' as ScreenType, label: 'Profile', icon: Scale },
   ];
 
-  const unimplementedNav = [
-    { name: 'Barcode Scanner', icon: Barcode },
-    { name: 'Voice Meal Logger', icon: Mic },
-    { name: 'Recipe Builder', icon: ChefHat },
-    { name: 'Smart Grocery Sync', icon: ShoppingCart },
+  const quickTools = [
+    {
+      name: 'Barcode Scanner',
+      icon: Barcode,
+      action: () => setIsBarcodeModalOpen(true),
+      title: 'Scan Barcode (Open Food Facts API)',
+      badge: 'OFF'
+    },
+    {
+      name: 'Voice Meal Logger',
+      icon: Mic,
+      action: () => setIsVoiceModalOpen(true),
+      title: 'Voice Meal Logger (Web Speech API)',
+      badge: 'AI'
+    },
+    {
+      name: 'Recipe Builder',
+      icon: ChefHat,
+      action: () => setActiveScreen('recipes'),
+      title: 'Recipe Builder & Batch Macros',
+      badge: 'PRO'
+    },
+    {
+      name: 'Smart Grocery Sync',
+      icon: ShoppingCart,
+      action: () => setActiveScreen('grocery'),
+      title: 'Smart Grocery Sync & Pantry Checklist',
+      badge: 'SYNC'
+    },
   ];
 
   return (
@@ -67,11 +99,11 @@ export function BaselineDashboard() {
               <div className="text-sm font-black tracking-tight text-white flex items-center gap-2">
                 <span>VibeDiet 3D</span>
                 <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-1.5 py-0.2 rounded border border-emerald-500/30">
-                  Baseline
+                  AI Pro
                 </span>
               </div>
               <div className="text-[10px] text-slate-400 font-medium hidden sm:block">
-                Zero AI Scaffold &bull; Deterministic Engine
+                3D Plate Vision &bull; Nutrition Intelligence
               </div>
             </div>
           </div>
@@ -86,17 +118,17 @@ export function BaselineDashboard() {
                   key={item.id}
                   type="button"
                   onClick={() => setActiveScreen(item.id)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                     isActive
                       ? 'bg-emerald-500 text-slate-950 shadow-sm shadow-emerald-500/30'
                       : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3.5 h-3.5" />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span
-                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold ${
+                      className={`text-[9px] font-mono px-1.5 py-0.2 rounded-full font-bold ${
                         isActive ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-400'
                       }`}
                     >
@@ -108,23 +140,25 @@ export function BaselineDashboard() {
             })}
           </nav>
 
-          {/* Right Action: Roadmap Dropdown/Buttons & User Auth */}
+          {/* Right Action: Quick Tools & User Auth */}
           <div className="flex items-center gap-3">
-            {/* Prompt 2 Features Drawer/Trigger */}
+            {/* Real Quick Action Tools */}
             <div className="hidden lg:flex items-center gap-1 border-r border-slate-800 pr-3">
-              {unimplementedNav.map((feat) => {
-                const Icon = feat.icon;
+              {quickTools.map((tool) => {
+                const Icon = tool.icon;
                 return (
                   <button
-                    key={feat.name}
+                    key={tool.name}
                     type="button"
-                    onClick={() => setUnimplementedFeature(feat.name)}
-                    className="p-2 text-slate-400 hover:text-amber-400 hover:bg-slate-900 rounded-xl transition cursor-pointer relative group"
-                    title={`${feat.name} (Prompt 2)`}
+                    onClick={tool.action}
+                    className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-slate-900 rounded-xl transition cursor-pointer relative group"
+                    title={tool.title}
                   >
                     <Icon className="w-4 h-4" />
-                    <span className="sr-only">{feat.name}</span>
-                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-amber-400/60" />
+                    <span className="sr-only">{tool.name}</span>
+                    <span className="absolute -top-0.5 -right-0.5 text-[8px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1 rounded-full">
+                      {tool.badge}
+                    </span>
                   </button>
                 );
               })}
@@ -204,21 +238,23 @@ export function BaselineDashboard() {
             </button>
           );
         })}
-        {/* Unimplemented shortcuts on mobile */}
-        {unimplementedNav.slice(0, 2).map((feat) => {
-          const Icon = feat.icon;
-          return (
-            <button
-              key={feat.name}
-              type="button"
-              onClick={() => setUnimplementedFeature(feat.name)}
-              className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-900/40 text-amber-400/80 border border-amber-500/20 flex items-center gap-1 cursor-pointer"
-            >
-              <Icon className="w-3 h-3" />
-              <span>{feat.name.split(' ')[0]}</span>
-            </button>
-          );
-        })}
+        {/* Quick Tools on mobile */}
+        <button
+          type="button"
+          onClick={() => setIsBarcodeModalOpen(true)}
+          className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-900/40 text-emerald-400/90 border border-emerald-500/30 flex items-center gap-1 cursor-pointer"
+        >
+          <Barcode className="w-3 h-3" />
+          <span>Barcode</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsVoiceModalOpen(true)}
+          className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-900/40 text-emerald-400/90 border border-emerald-500/30 flex items-center gap-1 cursor-pointer"
+        >
+          <Mic className="w-3 h-3" />
+          <span>Voice</span>
+        </button>
       </div>
 
       {/* Main Content Area with Subtle Motion Screen Transitions */}
@@ -234,6 +270,10 @@ export function BaselineDashboard() {
             {activeScreen === 'profile' && <ProfileScreen />}
             {activeScreen === 'main-log' && <MainLogScreen />}
             {activeScreen === 'daily-log' && <DailyLogScreen />}
+            {activeScreen === 'recipes' && (
+              <RecipeBuilder onFoodLogged={() => setActiveScreen('daily-log')} />
+            )}
+            {activeScreen === 'grocery' && <SmartGroceryList />}
             {activeScreen === 'diet-plan' && <DietPlanScreen />}
             {activeScreen === 'hydration' && <HydrationScreen />}
             {activeScreen === 'history' && <StreakCalendarView />}
@@ -241,8 +281,22 @@ export function BaselineDashboard() {
         </AnimatePresence>
       </main>
 
-      {/* Prompt 2 Feature Modal */}
-      <UnimplementedModal />
+      {/* Functional Interactive Modals */}
+      <VoiceMealLoggerModal
+        isOpen={isVoiceModalOpen}
+        onClose={() => setIsVoiceModalOpen(false)}
+      />
+
+      <LogFoodModal
+        isOpen={isBarcodeModalOpen}
+        onClose={() => setIsBarcodeModalOpen(false)}
+        initialTab="barcode"
+        dailyJunkCount={0}
+        onFoodLogged={() => {
+          setIsBarcodeModalOpen(false);
+          setActiveScreen('daily-log');
+        }}
+      />
     </div>
   );
 }
