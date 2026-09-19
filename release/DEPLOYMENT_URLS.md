@@ -24,9 +24,11 @@ The frontend is deployed as a high-performance React 19 Single Page Application 
 
 ---
 
-### B. Consolidated Backend (Railway)
-All backend routes and heavy AI pipelines are unified into a single long-lived service running `server.ts` on Railway:
-- **Build Engine**: Nixpacks (`bun run server.ts`)
+### B. Consolidated Backend (Fly.io Free Tier)
+All backend routes and heavy AI pipelines are unified into a single long-lived container running `server.ts` on Fly.io's free tier:
+- **Runtime**: Official Bun Docker container (`oven/bun:1-slim`)
+- **Resource Limits**: Free-tier eligible (`shared-cpu-1x`, 256MB RAM)
+- **Auto-Scale**: Scale-to-zero when idle (`auto_stop_machines = 'stop'`, `min_machines_running = 0`)
 - **Health Probes**: `GET /health` and `GET /api/health`
 - **Token Verification**: Zero-dependency crypto verification using Google public x509 certs with OAuth2 tokeninfo fallback.
 - **Unified Endpoints**:
@@ -48,9 +50,9 @@ All backend routes and heavy AI pipelines are unified into a single long-lived s
 | Service | Target URL | Status / Notes |
 | :--- | :--- | :--- |
 | 🚀 **Permanent Vercel Production URL** | **[https://diet-planner-sooty.vercel.app](https://diet-planner-sooty.vercel.app)** | 🟢 **LIVE & ACCESSIBLE WORLDWIDE** |
-| 🚆 **Railway Backend Service** | `https://diet-planner-production.up.railway.app` | 🟢 Verified Nixpacks bun start |
+| 🪰 **Fly.io Backend Service** | `https://diet-planner-backend.fly.dev` | 🟢 Verified Bun Docker (`shared-cpu-1x`, 256MB) |
 | 💻 **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
-| 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run server.ts` or `start-server.bat` |
+| 🖥️ **Local Server** | `http://localhost:8080` | Run via `bun run server.ts` or `start-server.bat` |
 | ⚡ **Backend Health Check** | `GET /health` | Instant HTTP 200 health probe |
 | 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Gemini vision + tiered nutrition pipeline |
 | 🔒 **Firestore Security Rules** | `firestore.rules` | User-isolated, append-only correctionLog |
