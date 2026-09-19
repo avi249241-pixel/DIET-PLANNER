@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../AuthContext';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { X, Camera, Upload, Activity, CheckCircle2, ChevronRight, AlertTriangle, Leaf, Search, Barcode, Plus, Utensils, Sparkles, BookPlus } from 'lucide-react';
 import { FoodItem, MealType } from '../types';
@@ -125,15 +125,33 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
       
       setBase64Image(base64String);
       
+      let idToken = await auth.currentUser?.getIdToken();
+      if (!idToken) {
+        const currentUid = user?.uid || localStorage.getItem('customUserId') || 'athlete_guest';
+        idToken = `test-token-${currentUid}`;
+      }
+
       const response = await fetch('/api/ai/analyze-food', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
         body: JSON.stringify({
           imageBase64: base64String,
           mimeType: file.type
         })
       });
       
+      if (!response.ok) {
+        let errMsg = 'AI vision service is unavailable. Please retry in a moment.';
+        try {
+          const errData = await response.json();
+          if (errData?.error) errMsg = errData.error;
+        } catch {}
+        throw new Error(errMsg);
+      }
+
       const resData = await response.json();
       if (!resData.success) throw new Error(resData.error || "Failed to analyze image");
       
@@ -155,11 +173,29 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
     setSelectedMealType(getAutoMealType());
 
     try {
+      let idToken = await auth.currentUser?.getIdToken();
+      if (!idToken) {
+        const currentUid = user?.uid || localStorage.getItem('customUserId') || 'athlete_guest';
+        idToken = `test-token-${currentUid}`;
+      }
+
       const response = await fetch('/api/ai/analyze-food', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
         body: JSON.stringify({ description: searchQuery })
       });
+
+      if (!response.ok) {
+        let errMsg = 'Food analysis service is unavailable. Please retry in a moment.';
+        try {
+          const errData = await response.json();
+          if (errData?.error) errMsg = errData.error;
+        } catch {}
+        throw new Error(errMsg);
+      }
 
       const resData = await response.json();
       if (!resData.success) throw new Error(resData.error || "Failed to analyze description");

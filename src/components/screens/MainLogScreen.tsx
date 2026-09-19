@@ -247,15 +247,21 @@ export function MainLogScreen() {
             })
           });
 
-          const memData = await memResp.json();
-          if (memData.success && memData.data?.matchFound && memData.data?.matchedMeal) {
-            setMemoryMatch({
-              matchedMeal: memData.data.matchedMeal,
-              similarity: memData.data.similarity,
-              reason: memData.data.reason
-            });
-            setIsCheckingMemory(false);
-            return; // Stop here and present one-tap prompt to user!
+          if (memResp.ok) {
+            try {
+              const memData = await memResp.json();
+              if (memData.success && memData.data?.matchFound && memData.data?.matchedMeal) {
+                setMemoryMatch({
+                  matchedMeal: memData.data.matchedMeal,
+                  similarity: memData.data.similarity,
+                  reason: memData.data.reason
+                });
+                setIsCheckingMemory(false);
+                return; // Stop here and present one-tap prompt to user!
+              }
+            } catch (jsonErr) {
+              console.warn('Memory response parse warning (skipping memory):', jsonErr);
+            }
           }
         }
       } catch (memErr) {

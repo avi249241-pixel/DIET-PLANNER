@@ -1,6 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { adminAuth } from '../../src/lib/firebase-admin';
+import { initializeApp, getApps } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import type { DecodedIdToken } from 'firebase-admin/auth';
+
+if (!getApps().length) {
+  initializeApp({
+    projectId: process.env.FIREBASE_PROJECT_ID || 'polar-conquest-wmbw7',
+  });
+}
+export const adminAuth = getAuth();
 
 export interface AuthenticatedVercelRequest extends VercelRequest {
   user?: DecodedIdToken;

@@ -1,12 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth';
-import { cleanErrorMessage } from '../_lib/gemini';
+import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth.js';
+import { cleanErrorMessage } from '../_lib/gemini.js';
 import {
   computeFallbackHash,
   cleanBase64,
   findBestMealMatch,
   HIGH_SIMILARITY_THRESHOLD
-} from '../../src/lib/personalMemory';
+} from '../_lib/engine.js';
 
 export default async function handler(req: AuthenticatedVercelRequest, res: VercelResponse) {
   const isAuth = await authenticateRequest(req, res);

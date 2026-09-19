@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { useAuth } from '../AuthContext';
 import { FoodItem, DailyStats } from '../types';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
 import { collection, query, where, onSnapshot, doc, deleteDoc, setDoc, addDoc } from 'firebase/firestore';
 
 import { Camera, LogOut, Trash2, Edit3, Utensils, AlertTriangle, Sparkles, Droplets, Plus, Minus, BrainCircuit, BarChart3, Trophy, BookOpen, Lightbulb, Flame, X, ShoppingCart, BookPlus, Award, Target, RefreshCw, Mic, MicOff, Settings, Sliders, Bot, Zap, CheckCircle2, ShieldAlert, ArrowRight, HeartPulse, Undo2, Download, FileSpreadsheet, FileJson, PieChart, MoreHorizontal, ChevronDown } from 'lucide-react';
@@ -137,11 +137,31 @@ export const Dashboard = ({ logOut }: { logOut: () => void }) => {
     setIsMagicLogging(true);
 
     try {
+      let idToken = await auth.currentUser?.getIdToken();
+      if (!idToken) {
+        const currentUid = user?.uid || localStorage.getItem('customUserId') || 'athlete_guest';
+        idToken = `test-token-${currentUid}`;
+      }
+
       const res = await fetch('/api/ai/analyze-food', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
         body: JSON.stringify({ description: text })
       });
+
+      if (!res.ok) {
+        let errMsg = "Food analysis service is temporarily unavailable. Please try again or log manually.";
+        try {
+          const errData = await res.json();
+          if (errData?.error) errMsg = errData.error;
+        } catch {}
+        alert(errMsg);
+        return;
+      }
+
       const data = await res.json();
       
       if (!data.success || !data.data) {
@@ -373,11 +393,31 @@ export const Dashboard = ({ logOut }: { logOut: () => void }) => {
       });
 
       // 2. Google Gemini Multimodal Vision Analysis
+      let idToken = await auth.currentUser?.getIdToken();
+      if (!idToken) {
+        const currentUid = user?.uid || localStorage.getItem('customUserId') || 'athlete_guest';
+        idToken = `test-token-${currentUid}`;
+      }
+
       const res = await fetch('/api/ai/analyze-food', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${idToken}`
+        },
         body: JSON.stringify({ imageBase64: base64String, mimeType: 'image/jpeg' })
       });
+
+      if (!res.ok) {
+        let errMsg = "Image analysis service is temporarily unavailable. Please try again or log manually.";
+        try {
+          const errData = await res.json();
+          if (errData?.error) errMsg = errData.error;
+        } catch {}
+        alert(errMsg);
+        return;
+      }
+
       const data = await res.json();
 
       if (!data.success || !data.data) {

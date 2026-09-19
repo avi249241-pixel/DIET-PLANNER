@@ -1,14 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { Type } from '@google/genai';
-import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth';
-import { getAI, callGeminiWithFailover, cleanErrorMessage } from '../_lib/gemini';
-import { nutritionService } from '../../src/lib/nutritionProvider';
+import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth.js';
+import { getAI, callGeminiWithFailover, cleanErrorMessage } from '../_lib/gemini.js';
 import {
   calculateDeterministicMealTotals,
   parseMealDescriptionToComponents,
   isUnobservableUnknownFood,
-  ComponentFood
-} from '../../src/lib/nutritionEngine';
+  ComponentFood,
+  nutritionService
+} from '../_lib/engine.js';
 
 export const maxDuration = 60;
 

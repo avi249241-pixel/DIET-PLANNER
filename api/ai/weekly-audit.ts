@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth';
-import { getAI, callGeminiWithFailover, cleanErrorMessage } from '../_lib/gemini';
+import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth.js';
+import { getAI, callGeminiWithFailover, cleanErrorMessage } from '../_lib/gemini.js';
 
 export default async function handler(req: AuthenticatedVercelRequest, res: VercelResponse) {
   const isAuth = await authenticateRequest(req, res);

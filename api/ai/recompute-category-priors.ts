@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth';
-import { deriveCategoryPrior } from '../../src/lib/personalMemory';
+import { authenticateRequest, AuthenticatedVercelRequest } from '../_lib/auth.js';
+import { deriveCategoryPrior } from '../_lib/engine.js';
 
 export default async function handler(req: AuthenticatedVercelRequest, res: VercelResponse) {
   const isAuth = await authenticateRequest(req, res);
