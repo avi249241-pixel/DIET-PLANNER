@@ -271,17 +271,26 @@ export function DailyLogScreen() {
           </div>
         ) : (
           <div className="divide-y divide-slate-100">
-            {foodItems.map((item) => (
-              <React.Fragment key={item.id}>
-                <div
-                  className="py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 group hover:bg-slate-50/70 px-2 rounded-xl transition"
+            <AnimatePresence initial={false}>
+              {foodItems.map((item) => (
+                <motion.div
+                  key={item.id}
+                  layout="position"
+                  initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.16 } }}
+                  transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  className="meal-item-card"
                 >
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm font-bold text-slate-900">{item.name}</span>
-                    <span className="text-[10px] bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded-md border border-slate-200">
-                      {item.mealType}
-                    </span>
+                  <div
+                    className="py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 group hover:bg-slate-50/70 px-2 rounded-xl transition"
+                  >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-bold text-slate-900">{item.name}</span>
+                      <span className="text-[10px] bg-slate-100 text-slate-700 font-semibold px-2 py-0.5 rounded-md border border-slate-200">
+                        {item.mealType}
+                      </span>
                     {item.nutritionSource && (
                       <span className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border uppercase ${
                         item.nutritionSource === 'USDA_FDC'
@@ -374,10 +383,12 @@ export function DailyLogScreen() {
                   </div>
 
                   {/* Meal-Swap Suggestion Trigger */}
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.96 }}
                     onClick={() => setSwappingItemId(swappingItemId === item.id ? null : item.id)}
-                    className={`px-2.5 py-1.5 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                    className={`btn-tactile px-2.5 py-1.5 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                       swappingItemId === item.id
                         ? 'bg-emerald-50 text-emerald-700 border-emerald-300 shadow-xs'
                         : 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 border-slate-200'
@@ -386,17 +397,19 @@ export function DailyLogScreen() {
                   >
                     <ArrowLeftRight className="w-3.5 h-3.5 text-emerald-600" />
                     <span className="hidden sm:inline">{swappingItemId === item.id ? 'Close' : 'Swap'}</span>
-                  </button>
+                  </motion.button>
 
                   {/* Delete Item */}
-                  <button
+                  <motion.button
                     type="button"
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.92 }}
                     onClick={() => removeFoodItem(item.id)}
                     title="Remove item"
                     className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 
@@ -493,8 +506,9 @@ export function DailyLogScreen() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </React.Fragment>
-            ))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         )}
       </div>

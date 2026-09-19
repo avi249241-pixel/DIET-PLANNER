@@ -888,7 +888,7 @@ export function MainLogScreen() {
           onClick={() => !isAnalyzing && fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-2xl p-6 text-center transition flex flex-col items-center justify-center gap-3 ${
             isAnalyzing
-              ? 'border-emerald-400 bg-emerald-50/40 cursor-wait'
+              ? 'border-emerald-400 bg-emerald-50/40 cursor-wait motion-stage-pulse'
               : 'border-slate-300 hover:border-emerald-500/70 bg-slate-50/60 hover:bg-emerald-50/20 cursor-pointer group'
           }`}
         >
@@ -898,28 +898,48 @@ export function MainLogScreen() {
                 <div className="w-10 h-10 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center shadow-xs">
                   <Loader2 className="w-5 h-5 text-emerald-700 animate-spin" />
                 </div>
-                <div className="text-left">
+                <div className="text-left overflow-hidden min-h-[44px] flex flex-col justify-center">
                   <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-700">
                     Step {analysisStageIdx + 1} of {ANALYSIS_STAGES.length}
                   </div>
-                  <div className="text-sm font-bold text-slate-900 transition-all duration-300">
-                    {ANALYSIS_STAGES[analysisStageIdx].label}
-                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={analysisStageIdx}
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                      className="text-sm font-bold text-slate-900"
+                    >
+                      {ANALYSIS_STAGES[analysisStageIdx].label}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
 
-              {/* Progressive animated indicator */}
+              {/* Progressive animated indicator with shimmer flow */}
               <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
                 <motion.div
-                  className="bg-gradient-to-r from-emerald-600 to-teal-500 h-full rounded-full"
+                  className="shimmer-progress h-full rounded-full"
                   initial={{ width: '15%' }}
                   animate={{ width: `${Math.min(96, (analysisStageIdx + 1) * 20)}%` }}
-                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 />
               </div>
 
-              <div className="text-[11px] text-slate-500 text-center animate-pulse">
-                {ANALYSIS_STAGES[analysisStageIdx].sub}
+              <div className="min-h-[20px] flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={analysisStageIdx}
+                    initial={{ opacity: 0, y: 3 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -3 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-[11px] text-slate-500 text-center"
+                  >
+                    {ANALYSIS_STAGES[analysisStageIdx].sub}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           ) : (
@@ -948,51 +968,59 @@ export function MainLogScreen() {
         )}
 
         {/* Personal Food Memory Match Card (One-Tap Confirmation) */}
-        {memoryMatch && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-5 shadow-xs space-y-4"
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center border border-emerald-200 text-emerald-700">
-                  <Sparkles className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                    Personal Food Memory Match ({Math.round(memoryMatch.similarity * 100)}%)
-                  </span>
-                  <h3 className="text-base font-black text-slate-900 mt-1">
-                    Same as {memoryMatch.matchedMeal.mealName} from {memoryMatch.matchedMeal.date}?
-                  </h3>
-                  <p className="text-xs text-slate-600 mt-0.5">
-                    Past confirmed: {memoryMatch.matchedMeal.totalCalories} kcal &bull; {memoryMatch.matchedMeal.protein}g P &bull; {memoryMatch.matchedMeal.carbs}g C &bull; {memoryMatch.matchedMeal.fat}g F
-                  </p>
+        <AnimatePresence>
+          {memoryMatch && (
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-5 shadow-xs space-y-4"
+            >
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center border border-emerald-200 text-emerald-700">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200 badge-pop">
+                      Personal Food Memory Match ({Math.round(memoryMatch.similarity * 100)}%)
+                    </span>
+                    <h3 className="text-base font-black text-slate-900 mt-1">
+                      Same as {memoryMatch.matchedMeal.mealName} from {memoryMatch.matchedMeal.date}?
+                    </h3>
+                    <p className="text-xs text-slate-600 mt-0.5">
+                      Past confirmed: {memoryMatch.matchedMeal.totalCalories} kcal &bull; {memoryMatch.matchedMeal.protein}g P &bull; {memoryMatch.matchedMeal.carbs}g C &bull; {memoryMatch.matchedMeal.fat}g F
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
-              <button
-                type="button"
-                onClick={handleConfirmMemoryMatch}
-                className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-xs cursor-pointer text-xs"
-              >
-                <Check className="w-4 h-4" />
-                Yes, One-Tap Log
-              </button>
-              <button
-                type="button"
-                onClick={handleRejectMemoryMatch}
-                className="flex-1 bg-white hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl border border-slate-200 transition flex items-center justify-center gap-2 cursor-pointer text-xs"
-              >
-                <XCircle className="w-4 h-4" />
-                No, this is different
-              </button>
-            </div>
-          </motion.div>
-        )}
+              <div className="flex flex-col sm:flex-row gap-2.5 pt-1">
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleConfirmMemoryMatch}
+                  className="btn-tactile flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-xs cursor-pointer text-xs"
+                >
+                  <Check className="w-4 h-4" />
+                  Yes, One-Tap Log
+                </motion.button>
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleRejectMemoryMatch}
+                  className="btn-tactile flex-1 bg-white hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl border border-slate-200 transition flex items-center justify-center gap-2 cursor-pointer text-xs"
+                >
+                  <XCircle className="w-4 h-4" />
+                  No, this is different
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {analysisError && (
           <motion.div

@@ -1,0 +1,105 @@
+/* ==========================================================================
+   motion.css — Intentional Animation & Motion Layer for Diet Planner
+   Calm, subtle, competitor-grade easing curves and shared layout transitions
+   ========================================================================== */
+
+:root {
+  /* Competitor-Grade Easing Curves (Subtle, Quick, Anti-Jank) */
+  --ease-calm-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-calm-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --ease-subtle-spring: cubic-bezier(0.34, 1.3, 0.64, 1);
+  --ease-tactile: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Transition Durations */
+  --duration-fast: 160ms;
+  --duration-base: 240ms;
+  --duration-flow: 320ms;
+}
+
+/* Tactile micro-interactions for buttons and interactive pills */
+.btn-tactile {
+  transition: transform var(--duration-fast) var(--ease-tactile),
+              box-shadow var(--duration-fast) var(--ease-calm-out),
+              background-color var(--duration-fast) ease,
+              border-color var(--duration-fast) ease;
+  will-change: transform;
+}
+
+.btn-tactile:hover {
+  transform: translateY(-1px);
+}
+
+.btn-tactile:active {
+  transform: translateY(0.5px) scale(0.985);
+}
+
+/* Soft ambient glow pulse during active photo analysis */
+@keyframes calm-ambient-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    border-color: rgba(110, 231, 183, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 20px 2px rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.8);
+  }
+}
+
+.motion-stage-pulse {
+  animation: calm-ambient-pulse 2.2s infinite var(--ease-calm-in-out);
+}
+
+/* Smooth shimmer flow for progress indicators */
+@keyframes shimmer-flow {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-progress {
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.85) 0%,
+    rgba(52, 211, 153, 1) 50%,
+    rgba(16, 185, 129, 0.85) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-flow 2.4s infinite linear;
+}
+
+/* Meal Item Entrance & Shared Layout Expansion */
+.meal-item-card {
+  transition: box-shadow var(--duration-base) var(--ease-calm-out),
+              border-color var(--duration-base) var(--ease-calm-out),
+              background-color var(--duration-fast) ease;
+}
+
+.meal-item-card:hover {
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+}
+
+/* Badge Pop Entrance */
+@keyframes badge-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.badge-pop {
+  animation: badge-pop-in var(--duration-fast) var(--ease-subtle-spring) forwards;
+}
+
+/* Smooth Accordion / Detail Expansion */
+.accordion-content {
+  overflow: hidden;
+  transition: height var(--duration-flow) var(--ease-calm-out),
+              opacity var(--duration-base) var(--ease-calm-out);
+}
