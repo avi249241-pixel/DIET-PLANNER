@@ -1,10 +1,17 @@
 import { GoogleGenAI } from '@google/genai';
 
 export function getAI() {
-  const apiKey = process.env.GEMINI_API_KEY;
+  let apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     throw new Error('GEMINI_API_KEY environment variable is not set');
   }
+  // Strip UTF-8 / UTF-16 Byte Order Marks (BOM \uFEFF), newlines, whitespace, and surrounding quotes
+  apiKey = apiKey
+    .replace(/^[\uFEFF\uFFFE\u00EF\u00BB\u00BF]+/, '')
+    .replace(/[\r\n\t]/g, '')
+    .trim()
+    .replace(/^['"]|['"]$/g, '');
+
   return new GoogleGenAI({
     apiKey,
     httpOptions: {

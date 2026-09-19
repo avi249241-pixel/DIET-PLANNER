@@ -146,10 +146,16 @@ async function startServer() {
 
   // Lazy Gemini AI initialization helper
   const getAI = () => {
-    const apiKey = process.env.GEMINI_API_KEY;
+    let apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       throw new Error("GEMINI_API_KEY environment variable is not set");
     }
+    apiKey = apiKey
+      .replace(/^[\uFEFF\uFFFE\u00EF\u00BB\u00BF]+/, '')
+      .replace(/[\r\n\t]/g, '')
+      .trim()
+      .replace(/^['"]|['"]$/g, '');
+
     return new GoogleGenAI({
       apiKey,
       httpOptions: {
