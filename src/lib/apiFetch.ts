@@ -1,6 +1,7 @@
 export interface ApiFetchOptions extends RequestInit {
   timeoutMs?: number;
   fallbackErrorMessage?: string;
+  preferClientAi?: boolean;
 }
 
 export class ApiError extends Error {
@@ -118,6 +119,86 @@ export function getApiBaseUrl(): string {
   return '';
 }
 
+import {
+  analyzeFoodClient,
+  matchMealMemoryClient,
+  recomputeCategoryPriorsClient,
+  lookupBarcodeClient,
+  weeklyAuditClient,
+  calculateProfileClient,
+} from './clientAiService';
+
+/**
+ * Handles /api/ routes directly in the browser when running serverless / zero-backend.
+ */
+export async function handleClientDirectRoute<T = any>(
+  path: string,
+  init?: ApiFetchOptions
+): Promise<{ success: boolean; data?: T; error?: string }> {
+  let body: any = {};
+  if (init?.body && typeof init.body === 'string') {
+    try {
+      body = JSON.parse(init.body);
+    } catch {
+      body = {};
+    }
+  }
+
+  if (path === '/api/ai/analyze-food') {
+    const data = await analyzeFoodClient(body);
+    return { success: true, data };
+  }
+
+  if (path === '/api/ai/match-meal-memory') {
+    const data = matchMealMemoryClient(body);
+    return { success: true, data };
+  }
+
+  if (path === '/api/ai/recompute-category-priors') {
+    const data = recomputeCategoryPriorsClient(body);
+    return { success: true, data };
+  }
+
+  if (path.startsWith('/api/food/barcode/')) {
+    const code = decodeURIComponent(path.replace('/api/food/barcode/', ''));
+    const data = await lookupBarcodeClient(code);
+    return { success: true, data };
+  }
+
+  if (path === '/api/ai/weekly-audit') {
+    const data = await weeklyAuditClient(body);
+    return { success: true, data };
+  }
+
+  if (path === '/api/ai/calculate-profile') {
+    const data = calculateProfileClient(body);
+    return { success: true, data };
+  }
+
+  if (path === '/api/ai/analyze-recipe') {
+    return {
+      success: false,
+      error: 'Recipe builder is currently in preview. Please use Quick Log or Manual Entry.',
+    };
+  }
+
+  if (path === '/api/ai/smart-grocery-list') {
+    return {
+      success: false,
+      error: 'Smart grocery list sync is currently in preview.',
+    };
+  }
+
+  if (path === '/health' || path === '/api/health') {
+    return {
+      success: true,
+      data: { status: 'healthy', mode: 'client-direct', timestamp: new Date().toISOString() } as any,
+    };
+  }
+
+  throw new ApiError(`Route not found: ${path}`, 404, 'Not Found');
+}
+
 /**
  * Universal safe fetch wrapper across all frontend components.
  * Guarantees:
@@ -125,7 +206,7 @@ export function getApiBaseUrl(): string {
  * 2. Catches non-JSON responses (e.g. Vercel 500/502/504 HTML error pages) cleanly.
  * 3. Never throws raw SyntaxError to caller or user interface.
  * 4. Extracts meaningful, polite, and actionable user messages.
- * 5. Handles timeouts cleanly.
+ * 5. Transparently falls back to client-side direct execution when no backend server is running.
  */
 export async function apiFetch<T = any>(
   input: string | URL | Request,
@@ -169,6 +250,21 @@ export async function apiFetch<T = any>(
         rawText = await res.text();
       } catch {
         rawText = '';
+      }
+    }
+
+    // Check if the backend is absent (404 on /api/) or served SPA HTML index.html fallback
+    const isHtml = !isJson && (rawText.includes('<!DOCTYPE') || rawText.includes('<html'));
+    if (
+      typeof input === 'string' &&
+      input.startsWith('/api') &&
+      (res.status === 404 || (res.status === 200 && isHtml))
+    ) {
+      try {
+        return await handleClientDirectRoute<T>(input, init);
+      } catch (clientErr: any) {
+        if (clientErr instanceof ApiError) throw clientErr;
+        throw new ApiError(clientErr.message || 'Client AI execution failed', 500, 'Client AI Error');
       }
     }
 
@@ -222,6 +318,20 @@ export async function apiFetch<T = any>(
 
     if (err instanceof ApiError) {
       throw err;
+    }
+
+    // Fall back to client-side direct execution when backend network connection fails
+    if (
+      typeof input === 'string' &&
+      input.startsWith('/api') &&
+      (err.name === 'TypeError' || err.message?.includes('fetch') || err.message?.includes('NetworkError') || err.message?.includes('ECONNREFUSED'))
+    ) {
+      try {
+        return await handleClientDirectRoute<T>(input, init);
+      } catch (clientErr: any) {
+        if (clientErr instanceof ApiError) throw clientErr;
+        throw new ApiError(clientErr.message || 'Client AI error', 500, 'Client AI Error');
+      }
     }
 
     if (err.name === 'AbortError') {

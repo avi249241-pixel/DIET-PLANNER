@@ -45,6 +45,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { apiFetch, sanitizeErrorMessage } from '../../lib/apiFetch';
+import { ApiKeyModal } from '../ApiKeyModal';
 
 export function MainLogScreen() {
   const { foodItems, addFoodItem, setActiveScreen } = useStore();
@@ -106,6 +107,7 @@ export function MainLogScreen() {
   const [primaryPhotoBase64, setPrimaryPhotoBase64] = useState<string | null>(null);
   const [secondPhotoBase64, setSecondPhotoBase64] = useState<string | null>(null);
   const [scaleCue, setScaleCue] = useState<string>('');
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
 
   // Editable Detected Components State
   const [editingComponentIdx, setEditingComponentIdx] = useState<number | null>(null);
@@ -1037,17 +1039,29 @@ export function MainLogScreen() {
                 </p>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={() => {
-                const formEl = document.getElementById('manual-log-form');
-                formEl?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="shrink-0 bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-800 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>Log Manually Below</span>
-              <ArrowDown className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex items-center gap-2 shrink-0 flex-wrap">
+              {(analysisError.includes('Gemini API key') || analysisError.includes('free key') || analysisError.includes('free Gemini')) && (
+                <button
+                  type="button"
+                  onClick={() => setIsKeyModalOpen(true)}
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-95"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Enter Free Key</span>
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  const formEl = document.getElementById('manual-log-form');
+                  formEl?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-800 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Log Manually Below</span>
+                <ArrowDown className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </motion.div>
         )}
 
@@ -1767,6 +1781,11 @@ export function MainLogScreen() {
           </button>
         </form>
       </div>
+
+      <ApiKeyModal
+        isOpen={isKeyModalOpen}
+        onClose={() => setIsKeyModalOpen(false)}
+      />
     </div>
   );
 }

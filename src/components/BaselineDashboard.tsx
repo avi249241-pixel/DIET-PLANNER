@@ -29,7 +29,9 @@ import { RecipeBuilder } from './RecipeBuilder';
 import { SmartGroceryList } from './SmartGroceryList';
 import { VoiceMealLoggerModal } from './VoiceMealLoggerModal';
 import { LogFoodModal } from './LogFoodModal';
+import { ApiKeyModal } from './ApiKeyModal';
 import { calculateStreak } from '../lib/streakEngine';
+import { hasGeminiApiKey } from '../lib/geminiClient';
 
 export function BaselineDashboard() {
   const { user, logOut } = useAuth();
@@ -37,6 +39,7 @@ export function BaselineDashboard() {
 
   const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
   const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
+  const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
 
   const streakAnalysis = calculateStreak(foodItems);
 
@@ -188,6 +191,26 @@ export function BaselineDashboard() {
                 )}
               </motion.button>
 
+              {/* Gemini AI Key Quick Config */}
+              <motion.button
+                type="button"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                onClick={() => setIsApiKeyModalOpen(true)}
+                className={`btn-tactile flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer shadow-2xs ${
+                  hasGeminiApiKey()
+                    ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-800'
+                    : 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-800'
+                }`}
+                title={hasGeminiApiKey() ? 'Gemini AI Key Connected (Click to change)' : 'Connect Free Gemini AI Key'}
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline font-mono">
+                  {hasGeminiApiKey() ? 'AI Active' : 'Set AI Key'}
+                </span>
+                <span className={`w-2 h-2 rounded-full ${hasGeminiApiKey() ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
+              </motion.button>
+
               <div className="hidden md:flex flex-col text-right">
                 <span className="text-xs font-bold text-slate-900 leading-tight">
                   {user?.displayName || 'Active Athlete'}
@@ -305,6 +328,11 @@ export function BaselineDashboard() {
           setIsBarcodeModalOpen(false);
           setActiveScreen('daily-log');
         }}
+      />
+
+      <ApiKeyModal
+        isOpen={isApiKeyModalOpen}
+        onClose={() => setIsApiKeyModalOpen(false)}
       />
     </div>
   );

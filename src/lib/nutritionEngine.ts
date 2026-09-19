@@ -274,6 +274,8 @@ export function lookupAuthoritativeFood(foodName: string): (typeof USDA_REFERENC
   if (clean.includes('naan')) return USDA_REFERENCE_DB['naan'];
   if (clean.includes('pita')) return USDA_REFERENCE_DB['pita bread'];
   if (clean.includes('sourdough')) return USDA_REFERENCE_DB['sourdough toast'];
+  if (clean.includes('whole wheat') || clean.includes('wheat bread')) return USDA_REFERENCE_DB['whole wheat bread'];
+  if (clean.includes('bread') || clean.includes('toast')) return USDA_REFERENCE_DB['white bread'];
   if (clean.includes('pancake')) return USDA_REFERENCE_DB['pancake / hotcake'];
   if (clean.includes('garlic bread')) return USDA_REFERENCE_DB['garlic bread / toast'];
   if (clean.includes('dosa')) return USDA_REFERENCE_DB['dosa'];
