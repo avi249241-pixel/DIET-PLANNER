@@ -5,6 +5,7 @@ import { collection, onSnapshot, doc, setDoc, deleteDoc } from 'firebase/firesto
 
 import { Recipe, FoodItem } from '../types';
 import { Utensils, Plus, Trash2, Sparkles, Activity, Check, ChevronRight, BookOpen, Clock, Flame, AlertCircle } from 'lucide-react';
+import { apiFetch } from '../lib/apiFetch';
 
 interface RecipeBuilderProps {
   onFoodLogged?: () => void;
@@ -85,7 +86,7 @@ export const RecipeBuilder: React.FC<RecipeBuilderProps> = ({ onFoodLogged }) =>
     setError(null);
 
     try {
-      const res = await fetch('/api/ai/analyze-recipe', {
+      const resData = await apiFetch<any>('/api/ai/analyze-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -95,7 +96,6 @@ export const RecipeBuilder: React.FC<RecipeBuilderProps> = ({ onFoodLogged }) =>
         })
       });
 
-      const resData = await res.json();
       if (!resData.success) throw new Error(resData.error || 'Failed to analyze recipe');
 
       const data = resData.data;

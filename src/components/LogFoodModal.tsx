@@ -4,6 +4,7 @@ import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { X, Camera, Upload, Activity, CheckCircle2, ChevronRight, AlertTriangle, Leaf, Search, Barcode, Plus, Utensils, Sparkles, BookPlus } from 'lucide-react';
 import { FoodItem, MealType } from '../types';
+import { apiFetch } from '../lib/apiFetch';
 import { JUNK_FOOD_PRESETS, HEALTHY_FOOD_PRESETS } from '../data/presets';
 import { 
   calculateDeterministicMealTotals, 
@@ -131,7 +132,7 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
         idToken = `test-token-${currentUid}`;
       }
 
-      const response = await fetch('/api/ai/analyze-food', {
+      const resData = await apiFetch<any>('/api/ai/analyze-food', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,19 +141,10 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
         body: JSON.stringify({
           imageBase64: base64String,
           mimeType: file.type
-        })
+        }),
+        fallbackErrorMessage: 'AI vision service is unavailable. Please retry in a moment.'
       });
       
-      if (!response.ok) {
-        let errMsg = 'AI vision service is unavailable. Please retry in a moment.';
-        try {
-          const errData = await response.json();
-          if (errData?.error) errMsg = errData.error;
-        } catch {}
-        throw new Error(errMsg);
-      }
-
-      const resData = await response.json();
       if (!resData.success) throw new Error(resData.error || "Failed to analyze image");
       
       setAnalyzedData(resData.data);
@@ -179,25 +171,16 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
         idToken = `test-token-${currentUid}`;
       }
 
-      const response = await fetch('/api/ai/analyze-food', {
+      const resData = await apiFetch<any>('/api/ai/analyze-food', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${idToken}`
         },
-        body: JSON.stringify({ description: searchQuery })
+        body: JSON.stringify({ description: searchQuery }),
+        fallbackErrorMessage: 'Food analysis service is unavailable. Please retry in a moment.'
       });
 
-      if (!response.ok) {
-        let errMsg = 'Food analysis service is unavailable. Please retry in a moment.';
-        try {
-          const errData = await response.json();
-          if (errData?.error) errMsg = errData.error;
-        } catch {}
-        throw new Error(errMsg);
-      }
-
-      const resData = await response.json();
       if (!resData.success) throw new Error(resData.error || "Failed to analyze description");
       setAnalyzedData(resData.data);
     } catch (err: any) {
@@ -217,8 +200,9 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
     setSelectedMealType(getAutoMealType());
 
     try {
-      const response = await fetch(`/api/food/barcode/${encodeURIComponent(code)}`);
-      const resData = await response.json();
+      const resData = await apiFetch<any>(`/api/food/barcode/${encodeURIComponent(code)}`, {
+        fallbackErrorMessage: 'Barcode lookup service is currently unavailable.'
+      });
       if (!resData.success) throw new Error(resData.error || "Product not found");
       
       setAnalyzedData(resData.data);
@@ -244,17 +228,17 @@ export const LogFoodModal: React.FC<LogFoodModalProps> = ({
     setSelectedMealType(getAutoMealType());
 
     try {
-      const response = await fetch('/api/ai/analyze-recipe', {
+      const resData = await apiFetch<any>('/api/ai/analyze-recipe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           recipeName: recipeName || "Custom Homemade Recipe",
           servings: recipeServings,
           ingredients: recipeIngredients
-        })
+        }),
+        fallbackErrorMessage: 'Recipe analysis service is currently unavailable.'
       });
 
-      const resData = await response.json();
       if (!resData.success) throw new Error(resData.error || "Failed to analyze recipe");
 
       const r = resData.data;

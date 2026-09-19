@@ -5,6 +5,7 @@ import { collection, onSnapshot, doc, setDoc, deleteDoc, writeBatch } from 'fire
 
 import { GroceryItem, GroceryCategory, FitnessGoal } from '../types';
 import { ShoppingCart, Plus, Trash2, CheckCircle2, Circle, Sparkles, Activity, Filter, CheckCheck } from 'lucide-react';
+import { apiFetch } from '../lib/apiFetch';
 
 const CATEGORIES: GroceryCategory[] = [
   'Produce',
@@ -70,7 +71,7 @@ export const SmartGroceryList: React.FC = () => {
         `Goal: ${profile?.goal || 'Weight Loss'}`
       ];
 
-      const res = await fetch('/api/ai/smart-grocery-list', {
+      const resData = await apiFetch<any>('/api/ai/smart-grocery-list', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -79,7 +80,6 @@ export const SmartGroceryList: React.FC = () => {
         })
       });
 
-      const resData = await res.json();
       if (!resData.success) throw new Error(resData.error || 'Failed to generate grocery list');
 
       const generatedItems = resData.data.items || [];

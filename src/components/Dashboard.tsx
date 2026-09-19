@@ -17,6 +17,7 @@ import { PersonalizedNextMeal } from './PersonalizedNextMeal';
 import { ProfileSetup } from './ProfileSetup';
 import { SystemDoctorModal } from './SystemDoctorModal';
 import { seedTestData } from '../lib/mockDataSeeder';
+import { apiFetch } from '../lib/apiFetch';
 
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
 
@@ -143,26 +144,15 @@ export const Dashboard = ({ logOut }: { logOut: () => void }) => {
         idToken = `test-token-${currentUid}`;
       }
 
-      const res = await fetch('/api/ai/analyze-food', {
+      const data = await apiFetch<any>('/api/ai/analyze-food', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${idToken}`
         },
-        body: JSON.stringify({ description: text })
+        body: JSON.stringify({ description: text }),
+        fallbackErrorMessage: 'Food analysis service is temporarily unavailable. Please try again or log manually.'
       });
-
-      if (!res.ok) {
-        let errMsg = "Food analysis service is temporarily unavailable. Please try again or log manually.";
-        try {
-          const errData = await res.json();
-          if (errData?.error) errMsg = errData.error;
-        } catch {}
-        alert(errMsg);
-        return;
-      }
-
-      const data = await res.json();
       
       if (!data.success || !data.data) {
         alert(data.error || "Food analysis failed. Please try again or log manually.");
@@ -399,26 +389,15 @@ export const Dashboard = ({ logOut }: { logOut: () => void }) => {
         idToken = `test-token-${currentUid}`;
       }
 
-      const res = await fetch('/api/ai/analyze-food', {
+      const data = await apiFetch<any>('/api/ai/analyze-food', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${idToken}`
         },
-        body: JSON.stringify({ imageBase64: base64String, mimeType: 'image/jpeg' })
+        body: JSON.stringify({ imageBase64: base64String, mimeType: 'image/jpeg' }),
+        fallbackErrorMessage: 'Image analysis service is temporarily unavailable. Please try again or log manually.'
       });
-
-      if (!res.ok) {
-        let errMsg = "Image analysis service is temporarily unavailable. Please try again or log manually.";
-        try {
-          const errData = await res.json();
-          if (errData?.error) errMsg = errData.error;
-        } catch {}
-        alert(errMsg);
-        return;
-      }
-
-      const data = await res.json();
 
       if (!data.success || !data.data) {
         alert(data.error || "Image analysis failed. Please try again or log manually.");
@@ -621,13 +600,12 @@ export const Dashboard = ({ logOut }: { logOut: () => void }) => {
     if (!user || logs.length === 0) return;
     setIsAnalyzing(true);
     try {
-      const response = await fetch('/api/ai/analyze-habits', {
+      const data = await apiFetch<any>('/api/ai/analyze-habits', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ logs, dailyStats, profile })
       });
-      const data = await response.json();
-      if (data.success) {
+      if (data.success && data.data) {
         setAiInsight(data.data);
       }
     } catch (err) {

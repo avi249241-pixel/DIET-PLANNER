@@ -4,6 +4,7 @@ import { db } from '../lib/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { FoodItem, PersonalizedCoachBriefing, PersonalizedMealOption } from '../types';
 import { Bot, Sparkles, RefreshCw, Zap, ChefHat, Store, Check, Plus, AlertCircle, Clock, ChevronDown, ChevronUp, Flame } from 'lucide-react';
+import { apiFetch } from '../lib/apiFetch';
 
 interface PersonalizedNextMealProps {
   todayLogs: FoodItem[];
@@ -43,7 +44,7 @@ export const PersonalizedNextMeal: React.FC<PersonalizedNextMealProps> = ({
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/api/ai/personalized-recommendations', {
+      const resData = await apiFetch<any>('/api/ai/personalized-recommendations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -53,7 +54,6 @@ export const PersonalizedNextMeal: React.FC<PersonalizedNextMealProps> = ({
         })
       });
 
-      const resData = await res.json();
       if (!resData.success) {
         throw new Error(resData.error || 'Failed to fetch recommendations');
       }

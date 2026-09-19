@@ -4,6 +4,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { Activity, Target, Flame, Sparkles, Check, ChevronRight, Settings, Utensils, X, Bot, RefreshCw, Sliders, ShieldCheck } from 'lucide-react';
 import { FitnessGoal, DietaryStyle, ActivityLevel, UserProfile } from '../types';
+import { apiFetch } from '../lib/apiFetch';
 
 const GOAL_OPTIONS: Array<{ id: FitnessGoal; label: string; desc: string; icon: string }> = [
   { id: 'Weight Loss', label: 'Weight Loss & Fat Cut', desc: 'Caloric deficit, high satiety, controlled carbs', icon: '🔥' },
@@ -109,7 +110,7 @@ export const ProfileSetup = ({ onClose, isEditing }: ProfileSetupProps) => {
     setIsSubmitting(true);
     setError(null);
     try {
-      const res = await fetch('/api/ai/calculate-profile', {
+      const resData = await apiFetch<any>('/api/ai/calculate-profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -126,7 +127,6 @@ export const ProfileSetup = ({ onClose, isEditing }: ProfileSetupProps) => {
         })
       });
       
-      const resData = await res.json();
       if (!resData.success) throw new Error(resData.error || "Failed to calculate profile");
       
       const data = resData.data;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../AuthContext';
 import { FoodItem, DailyStats, WeeklyAuditReport } from '../types';
 import { X, Sparkles, Activity, Award, ShieldCheck, AlertTriangle, ArrowRight, CheckCircle2, RefreshCw } from 'lucide-react';
+import { apiFetch } from '../lib/apiFetch';
 
 interface WeeklyAuditModalProps {
   isOpen: boolean;
@@ -28,7 +29,7 @@ export const WeeklyAuditModal: React.FC<WeeklyAuditModalProps> = ({
     setError(null);
 
     try {
-      const res = await fetch('/api/ai/weekly-audit', {
+      const resData = await apiFetch<any>('/api/ai/weekly-audit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -38,7 +39,6 @@ export const WeeklyAuditModal: React.FC<WeeklyAuditModalProps> = ({
         })
       });
 
-      const resData = await res.json();
       if (!resData.success) throw new Error(resData.error || 'Failed to generate weekly audit');
 
       setReport(resData.data);

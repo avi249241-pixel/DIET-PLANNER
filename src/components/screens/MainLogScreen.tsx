@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStore } from '../../context/StoreContext';
 import { useAuth } from '../../AuthContext';
 import { auth } from '../../lib/firebase';
@@ -36,9 +36,15 @@ import {
   Zap,
   Layers,
   Scale,
-  AlertTriangle
+  AlertTriangle,
+  Edit2,
+  Trash2,
+  Plus,
+  X,
+  ArrowDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { apiFetch } from '../../lib/apiFetch';
 
 export function MainLogScreen() {
   const { foodItems, addFoodItem, setActiveScreen } = useStore();
@@ -92,6 +98,7 @@ export function MainLogScreen() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileInputSecondRef = useRef<HTMLInputElement>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisStageIdx, setAnalysisStageIdx] = useState(0);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [analyzedMeal, setAnalyzedMeal] = useState<MealAnalysisResult | null>(null);
   const [initialPrediction, setInitialPrediction] = useState<MealAnalysisResult | null>(null);
@@ -99,6 +106,44 @@ export function MainLogScreen() {
   const [primaryPhotoBase64, setPrimaryPhotoBase64] = useState<string | null>(null);
   const [secondPhotoBase64, setSecondPhotoBase64] = useState<string | null>(null);
   const [scaleCue, setScaleCue] = useState<string>('');
+
+  // Editable Detected Components State
+  const [editingComponentIdx, setEditingComponentIdx] = useState<number | null>(null);
+  const [editCompName, setEditCompName] = useState('');
+  const [editCompGrams, setEditCompGrams] = useState<number | ''>('');
+  const [editCompCalories, setEditCompCalories] = useState<number | ''>('');
+  const [editCompProtein, setEditCompProtein] = useState<number | ''>('');
+  const [editCompCarbs, setEditCompCarbs] = useState<number | ''>('');
+  const [editCompFat, setEditCompFat] = useState<number | ''>('');
+
+  // Add Component Drawer/Modal State
+  const [isAddingComponent, setIsAddingComponent] = useState(false);
+  const [newCompName, setNewCompName] = useState('');
+  const [newCompGrams, setNewCompGrams] = useState<number | ''>('');
+  const [newCompCalories, setNewCompCalories] = useState<number | ''>('');
+  const [newCompProtein, setNewCompProtein] = useState<number | ''>('');
+  const [newCompCarbs, setNewCompCarbs] = useState<number | ''>('');
+  const [newCompFat, setNewCompFat] = useState<number | ''>('');
+
+  // Active progressive analysis stages (Cal AI / MyCal benchmark)
+  const ANALYSIS_STAGES = [
+    { label: 'Scanning meal imagery & context...', sub: 'Detecting visual components and plating boundaries' },
+    { label: 'Identifying ingredients & culinary categories...', sub: 'Segmenting proteins, grains, vegetables, and gravies' },
+    { label: 'Calibrating 3D portion volumes...', sub: 'Applying mass distribution bounds (p10, p50, p90)' },
+    { label: 'Cross-checking nutrition databases...', sub: 'Reconciling with USDA FoodData Central & Open Food Facts' },
+    { label: 'Finalizing nutritional breakdown...', sub: 'Evaluating Atwater consistency and epistemic confidence' },
+  ];
+
+  useEffect(() => {
+    if (!isAnalyzing) {
+      setAnalysisStageIdx(0);
+      return;
+    }
+    const interval = setInterval(() => {
+      setAnalysisStageIdx((prev) => (prev < ANALYSIS_STAGES.length - 1 ? prev + 1 : prev));
+    }, 1800);
+    return () => clearInterval(interval);
+  }, [isAnalyzing]);
 
   // Personal Food Memory Match State
   const [memoryMatch, setMemoryMatch] = useState<{
@@ -122,6 +167,153 @@ export function MainLogScreen() {
   const [submittedItem, setSubmittedItem] = useState<FoodItem | null>(null);
   const [isSubmittingManual, setIsSubmittingManual] = useState(false);
 
+  // Component Editing Handlers
+  const handleStartEditComponent = (idx: number) => {
+    if (!analyzedMeal || !analyzedMeal.foods[idx]) return;
+    const comp = analyzedMeal.foods[idx];
+    setEditingComponentIdx(idx);
+    setEditCompName(comp.name);
+    setEditCompGrams(comp.estimatedGrams);
+    setEditCompCalories(comp.calories);
+    setEditCompProtein(comp.protein);
+    setEditCompCarbs(comp.carbs);
+    setEditCompFat(comp.fat);
+  };
+
+  const handleEditGramsChange = (newGramsVal: number | '') => {
+    setEditCompGrams(newGramsVal);
+    if (typeof newGramsVal === 'number' && newGramsVal > 0 && editingComponentIdx !== null && analyzedMeal) {
+      const origComp = analyzedMeal.foods[editingComponentIdx];
+      const origGrams = origComp.estimatedGrams || 100;
+      const ratio = newGramsVal / origGrams;
+      setEditCompCalories(Math.round(origComp.calories * ratio));
+      setEditCompProtein(Math.round(origComp.protein * ratio * 10) / 10);
+      setEditCompCarbs(Math.round(origComp.carbs * ratio * 10) / 10);
+      setEditCompFat(Math.round(origComp.fat * ratio * 10) / 10);
+    }
+  };
+
+  const handleSaveComponentEdit = () => {
+    if (editingComponentIdx === null || !analyzedMeal) return;
+    const oldComp = analyzedMeal.foods[editingComponentIdx];
+    const grams = Number(editCompGrams) || oldComp.estimatedGrams || 100;
+    const cals = Number(editCompCalories) || 0;
+    const prot = Number(editCompProtein) || 0;
+    const crb = Number(editCompCarbs) || 0;
+    const ft = Number(editCompFat) || 0;
+
+    const updatedComp: ComponentFood = {
+      ...oldComp,
+      name: editCompName.trim() || oldComp.name,
+      estimatedGrams: grams,
+      portionDescription: `~${grams}g`,
+      calories: cals,
+      protein: prot,
+      carbs: crb,
+      fat: ft,
+      evidence: 'user_confirmed',
+      source: oldComp.source || 'USER_EDITED'
+    };
+
+    const updatedFoods = [...analyzedMeal.foods];
+    updatedFoods[editingComponentIdx] = updatedComp;
+
+    // Recalculate totals
+    const newTotalCals = updatedFoods.reduce((s, f) => s + (Number(f.calories) || 0), 0);
+    const newTotalProt = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.protein) || 0), 0) * 10) / 10;
+    const newTotalCarbs = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.carbs) || 0), 0) * 10) / 10;
+    const newTotalFat = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.fat) || 0), 0) * 10) / 10;
+    const newTotalGrams = updatedFoods.reduce((s, f) => s + (Number(f.estimatedGrams) || 0), 0);
+
+    setAnalyzedMeal({
+      ...analyzedMeal,
+      foods: updatedFoods,
+      calories: newTotalCals,
+      protein: newTotalProt,
+      carbs: newTotalCarbs,
+      fat: newTotalFat,
+      totalGrams: newTotalGrams,
+      calorieRange: [Math.round(newTotalCals * 0.92), Math.round(newTotalCals * 1.12)]
+    });
+
+    setEditingComponentIdx(null);
+  };
+
+  const handleRemoveComponent = (idx: number) => {
+    if (!analyzedMeal) return;
+    const updatedFoods = analyzedMeal.foods.filter((_, i) => i !== idx);
+    const newTotalCals = updatedFoods.reduce((s, f) => s + (Number(f.calories) || 0), 0);
+    const newTotalProt = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.protein) || 0), 0) * 10) / 10;
+    const newTotalCarbs = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.carbs) || 0), 0) * 10) / 10;
+    const newTotalFat = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.fat) || 0), 0) * 10) / 10;
+    const newTotalGrams = updatedFoods.reduce((s, f) => s + (Number(f.estimatedGrams) || 0), 0);
+
+    setAnalyzedMeal({
+      ...analyzedMeal,
+      foods: updatedFoods,
+      calories: newTotalCals,
+      protein: newTotalProt,
+      carbs: newTotalCarbs,
+      fat: newTotalFat,
+      totalGrams: newTotalGrams,
+      calorieRange: [Math.round(newTotalCals * 0.92), Math.round(newTotalCals * 1.12)]
+    });
+
+    if (editingComponentIdx === idx) {
+      setEditingComponentIdx(null);
+    }
+  };
+
+  const handleAddNewComponent = () => {
+    if (!analyzedMeal || !newCompName.trim()) return;
+    const grams = Number(newCompGrams) || 100;
+    const cals = Number(newCompCalories) || 0;
+    const prot = Number(newCompProtein) || 0;
+    const crb = Number(newCompCarbs) || 0;
+    const ft = Number(newCompFat) || 0;
+
+    const newComp: ComponentFood = {
+      name: newCompName.trim(),
+      identifiedFood: newCompName.trim(),
+      assumptions: ['User custom added component'],
+      estimatedGrams: grams,
+      portionDescription: `~${grams}g`,
+      calories: cals,
+      protein: prot,
+      carbs: crb,
+      fat: ft,
+      confidence: 1.0,
+      source: 'USER_EDITED',
+      evidence: 'user_confirmed'
+    };
+
+    const updatedFoods = [...analyzedMeal.foods, newComp];
+    const newTotalCals = updatedFoods.reduce((s, f) => s + (Number(f.calories) || 0), 0);
+    const newTotalProt = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.protein) || 0), 0) * 10) / 10;
+    const newTotalCarbs = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.carbs) || 0), 0) * 10) / 10;
+    const newTotalFat = Math.round(updatedFoods.reduce((s, f) => s + (Number(f.fat) || 0), 0) * 10) / 10;
+    const newTotalGrams = updatedFoods.reduce((s, f) => s + (Number(f.estimatedGrams) || 0), 0);
+
+    setAnalyzedMeal({
+      ...analyzedMeal,
+      foods: updatedFoods,
+      calories: newTotalCals,
+      protein: newTotalProt,
+      carbs: newTotalCarbs,
+      fat: newTotalFat,
+      totalGrams: newTotalGrams,
+      calorieRange: [Math.round(newTotalCals * 0.92), Math.round(newTotalCals * 1.12)]
+    });
+
+    setIsAddingComponent(false);
+    setNewCompName('');
+    setNewCompGrams('');
+    setNewCompCalories('');
+    setNewCompProtein('');
+    setNewCompCarbs('');
+    setNewCompFat('');
+  };
+
   // Vision Analysis Runner supporting Single Photo, Multi-Photo, and Scale Cue
   const runAnalysisWithPhotos = async (
     photo1Base64: string,
@@ -129,6 +321,7 @@ export function MainLogScreen() {
     cueText?: string
   ) => {
     setIsAnalyzing(true);
+    setAnalysisStageIdx(0);
     setAnalysisError(null);
     setSelectedClarification(null);
 
@@ -139,7 +332,7 @@ export function MainLogScreen() {
         idToken = `test-token-${currentUid}`;
       }
 
-      const response = await fetch('/api/ai/analyze-food', {
+      const resData = await apiFetch<MealAnalysisResult>('/api/ai/analyze-food', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -151,56 +344,24 @@ export function MainLogScreen() {
           secondImageBase64: photo2Base64 || undefined,
           secondMimeType: photo2Base64 ? 'image/jpeg' : undefined,
           scaleCue: cueText ? cueText.trim() : undefined
-        })
+        }),
+        fallbackErrorMessage: "Couldn't analyze this photo — try again with better lighting or log manually below."
       });
 
-      // Fix 1: Check response.ok first before attempting response.json()
-      // When Render backend is cold-starting or offline, Vercel proxy returns HTML 502/503/504
-      if (!response.ok) {
-        let errMsg =
-          'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually';
-        try {
-          const errData = await response.json();
-          if (
-            errData &&
-            errData.error &&
-            response.status !== 502 &&
-            response.status !== 503 &&
-            response.status !== 504
-          ) {
-            errMsg = errData.error;
-          }
-        } catch {
-          // Body is non-JSON HTML error page (e.g. from Vercel proxy or Render 502), preserve friendly message
-        }
-        setAnalysisError(errMsg);
-        return;
-      }
-
-      let data: any;
-      try {
-        data = await response.json();
-      } catch {
-        setAnalysisError(
-          'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually'
-        );
-        return;
-      }
-
-      if (!data.success) {
+      if (!resData.success || !resData.data) {
         const errMsg =
-          data.error ||
-          'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually';
+          resData.error ||
+          "Couldn't analyze this photo — try again with better lighting or log manually below.";
         setAnalysisError(errMsg);
         return;
       }
 
-      setAnalyzedMeal(data.data as MealAnalysisResult);
-      setInitialPrediction(data.data as MealAnalysisResult);
+      setAnalyzedMeal(resData.data as MealAnalysisResult);
+      setInitialPrediction(resData.data as MealAnalysisResult);
     } catch (err: any) {
       console.error('Vision analysis pipeline error:', err);
       setAnalysisError(
-        'AI vision backend is waking up (cold start) — please retry in 30-60s or log this meal manually'
+        err.message || "Couldn't analyze this photo — try again with better lighting or log manually below."
       );
     } finally {
       setIsAnalyzing(false);
@@ -234,34 +395,32 @@ export function MainLogScreen() {
             idToken = `test-token-${uid}`;
           }
 
-          const memResp = await fetch('/api/ai/match-meal-memory', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${idToken}`
-            },
-            body: JSON.stringify({
-              imageBase64: base64Data,
-              photoHash,
-              confirmedMeals
-            })
-          });
+          try {
+            const memData = await apiFetch<any>('/api/ai/match-meal-memory', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${idToken}`
+              },
+              body: JSON.stringify({
+                imageBase64: base64Data,
+                photoHash,
+                confirmedMeals
+              }),
+              timeoutMs: 8000
+            });
 
-          if (memResp.ok) {
-            try {
-              const memData = await memResp.json();
-              if (memData.success && memData.data?.matchFound && memData.data?.matchedMeal) {
-                setMemoryMatch({
-                  matchedMeal: memData.data.matchedMeal,
-                  similarity: memData.data.similarity,
-                  reason: memData.data.reason
-                });
-                setIsCheckingMemory(false);
-                return; // Stop here and present one-tap prompt to user!
-              }
-            } catch (jsonErr) {
-              console.warn('Memory response parse warning (skipping memory):', jsonErr);
+            if (memData.success && memData.data?.matchFound && memData.data?.matchedMeal) {
+              setMemoryMatch({
+                matchedMeal: memData.data.matchedMeal,
+                similarity: memData.data.similarity,
+                reason: memData.data.reason
+              });
+              setIsCheckingMemory(false);
+              return; // Stop here and present one-tap prompt to user!
             }
+          } catch (memErr) {
+            console.warn('Memory response check skipped (falling back to vision):', memErr);
           }
         }
       } catch (memErr) {
@@ -731,17 +890,35 @@ export function MainLogScreen() {
           }`}
         >
           {isAnalyzing ? (
-            <>
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-                <Loader2 className="w-6 h-6 text-emerald-400 animate-spin" />
-              </div>
-              <div>
-                <div className="text-sm font-bold text-white">Analyzing Meal Photo...</div>
-                <div className="text-xs text-slate-400 mt-0.5">
-                  Reconciling components with USDA FoodData Central and evaluating Atwater consistency
+            <div className="w-full max-w-md py-2 space-y-3">
+              <div className="flex items-center justify-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shadow-lg shadow-emerald-500/10">
+                  <Loader2 className="w-5 h-5 text-emerald-400 animate-spin" />
+                </div>
+                <div className="text-left">
+                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-400">
+                    Step {analysisStageIdx + 1} of {ANALYSIS_STAGES.length}
+                  </div>
+                  <div className="text-sm font-bold text-white transition-all duration-300">
+                    {ANALYSIS_STAGES[analysisStageIdx].label}
+                  </div>
                 </div>
               </div>
-            </>
+
+              {/* Progressive animated indicator */}
+              <div className="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
+                <motion.div
+                  className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full"
+                  initial={{ width: '15%' }}
+                  animate={{ width: `${Math.min(96, (analysisStageIdx + 1) * 20)}%` }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
+                />
+              </div>
+
+              <div className="text-[11px] text-slate-400 text-center animate-pulse">
+                {ANALYSIS_STAGES[analysisStageIdx].sub}
+              </div>
+            </div>
           ) : (
             <>
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-105 transition">
@@ -815,12 +992,32 @@ export function MainLogScreen() {
         )}
 
         {analysisError && (
-          <div className="bg-rose-500/10 border border-rose-500/30 p-4 rounded-xl flex items-start gap-3 text-xs text-rose-300">
-            <XCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
-            <div>
-              <strong>Analysis Notice:</strong> {analysisError}
+          <motion.div
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-amber-200"
+          >
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
+              <div>
+                <strong className="font-bold text-white block mb-0.5">Photo Recognition Notice</strong>
+                <p className="text-amber-200/90 leading-relaxed">
+                  {analysisError}
+                </p>
+              </div>
             </div>
-          </div>
+            <button
+              type="button"
+              onClick={() => {
+                const formEl = document.getElementById('manual-log-form');
+                formEl?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="shrink-0 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Log Manually Below</span>
+              <ArrowDown className="w-3.5 h-3.5" />
+            </button>
+          </motion.div>
         )}
 
         {/* Live Multi-Component Analysis Review Card */}
@@ -976,7 +1173,7 @@ export function MainLogScreen() {
             )}
 
             {/* Component Foods Breakdown with Epistemic Evidence */}
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
                 <span>Detected Components ({analyzedMeal.foods.length})</span>
                 <span className="text-[10px] text-slate-400 font-normal">Evidence classification & mass distributions</span>
@@ -984,59 +1181,289 @@ export function MainLogScreen() {
 
               <div className="divide-y divide-slate-800/60">
                 {analyzedMeal.foods.map((comp, idx) => (
-                  <div key={idx} className="py-2.5 space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-white">{comp.name}</span>
-                        <span
-                          className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border uppercase ${getEvidenceBadge(
-                            comp.evidence
-                          )}`}
-                        >
-                          {comp.evidence || 'visible'}
-                        </span>
-                        <span
-                          className={`text-[9px] font-mono px-1.5 py-0.2 rounded border uppercase ${getSourceBadge(
-                            comp.source
-                          )}`}
-                        >
-                          {comp.source}
-                        </span>
-                      </div>
-                      <div className="text-right">
-                        <span className="font-mono text-slate-200 font-bold">{comp.calories} kcal</span>
-                        {comp.calorieRange && (
-                          <span className="text-[10px] font-mono text-slate-400 ml-1">
-                            [{comp.calorieRange[0]}-{comp.calorieRange[1]} kcal]
+                  <div key={idx} className="py-3 space-y-2">
+                    {editingComponentIdx === idx ? (
+                      /* Inline Edit Form */
+                      <div className="bg-slate-950/80 border border-indigo-500/40 rounded-xl p-3 space-y-2.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[11px] font-bold text-indigo-300 uppercase tracking-wider">
+                            Edit Component
                           </span>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={handleSaveComponentEdit}
+                              className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1 transition cursor-pointer"
+                              title="Save changes"
+                            >
+                              <Check className="w-3.5 h-3.5" />
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setEditingComponentIdx(null)}
+                              className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                              title="Cancel"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <div>
+                            <label className="block text-[10px] text-slate-400 font-semibold mb-1">Name</label>
+                            <input
+                              type="text"
+                              value={editCompName}
+                              onChange={(e) => setEditCompName(e.target.value)}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] text-slate-400 font-semibold mb-1">
+                              Portion / Grams (auto-scales macros)
+                            </label>
+                            <input
+                              type="number"
+                              min="1"
+                              value={editCompGrams}
+                              onChange={(e) => handleEditGramsChange(e.target.value === '' ? '' : Number(e.target.value))}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-4 gap-2">
+                          <div>
+                            <label className="block text-[10px] text-slate-400 font-semibold mb-1">Calories</label>
+                            <input
+                              type="number"
+                              min="0"
+                              value={editCompCalories}
+                              onChange={(e) => setEditCompCalories(e.target.value === '' ? '' : Number(e.target.value))}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] text-blue-400 font-semibold mb-1">Protein (g)</label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.1"
+                              value={editCompProtein}
+                              onChange={(e) => setEditCompProtein(e.target.value === '' ? '' : Number(e.target.value))}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] text-amber-400 font-semibold mb-1">Carbs (g)</label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.1"
+                              value={editCompCarbs}
+                              onChange={(e) => setEditCompCarbs(e.target.value === '' ? '' : Number(e.target.value))}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[10px] text-rose-400 font-semibold mb-1">Fat (g)</label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="0.1"
+                              value={editCompFat}
+                              onChange={(e) => setEditCompFat(e.target.value === '' ? '' : Number(e.target.value))}
+                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Read-Only Row with Edit & Remove Action Buttons */
+                      <>
+                        <div className="flex items-center justify-between text-xs gap-2">
+                          <div className="flex items-center gap-2 flex-wrap min-w-0">
+                            <span className="font-bold text-white truncate">{comp.name}</span>
+                            <span
+                              className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border uppercase ${getEvidenceBadge(
+                                comp.evidence
+                              )}`}
+                            >
+                              {comp.evidence || 'visible'}
+                            </span>
+                            <span
+                              className={`text-[9px] font-mono px-1.5 py-0.2 rounded border uppercase ${getSourceBadge(
+                                comp.source
+                              )}`}
+                            >
+                              {comp.source}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <div className="text-right">
+                              <span className="font-mono text-slate-200 font-bold">{comp.calories} kcal</span>
+                              {comp.calorieRange && (
+                                <span className="text-[10px] font-mono text-slate-400 ml-1">
+                                  [{comp.calorieRange[0]}-{comp.calorieRange[1]} kcal]
+                                </span>
+                              )}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleStartEditComponent(idx)}
+                              className="p-1 rounded-lg text-slate-400 hover:text-indigo-300 hover:bg-slate-800 transition cursor-pointer"
+                              title="Edit ingredient"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveComponent(idx)}
+                              className="p-1 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition cursor-pointer"
+                              title="Remove ingredient"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-between text-[11px] text-slate-400">
+                          <div>
+                            {comp.portionDescription || `~${comp.estimatedGrams}g`}{' '}
+                            {comp.mass_g && (
+                              <span className="font-mono text-slate-500">
+                                (p10: {comp.mass_g.p10}g, p90: {comp.mass_g.p90}g)
+                              </span>
+                            )}{' '}
+                            &bull; P: {comp.protein}g, C: {comp.carbs}g, F: {comp.fat}g
+                          </div>
+                          <div className="text-[10px] font-mono text-slate-500">
+                            {Math.round((comp.confidence || 0.85) * 100)}% Conf
+                          </div>
+                        </div>
+
+                        {comp.evidence === 'unobservable_unknown' && (
+                          <div className="text-[10px] text-amber-300/90 flex items-center gap-1.5 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 mt-1">
+                            <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
+                            <span>Unobservable element (cooking fat/hidden sauce): included in range, never rendered as bare point number.</span>
+                          </div>
                         )}
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-[11px] text-slate-400">
-                      <div>
-                        {comp.portionDescription || `~${comp.estimatedGrams}g`}{' '}
-                        {comp.mass_g && (
-                          <span className="font-mono text-slate-500">
-                            (p10: {comp.mass_g.p10}g, p90: {comp.mass_g.p90}g)
-                          </span>
-                        )}{' '}
-                        &bull; P: {comp.protein}g, C: {comp.carbs}g, F: {comp.fat}g
-                      </div>
-                      <div className="text-[10px] font-mono text-slate-500">
-                        {Math.round((comp.confidence || 0.85) * 100)}% Conf
-                      </div>
-                    </div>
-
-                    {comp.evidence === 'unobservable_unknown' && (
-                      <div className="text-[10px] text-amber-300/90 flex items-center gap-1.5 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 mt-1">
-                        <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
-                        <span>Unobservable element (cooking fat/hidden sauce): included in range, never rendered as bare point number.</span>
-                      </div>
+                      </>
                     )}
                   </div>
                 ))}
               </div>
+
+              {/* Add Component Action / Drawer */}
+              {isAddingComponent ? (
+                <div className="bg-slate-950/80 border border-slate-700/80 rounded-xl p-3.5 space-y-3 mt-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                      <Plus className="w-3.5 h-3.5 text-emerald-400" />
+                      Add Extra Food Component
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setIsAddingComponent(false)}
+                      className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[10px] text-slate-400 font-semibold mb-1">Food / Ingredient Name *</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Olive Oil or Sautéed Onions"
+                        value={newCompName}
+                        onChange={(e) => setNewCompName(e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] text-slate-400 font-semibold mb-1">Estimated Grams</label>
+                      <input
+                        type="number"
+                        min="1"
+                        placeholder="100"
+                        value={newCompGrams}
+                        onChange={(e) => setNewCompGrams(e.target.value === '' ? '' : Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-4 gap-2">
+                    <div>
+                      <label className="block text-[10px] text-slate-400 font-semibold mb-1">Calories</label>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="120"
+                        value={newCompCalories}
+                        onChange={(e) => setNewCompCalories(e.target.value === '' ? '' : Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] text-blue-400 font-semibold mb-1">Protein (g)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                        value={newCompProtein}
+                        onChange={(e) => setNewCompProtein(e.target.value === '' ? '' : Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] text-amber-400 font-semibold mb-1">Carbs (g)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                        value={newCompCarbs}
+                        onChange={(e) => setNewCompCarbs(e.target.value === '' ? '' : Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] text-rose-400 font-semibold mb-1">Fat (g)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        placeholder="14"
+                        value={newCompFat}
+                        onChange={(e) => setNewCompFat(e.target.value === '' ? '' : Number(e.target.value))}
+                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAddNewComponent}
+                    disabled={!newCompName.trim()}
+                    className="w-full py-2 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold text-xs rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    Add to Breakdown
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsAddingComponent(true)}
+                  className="w-full py-2 border border-dashed border-slate-700 hover:border-slate-500 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Missing Food Component
+                </button>
+              )}
             </div>
 
             {/* Scientific Uncertainty & Information-Gain Clarification */}
@@ -1101,7 +1528,7 @@ export function MainLogScreen() {
       </div>
 
       {/* 2. Manual Macro Entry Form */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+      <div id="manual-log-form" className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-emerald-400" />
