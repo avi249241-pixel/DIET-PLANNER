@@ -105,6 +105,15 @@ async function startServer() {
     next();
   });
 
+  // Public health check routes (Railway service probe, unauthenticated)
+  app.get(["/health", "/api/health"], (req, res) => {
+    res.json({
+      status: "healthy",
+      service: "diet-planner-railway",
+      timestamp: new Date().toISOString()
+    });
+  });
+
   // Non-negotiable security layer: requireAuth enforced across all API endpoints
   app.use("/api", requireAuth);
 

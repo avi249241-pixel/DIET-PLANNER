@@ -758,44 +758,44 @@ export function MainLogScreen() {
   return (
     <div className="max-w-3xl mx-auto space-y-8 animate-fadeIn">
       {/* Header */}
-      <div className="bg-slate-900/80 backdrop-blur-md border border-slate-800 p-6 rounded-3xl shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200/90 p-6 rounded-3xl shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-            <PlusCircle className="w-6 h-6 text-emerald-400" />
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <PlusCircle className="w-6 h-6 text-emerald-600" />
             Live Nutrition Logger
           </h1>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-slate-500 text-sm mt-1">
             Vision photo recognition reconciled against authoritative food composition tables.
           </p>
         </div>
         <button
           type="button"
           onClick={() => setActiveScreen('daily-log')}
-          className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-700 transition cursor-pointer"
+          className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl border border-slate-200 transition cursor-pointer"
         >
           View Daily Log &rarr;
         </button>
       </div>
 
       {/* 0. Repeat-Meal Quick-Log Widget (Recent Distinct Meals) */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <RotateCcw className="w-4 h-4 text-emerald-400" />
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+            <RotateCcw className="w-4 h-4 text-emerald-600" />
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">
               Repeat-Meal Quick-Log
             </h2>
           </div>
-          <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-mono font-semibold">
+          <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-mono font-semibold">
             {recentMeals.length} distinct items
           </span>
         </div>
 
         {recentMeals.length === 0 ? (
           /* Empty state */
-          <div className="bg-slate-950/60 border border-dashed border-slate-800/80 rounded-2xl p-5 text-center space-y-1.5">
-            <RotateCcw className="w-5 h-5 text-slate-600 mx-auto" />
-            <div className="text-xs font-bold text-slate-300">No recent meals yet</div>
+          <div className="bg-slate-50 border border-dashed border-slate-200 rounded-2xl p-5 text-center space-y-1.5">
+            <RotateCcw className="w-5 h-5 text-slate-400 mx-auto" />
+            <div className="text-xs font-bold text-slate-800">No recent meals yet</div>
             <p className="text-[11px] text-slate-500">
               Log your first meal using photo recognition or manual entry below to unlock 1-tap quick re-logging.
             </p>
@@ -811,24 +811,24 @@ export function MainLogScreen() {
                   whileTap={{ scale: 0.98 }}
                   className={`p-3.5 rounded-2xl border transition flex flex-col justify-between space-y-2.5 ${
                     isSuccess
-                      ? 'bg-emerald-500/20 border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
-                      : 'bg-slate-950/80 hover:bg-slate-950 border-slate-800 hover:border-slate-700'
+                      ? 'bg-emerald-50 border-emerald-400 shadow-xs'
+                      : 'bg-white hover:bg-slate-50/80 border-slate-200 hover:border-emerald-300 shadow-xs'
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between text-[10px] mb-1">
-                      <span className="text-slate-400 font-semibold">{meal.mealType}</span>
-                      <span className="text-emerald-300 font-mono font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20">
+                      <span className="text-slate-500 font-medium">{meal.mealType}</span>
+                      <span className="text-emerald-800 font-mono font-bold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
                         {meal.grade || 'A'}
                       </span>
                     </div>
-                    <h4 className="text-xs font-bold text-white line-clamp-1">{meal.name}</h4>
+                    <h4 className="text-xs font-bold text-slate-900 line-clamp-1">{meal.name}</h4>
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 pt-1 border-t border-slate-900">
-                    <span className="text-slate-200 font-bold">{meal.calories} kcal</span>
-                    <span className="text-blue-400">{meal.protein}g P</span>
-                    <span className="text-amber-400">{meal.carbs}g C</span>
+                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1 border-t border-slate-100">
+                    <span className="text-slate-900 font-bold">{meal.calories} kcal</span>
+                    <span className="text-blue-600">{meal.protein}g P</span>
+                    <span className="text-amber-600">{meal.carbs}g C</span>
                   </div>
 
                   <button
@@ -837,8 +837,8 @@ export function MainLogScreen() {
                     disabled={isSuccess}
                     className={`w-full py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
                       isSuccess
-                        ? 'bg-emerald-500 text-slate-950 font-black'
-                        : 'bg-slate-800 hover:bg-emerald-500 text-slate-200 hover:text-slate-950 hover:font-black'
+                        ? 'bg-emerald-600 text-white font-bold'
+                        : 'bg-slate-100 hover:bg-emerald-600 text-slate-700 hover:text-white'
                     }`}
                   >
                     {isSuccess ? (
@@ -848,7 +848,7 @@ export function MainLogScreen() {
                       </>
                     ) : (
                       <>
-                        <Zap className="w-3.5 h-3.5 text-emerald-400" />
+                        <Zap className="w-3.5 h-3.5 text-emerald-600" />
                         <span>Quick Log</span>
                       </>
                     )}
@@ -861,13 +861,13 @@ export function MainLogScreen() {
       </div>
 
       {/* 1. Live Photo Upload Widget */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+      <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <Camera className="w-4 h-4 text-emerald-400" />
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+            <Camera className="w-4 h-4 text-emerald-600" />
             Live Photo Meal Recognition
           </h2>
-          <span className="text-[10px] bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
+          <span className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider flex items-center gap-1">
             <ShieldCheck className="w-3 h-3" />
             Authoritative Reconciliation
           </span>
@@ -888,47 +888,47 @@ export function MainLogScreen() {
           onClick={() => !isAnalyzing && fileInputRef.current?.click()}
           className={`border-2 border-dashed rounded-2xl p-6 text-center transition flex flex-col items-center justify-center gap-3 ${
             isAnalyzing
-              ? 'border-emerald-500/40 bg-slate-950/80 cursor-wait'
-              : 'border-slate-700/80 hover:border-emerald-500/60 bg-slate-950/60 hover:bg-slate-950/90 cursor-pointer group'
+              ? 'border-emerald-400 bg-emerald-50/40 cursor-wait'
+              : 'border-slate-300 hover:border-emerald-500/70 bg-slate-50/60 hover:bg-emerald-50/20 cursor-pointer group'
           }`}
         >
           {isAnalyzing ? (
             <div className="w-full max-w-md py-2 space-y-3">
               <div className="flex items-center justify-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shadow-lg shadow-emerald-500/10">
-                  <Loader2 className="w-5 h-5 text-emerald-400 animate-spin" />
+                <div className="w-10 h-10 rounded-2xl bg-emerald-100 border border-emerald-300 flex items-center justify-center shadow-xs">
+                  <Loader2 className="w-5 h-5 text-emerald-700 animate-spin" />
                 </div>
                 <div className="text-left">
-                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-400">
+                  <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-700">
                     Step {analysisStageIdx + 1} of {ANALYSIS_STAGES.length}
                   </div>
-                  <div className="text-sm font-bold text-white transition-all duration-300">
+                  <div className="text-sm font-bold text-slate-900 transition-all duration-300">
                     {ANALYSIS_STAGES[analysisStageIdx].label}
                   </div>
                 </div>
               </div>
 
               {/* Progressive animated indicator */}
-              <div className="w-full bg-slate-800/80 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
                 <motion.div
-                  className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full"
+                  className="bg-gradient-to-r from-emerald-600 to-teal-500 h-full rounded-full"
                   initial={{ width: '15%' }}
                   animate={{ width: `${Math.min(96, (analysisStageIdx + 1) * 20)}%` }}
                   transition={{ duration: 0.6, ease: 'easeOut' }}
                 />
               </div>
 
-              <div className="text-[11px] text-slate-400 text-center animate-pulse">
+              <div className="text-[11px] text-slate-500 text-center animate-pulse">
                 {ANALYSIS_STAGES[analysisStageIdx].sub}
               </div>
             </div>
           ) : (
             <>
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:scale-105 transition">
-                <UploadCloud className="w-6 h-6 text-emerald-400" />
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100/70 border border-emerald-200 flex items-center justify-center group-hover:scale-105 transition">
+                <UploadCloud className="w-6 h-6 text-emerald-700" />
               </div>
               <div>
-                <div className="text-sm font-bold text-slate-200">
+                <div className="text-sm font-bold text-slate-800">
                   Click or Drop Food Photo to Analyze
                 </div>
                 <div className="text-xs text-slate-500 mt-0.5">
@@ -941,8 +941,8 @@ export function MainLogScreen() {
 
         {/* Checking Personal Food Memory indicator */}
         {isCheckingMemory && (
-          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl flex items-center gap-3 text-xs text-slate-300">
-            <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
+          <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex items-center gap-3 text-xs text-slate-600">
+            <Loader2 className="w-4 h-4 text-emerald-600 animate-spin" />
             <span>Checking Personal Food Memory against your confirmed meals...</span>
           </div>
         )}
@@ -952,21 +952,21 @@ export function MainLogScreen() {
           <motion.div
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-emerald-950/40 border-2 border-emerald-500/50 rounded-2xl p-5 shadow-2xl space-y-4 backdrop-blur-md"
+            className="bg-emerald-50 border-2 border-emerald-300 rounded-2xl p-5 shadow-xs space-y-4"
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 text-emerald-400">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center border border-emerald-200 text-emerald-700">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/20 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200">
                     Personal Food Memory Match ({Math.round(memoryMatch.similarity * 100)}%)
                   </span>
-                  <h3 className="text-base font-black text-white mt-1">
+                  <h3 className="text-base font-black text-slate-900 mt-1">
                     Same as {memoryMatch.matchedMeal.mealName} from {memoryMatch.matchedMeal.date}?
                   </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-slate-600 mt-0.5">
                     Past confirmed: {memoryMatch.matchedMeal.totalCalories} kcal &bull; {memoryMatch.matchedMeal.protein}g P &bull; {memoryMatch.matchedMeal.carbs}g C &bull; {memoryMatch.matchedMeal.fat}g F
                   </p>
                 </div>
@@ -977,7 +977,7 @@ export function MainLogScreen() {
               <button
                 type="button"
                 onClick={handleConfirmMemoryMatch}
-                className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 cursor-pointer text-xs"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-xs cursor-pointer text-xs"
               >
                 <Check className="w-4 h-4" />
                 Yes, One-Tap Log
@@ -985,7 +985,7 @@ export function MainLogScreen() {
               <button
                 type="button"
                 onClick={handleRejectMemoryMatch}
-                className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold py-2.5 px-4 rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 cursor-pointer text-xs"
+                className="flex-1 bg-white hover:bg-slate-100 text-slate-700 font-semibold py-2.5 px-4 rounded-xl border border-slate-200 transition flex items-center justify-center gap-2 cursor-pointer text-xs"
               >
                 <XCircle className="w-4 h-4" />
                 No, this is different
@@ -998,13 +998,13 @@ export function MainLogScreen() {
           <motion.div
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-amber-200"
+            className="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-amber-800"
           >
             <div className="flex items-start gap-3">
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-400" />
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-amber-600" />
               <div>
-                <strong className="font-bold text-white block mb-0.5">Photo Recognition Notice</strong>
-                <p className="text-amber-200/90 leading-relaxed">
+                <strong className="font-bold text-slate-900 block mb-0.5">Photo Recognition Notice</strong>
+                <p className="text-amber-800 leading-relaxed">
                   {analysisError}
                 </p>
               </div>
@@ -1015,7 +1015,7 @@ export function MainLogScreen() {
                 const formEl = document.getElementById('manual-log-form');
                 formEl?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="shrink-0 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer"
+              className="shrink-0 bg-amber-100 hover:bg-amber-200 border border-amber-300 text-amber-800 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer"
             >
               <span>Log Manually Below</span>
               <ArrowDown className="w-3.5 h-3.5" />
@@ -1025,49 +1025,49 @@ export function MainLogScreen() {
 
         {/* Live Multi-Component Analysis Review Card */}
         {analyzedMeal && (
-          <div className="bg-slate-950/90 border border-emerald-500/40 rounded-2xl p-5 space-y-5 animate-fadeIn">
+          <div className="bg-white border border-emerald-300/80 rounded-2xl p-5 space-y-5 shadow-xs animate-fadeIn">
             {/* Meal Header & Provenance */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                   {analyzedMeal.mealType} &bull; {analyzedMeal.cuisineType || 'Identified Dish'}
                 </span>
-                <h3 className="text-lg font-black text-white">{analyzedMeal.name}</h3>
+                <h3 className="text-lg font-black text-slate-900">{analyzedMeal.name}</h3>
 
                 {/* Energy & Uncertainty Interval */}
                 <div className="flex items-center gap-2 flex-wrap mt-1">
-                  <span className="font-mono text-emerald-400 font-black text-base">
+                  <span className="font-mono text-emerald-600 font-black text-base">
                     {analyzedMeal.calories} kcal
                   </span>
                   {analyzedMeal.calorieRange && (
-                    <span className="text-xs font-mono text-slate-300 bg-slate-900 border border-slate-700 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-mono text-slate-700 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md font-medium">
                       p10-p90: {analyzedMeal.calorieRange[0]} - {analyzedMeal.calorieRange[1]} kcal
                     </span>
                   )}
-                  <span className="text-xs text-slate-400 font-mono">
+                  <span className="text-xs text-slate-500 font-mono">
                     ({analyzedMeal.protein}g P &bull; {analyzedMeal.carbs}g C &bull; {analyzedMeal.fat}g F)
                   </span>
                 </div>
 
                 {/* Mass Distribution & Basis */}
-                <div className="flex items-center gap-2 text-xs text-slate-400 mt-1 flex-wrap">
-                  <span className="font-mono text-slate-300">
+                <div className="flex items-center gap-2 text-xs text-slate-500 mt-1 flex-wrap">
+                  <span className="font-mono text-slate-700 font-medium">
                     Total Mass: {analyzedMeal.massDistribution?.p50 || analyzedMeal.totalGrams}g
                   </span>
                   {analyzedMeal.massDistribution && (
-                    <span className="font-mono text-[11px] text-slate-500">
+                    <span className="font-mono text-[11px] text-slate-400">
                       (p10: {analyzedMeal.massDistribution.p10}g, p90: {analyzedMeal.massDistribution.p90}g)
                     </span>
                   )}
                   <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${
                     analyzedMeal.massBasis === 'two_view_calibrated' 
-                      ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30' 
-                      : 'bg-slate-800 text-slate-400 border-slate-700'
+                      ? 'bg-indigo-50 text-indigo-700 border-indigo-200' 
+                      : 'bg-slate-100 text-slate-600 border-slate-200'
                   }`}>
                     {analyzedMeal.massBasis === 'two_view_calibrated' ? 'Two-View Calibrated' : 'Single View'}
                   </span>
                   {analyzedMeal.scaleCueApplied && (
-                    <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded border border-slate-700 font-mono">
+                    <span className="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200 font-mono">
                       Scale: {analyzedMeal.scaleCueApplied}
                     </span>
                   )}
@@ -1082,7 +1082,7 @@ export function MainLogScreen() {
                 >
                   {analyzedMeal.nutritionSource}
                 </span>
-                <span className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-mono font-black text-emerald-300 text-xs">
+                <span className="w-8 h-8 rounded-xl bg-emerald-100 border border-emerald-300 flex items-center justify-center font-mono font-black text-emerald-800 text-xs">
                   {analyzedMeal.grade}
                 </span>
               </div>
@@ -1090,10 +1090,10 @@ export function MainLogScreen() {
 
             {/* Atwater Diagnostic Note (Secondary Diagnostic, No Overwrite) */}
             {analyzedMeal.atwaterDiagnostic?.isInconsistent && (
-              <div className="bg-blue-500/10 border border-blue-500/30 p-3 rounded-xl flex items-start gap-2.5 text-xs text-blue-200">
-                <Info className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+              <div className="bg-blue-50 border border-blue-200 p-3 rounded-xl flex items-start gap-2.5 text-xs text-blue-800">
+                <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-bold text-white">Atwater Factor Diagnostic: </span>
+                  <span className="font-bold text-slate-900">Atwater Factor Diagnostic: </span>
                   {analyzedMeal.atwaterDiagnostic.reason}
                 </div>
               </div>
@@ -1101,16 +1101,16 @@ export function MainLogScreen() {
 
             {/* Uncertainty Gate (Do-Not-Auto-Log) Alert */}
             {analyzedMeal.autoLogBlocked && (
-              <div className="bg-amber-500/15 border border-amber-500/40 p-4 rounded-xl flex items-start gap-3 text-xs text-amber-200">
-                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <div className="bg-amber-50 border border-amber-300 p-4 rounded-xl flex items-start gap-3 text-xs text-amber-900">
+                <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <div className="space-y-1">
-                  <div className="font-bold text-amber-300 uppercase tracking-wider text-[11px]">
+                  <div className="font-bold text-amber-800 uppercase tracking-wider text-[11px]">
                     Uncertainty Gate Active (Do-Not-Auto-Log)
                   </div>
-                  <p className="text-slate-300 leading-relaxed">
+                  <p className="text-slate-700 leading-relaxed">
                     {analyzedMeal.autoLogBlockReason || "Complex meal with unobservable cooking oil or submerged elements detected without 2-view calibration or scale cue. Range presented [p10-p90]; direct auto-save locked until clarification reviewed."}
                   </p>
-                  <div className="font-mono text-amber-300 pt-1">
+                  <div className="font-mono text-amber-800 font-bold pt-1">
                     Caloric Interval: {analyzedMeal.calorieRange ? `${analyzedMeal.calorieRange[0]} - ${analyzedMeal.calorieRange[1]} kcal` : `${analyzedMeal.calories} kcal`}
                   </div>
                 </div>
@@ -1119,19 +1119,19 @@ export function MainLogScreen() {
 
             {/* Two-Photo & Scale Cue Capture for Complex Meals */}
             {analyzedMeal.suggestsSecondPhoto && (
-              <div className="bg-slate-900/90 border border-indigo-500/30 p-4 rounded-xl space-y-3">
+              <div className="bg-indigo-50/50 border border-indigo-200 p-4 rounded-xl space-y-3">
                 <div className="flex items-start justify-between gap-2">
-                  <div className="flex items-center gap-2 text-xs font-bold text-indigo-300">
-                    <Layers className="w-4 h-4 text-indigo-400" />
+                  <div className="flex items-center gap-2 text-xs font-bold text-indigo-900">
+                    <Layers className="w-4 h-4 text-indigo-600" />
                     <span>Complex Meal: Improve Calibration with 2nd Photo or Scale Cue</span>
                   </div>
                   {secondPhotoBase64 && (
-                    <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded border border-emerald-300 font-bold">
                       2nd Photo Attached
                     </span>
                   )}
                 </div>
-                <p className="text-[11px] text-slate-400">
+                <p className="text-[11px] text-slate-600">
                   Mixed dishes have high depth and hidden volume variance. Adding an angled (30-60°) side photo or plate dimension narrows the uncertainty interval.
                 </p>
 
@@ -1149,7 +1149,7 @@ export function MainLogScreen() {
                   <button
                     type="button"
                     onClick={() => fileInputSecondRef.current?.click()}
-                    className="w-full sm:w-auto bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/40 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="w-full sm:w-auto bg-indigo-100 hover:bg-indigo-200 text-indigo-800 border border-indigo-300 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <Camera className="w-3.5 h-3.5" />
                     <span>{secondPhotoBase64 ? "Replace Side Photo" : "Add 30-60° Side Photo"}</span>
@@ -1161,12 +1161,12 @@ export function MainLogScreen() {
                       placeholder="Optional scale cue (e.g. 26cm plate)"
                       value={scaleCue}
                       onChange={(e) => setScaleCue(e.target.value)}
-                      className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+                      className="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
                     />
                     <button
                       type="button"
                       onClick={handleApplyScaleCue}
-                      className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-700 transition cursor-pointer"
+                      className="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 transition cursor-pointer"
                     >
                       Calibrate
                     </button>
@@ -1177,26 +1177,26 @@ export function MainLogScreen() {
 
             {/* Component Foods Breakdown with Epistemic Evidence */}
             <div className="space-y-3">
-              <div className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+              <div className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center justify-between">
                 <span>Detected Components ({analyzedMeal.foods.length})</span>
-                <span className="text-[10px] text-slate-400 font-normal">Evidence classification & mass distributions</span>
+                <span className="text-[10px] text-slate-500 font-normal">Evidence classification & mass distributions</span>
               </div>
 
-              <div className="divide-y divide-slate-800/60">
+              <div className="divide-y divide-slate-100">
                 {analyzedMeal.foods.map((comp, idx) => (
                   <div key={idx} className="py-3 space-y-2">
                     {editingComponentIdx === idx ? (
                       /* Inline Edit Form */
-                      <div className="bg-slate-950/80 border border-indigo-500/40 rounded-xl p-3 space-y-2.5">
+                      <div className="bg-slate-50 border border-indigo-200 rounded-xl p-3 space-y-2.5">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] font-bold text-indigo-300 uppercase tracking-wider">
+                          <span className="text-[11px] font-bold text-indigo-700 uppercase tracking-wider">
                             Edit Component
                           </span>
                           <div className="flex items-center gap-1.5">
                             <button
                               type="button"
                               onClick={handleSaveComponentEdit}
-                              className="px-2.5 py-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg flex items-center gap-1 transition cursor-pointer"
+                              className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-lg flex items-center gap-1 transition cursor-pointer shadow-xs"
                               title="Save changes"
                             >
                               <Check className="w-3.5 h-3.5" />
@@ -1205,7 +1205,7 @@ export function MainLogScreen() {
                             <button
                               type="button"
                               onClick={() => setEditingComponentIdx(null)}
-                              className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                              className="p-1 text-slate-500 hover:text-slate-800 rounded-lg hover:bg-slate-200/60 transition cursor-pointer"
                               title="Cancel"
                             >
                               <X className="w-4 h-4" />
@@ -1215,16 +1215,16 @@ export function MainLogScreen() {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                           <div>
-                            <label className="block text-[10px] text-slate-400 font-semibold mb-1">Name</label>
+                            <label className="block text-[10px] text-slate-600 font-semibold mb-1">Name</label>
                             <input
                               type="text"
                               value={editCompName}
                               onChange={(e) => setEditCompName(e.target.value)}
-                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-indigo-500"
+                              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-indigo-500"
                             />
                           </div>
                           <div>
-                            <label className="block text-[10px] text-slate-400 font-semibold mb-1">
+                            <label className="block text-[10px] text-slate-600 font-semibold mb-1">
                               Portion / Grams (auto-scales macros)
                             </label>
                             <input
@@ -1232,53 +1232,53 @@ export function MainLogScreen() {
                               min="1"
                               value={editCompGrams}
                               onChange={(e) => handleEditGramsChange(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                              className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-indigo-500"
                             />
                           </div>
                         </div>
 
                         <div className="grid grid-cols-4 gap-2">
                           <div>
-                            <label className="block text-[10px] text-slate-400 font-semibold mb-1">Calories</label>
+                            <label className="block text-[10px] text-slate-600 font-semibold mb-1">Calories</label>
                             <input
                               type="number"
                               min="0"
                               value={editCompCalories}
                               onChange={(e) => setEditCompCalories(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                              className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-indigo-500"
                             />
                           </div>
                           <div>
-                            <label className="block text-[10px] text-blue-400 font-semibold mb-1">Protein (g)</label>
+                            <label className="block text-[10px] text-blue-600 font-semibold mb-1">Protein (g)</label>
                             <input
                               type="number"
                               min="0"
                               step="0.1"
                               value={editCompProtein}
                               onChange={(e) => setEditCompProtein(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                              className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-indigo-500"
                             />
                           </div>
                           <div>
-                            <label className="block text-[10px] text-amber-400 font-semibold mb-1">Carbs (g)</label>
+                            <label className="block text-[10px] text-amber-600 font-semibold mb-1">Carbs (g)</label>
                             <input
                               type="number"
                               min="0"
                               step="0.1"
                               value={editCompCarbs}
                               onChange={(e) => setEditCompCarbs(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                              className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-indigo-500"
                             />
                           </div>
                           <div>
-                            <label className="block text-[10px] text-rose-400 font-semibold mb-1">Fat (g)</label>
+                            <label className="block text-[10px] text-rose-600 font-semibold mb-1">Fat (g)</label>
                             <input
                               type="number"
                               min="0"
                               step="0.1"
                               value={editCompFat}
                               onChange={(e) => setEditCompFat(e.target.value === '' ? '' : Number(e.target.value))}
-                              className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-indigo-500"
+                              className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-indigo-500"
                             />
                           </div>
                         </div>
@@ -1288,7 +1288,7 @@ export function MainLogScreen() {
                       <>
                         <div className="flex items-center justify-between text-xs gap-2">
                           <div className="flex items-center gap-2 flex-wrap min-w-0">
-                            <span className="font-bold text-white truncate">{comp.name}</span>
+                            <span className="font-bold text-slate-900 truncate">{comp.name}</span>
                             <span
                               className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border uppercase ${getEvidenceBadge(
                                 comp.evidence
@@ -1306,9 +1306,9 @@ export function MainLogScreen() {
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
                             <div className="text-right">
-                              <span className="font-mono text-slate-200 font-bold">{comp.calories} kcal</span>
+                              <span className="font-mono text-slate-900 font-bold">{comp.calories} kcal</span>
                               {comp.calorieRange && (
-                                <span className="text-[10px] font-mono text-slate-400 ml-1">
+                                <span className="text-[10px] font-mono text-slate-500 ml-1">
                                   [{comp.calorieRange[0]}-{comp.calorieRange[1]} kcal]
                                 </span>
                               )}
@@ -1316,7 +1316,7 @@ export function MainLogScreen() {
                             <button
                               type="button"
                               onClick={() => handleStartEditComponent(idx)}
-                              className="p-1 rounded-lg text-slate-400 hover:text-indigo-300 hover:bg-slate-800 transition cursor-pointer"
+                              className="p-1 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition cursor-pointer"
                               title="Edit ingredient"
                             >
                               <Edit2 className="w-3.5 h-3.5" />
@@ -1324,7 +1324,7 @@ export function MainLogScreen() {
                             <button
                               type="button"
                               onClick={() => handleRemoveComponent(idx)}
-                              className="p-1 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition cursor-pointer"
+                              className="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer"
                               title="Remove ingredient"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -1332,24 +1332,24 @@ export function MainLogScreen() {
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between text-[11px] text-slate-400">
+                        <div className="flex items-center justify-between text-[11px] text-slate-500">
                           <div>
                             {comp.portionDescription || `~${comp.estimatedGrams}g`}{' '}
                             {comp.mass_g && (
-                              <span className="font-mono text-slate-500">
+                              <span className="font-mono text-slate-400">
                                 (p10: {comp.mass_g.p10}g, p90: {comp.mass_g.p90}g)
                               </span>
                             )}{' '}
                             &bull; P: {comp.protein}g, C: {comp.carbs}g, F: {comp.fat}g
                           </div>
-                          <div className="text-[10px] font-mono text-slate-500">
+                          <div className="text-[10px] font-mono text-slate-400">
                             {Math.round((comp.confidence || 0.85) * 100)}% Conf
                           </div>
                         </div>
 
                         {comp.evidence === 'unobservable_unknown' && (
-                          <div className="text-[10px] text-amber-300/90 flex items-center gap-1.5 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 mt-1">
-                            <AlertTriangle className="w-3 h-3 text-amber-400 shrink-0" />
+                          <div className="text-[10px] text-amber-800 flex items-center gap-1.5 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 mt-1">
+                            <AlertTriangle className="w-3 h-3 text-amber-600 shrink-0" />
                             <span>Unobservable element (cooking fat/hidden sauce): included in range, never rendered as bare point number.</span>
                           </div>
                         )}
@@ -1361,16 +1361,16 @@ export function MainLogScreen() {
 
               {/* Add Component Action / Drawer */}
               {isAddingComponent ? (
-                <div className="bg-slate-950/80 border border-slate-700/80 rounded-xl p-3.5 space-y-3 mt-2">
+                <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-3 mt-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                      <Plus className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                      <Plus className="w-3.5 h-3.5 text-emerald-600" />
                       Add Extra Food Component
                     </span>
                     <button
                       type="button"
                       onClick={() => setIsAddingComponent(false)}
-                      className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                      className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-200 transition cursor-pointer"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -1378,71 +1378,71 @@ export function MainLogScreen() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-[10px] text-slate-400 font-semibold mb-1">Food / Ingredient Name *</label>
+                      <label className="block text-[10px] text-slate-600 font-semibold mb-1">Food / Ingredient Name *</label>
                       <input
                         type="text"
                         placeholder="e.g. Olive Oil or Sautéed Onions"
                         value={newCompName}
                         onChange={(e) => setNewCompName(e.target.value)}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] text-slate-400 font-semibold mb-1">Estimated Grams</label>
+                      <label className="block text-[10px] text-slate-600 font-semibold mb-1">Estimated Grams</label>
                       <input
                         type="number"
                         min="1"
                         placeholder="100"
                         value={newCompGrams}
                         onChange={(e) => setNewCompGrams(e.target.value === '' ? '' : Number(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-4 gap-2">
                     <div>
-                      <label className="block text-[10px] text-slate-400 font-semibold mb-1">Calories</label>
+                      <label className="block text-[10px] text-slate-600 font-semibold mb-1">Calories</label>
                       <input
                         type="number"
                         min="0"
                         placeholder="120"
                         value={newCompCalories}
                         onChange={(e) => setNewCompCalories(e.target.value === '' ? '' : Number(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] text-blue-400 font-semibold mb-1">Protein (g)</label>
+                      <label className="block text-[10px] text-blue-600 font-semibold mb-1">Protein (g)</label>
                       <input
                         type="number"
                         min="0"
                         placeholder="0"
                         value={newCompProtein}
                         onChange={(e) => setNewCompProtein(e.target.value === '' ? '' : Number(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] text-amber-400 font-semibold mb-1">Carbs (g)</label>
+                      <label className="block text-[10px] text-amber-600 font-semibold mb-1">Carbs (g)</label>
                       <input
                         type="number"
                         min="0"
                         placeholder="0"
                         value={newCompCarbs}
                         onChange={(e) => setNewCompCarbs(e.target.value === '' ? '' : Number(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] text-rose-400 font-semibold mb-1">Fat (g)</label>
+                      <label className="block text-[10px] text-rose-600 font-semibold mb-1">Fat (g)</label>
                       <input
                         type="number"
                         min="0"
                         placeholder="14"
                         value={newCompFat}
                         onChange={(e) => setNewCompFat(e.target.value === '' ? '' : Number(e.target.value))}
-                        className="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-white font-mono focus:outline-none focus:border-emerald-500"
+                        className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-900 font-mono focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                   </div>
@@ -1451,7 +1451,7 @@ export function MainLogScreen() {
                     type="button"
                     onClick={handleAddNewComponent}
                     disabled={!newCompName.trim()}
-                    className="w-full py-2 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold text-xs rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-xs rounded-lg transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     Add to Breakdown
@@ -1461,7 +1461,7 @@ export function MainLogScreen() {
                 <button
                   type="button"
                   onClick={() => setIsAddingComponent(true)}
-                  className="w-full py-2 border border-dashed border-slate-700 hover:border-slate-500 rounded-xl text-xs font-semibold text-slate-400 hover:text-slate-200 transition flex items-center justify-center gap-1.5 cursor-pointer mt-1"
+                  className="w-full py-2 border border-dashed border-slate-300 hover:border-slate-400 rounded-xl text-xs font-semibold text-slate-600 hover:text-slate-800 transition flex items-center justify-center gap-1.5 cursor-pointer mt-1"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   Add Missing Food Component
@@ -1471,9 +1471,9 @@ export function MainLogScreen() {
 
             {/* Scientific Uncertainty & Information-Gain Clarification */}
             {analyzedMeal.uncertainty?.requiresClarification && (
-              <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl space-y-3">
-                <div className="flex items-start gap-2 text-xs text-amber-300">
-                  <HelpCircle className="w-4 h-4 shrink-0 text-amber-400 mt-0.5" />
+              <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-3">
+                <div className="flex items-start gap-2 text-xs text-amber-900">
+                  <HelpCircle className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />
                   <div>
                     <strong>Information-Gain Clarification:</strong> {analyzedMeal.uncertainty.clarificationPrompt}
                   </div>
@@ -1487,8 +1487,8 @@ export function MainLogScreen() {
                       onClick={() => handleClarificationSelect(opt)}
                       className={`p-2 rounded-lg border text-xs font-bold transition cursor-pointer ${
                         selectedClarification === opt
-                          ? 'bg-amber-500/20 border-amber-400 text-amber-200'
-                          : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700'
+                          ? 'bg-amber-100 border-amber-400 text-amber-900'
+                          : 'bg-white border-slate-200 text-slate-700 hover:border-amber-300'
                       }`}
                     >
                       {opt}
@@ -1503,7 +1503,7 @@ export function MainLogScreen() {
               <button
                 type="button"
                 onClick={handleConfirmAnalyzedMeal}
-                className="flex-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-3 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 cursor-pointer"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer"
               >
                 <Check className="w-4 h-4" />
                 <span>
@@ -1521,7 +1521,7 @@ export function MainLogScreen() {
                   setPrimaryPhotoBase64(null);
                   setSecondPhotoBase64(null);
                 }}
-                className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 px-4 rounded-xl text-xs transition cursor-pointer"
+                className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-xl text-xs transition cursor-pointer border border-slate-200"
               >
                 Discard
               </button>
@@ -1531,26 +1531,26 @@ export function MainLogScreen() {
       </div>
 
       {/* 2. Manual Macro Entry Form */}
-      <div id="manual-log-form" className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+      <div id="manual-log-form" className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-600" />
             Manual Macro Entry Form
           </h2>
-          <span className="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full font-semibold">
+          <span className="text-[10px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold">
             Local & Firestore Sync Active
           </span>
         </div>
 
         {submittedItem && (
-          <div className="bg-emerald-500/15 border border-emerald-500/30 p-4 rounded-2xl flex items-center justify-between animate-fadeIn">
+          <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between animate-fadeIn">
             <div className="flex items-center gap-3">
-              <span className="w-8 h-8 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <span className="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
                 <Check className="w-4 h-4" />
               </span>
               <div>
-                <div className="text-xs font-bold text-white">Successfully logged &ldquo;{submittedItem.name}&rdquo;</div>
-                <div className="text-[11px] text-slate-400">
+                <div className="text-xs font-bold text-slate-900">Successfully logged &ldquo;{submittedItem.name}&rdquo;</div>
+                <div className="text-[11px] text-slate-600">
                   {submittedItem.calories} kcal &bull; {submittedItem.protein}g P &bull; {submittedItem.carbs}g C &bull; {submittedItem.fat}g F &bull; Grade {submittedItem.grade} &bull; {submittedItem.nutritionSource || 'LOCAL_AUTHORITATIVE'}
                 </div>
               </div>
@@ -1558,7 +1558,7 @@ export function MainLogScreen() {
             <button
               type="button"
               onClick={() => setActiveScreen('daily-log')}
-              className="text-xs font-bold text-emerald-300 hover:text-emerald-200 underline cursor-pointer"
+              className="text-xs font-bold text-emerald-700 hover:text-emerald-800 underline cursor-pointer"
             >
               Inspect Log
             </button>
@@ -1568,7 +1568,7 @@ export function MainLogScreen() {
         <form onSubmit={handleManualSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
                 Food Name *
               </label>
               <input
@@ -1577,12 +1577,12 @@ export function MainLogScreen() {
                 placeholder="e.g. Grilled Salmon with Brown Rice"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-emerald-500 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
                 Portion
               </label>
               <input
@@ -1590,13 +1590,13 @@ export function MainLogScreen() {
                 placeholder="e.g. 1 fillet (220g)"
                 value={portion}
                 onChange={(e) => setPortion(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-emerald-500 transition"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
               Meal Slot *
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -1605,10 +1605,10 @@ export function MainLogScreen() {
                   key={slot}
                   type="button"
                   onClick={() => setMealType(slot)}
-                  className={`py-2 px-3 rounded-xl border text-xs font-bold transition ${
+                  className={`py-2 px-3 rounded-xl border text-xs font-bold transition cursor-pointer ${
                     mealType === slot
-                      ? 'bg-emerald-500/20 border-emerald-500 text-emerald-300 shadow-sm'
-                      : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'
+                      ? 'bg-emerald-50 border-emerald-400 text-emerald-800 shadow-xs font-bold'
+                      : 'bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300'
                   }`}
                 >
                   {slot}
@@ -1620,7 +1620,7 @@ export function MainLogScreen() {
           {/* Macro Inputs */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
                 Calories (kcal) *
               </label>
               <input
@@ -1631,12 +1631,12 @@ export function MainLogScreen() {
                 placeholder="450"
                 value={calories}
                 onChange={(e) => setCalories(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 font-mono text-sm focus:bg-white focus:outline-none focus:border-emerald-500 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-blue-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1.5">
                 Protein (g) *
               </label>
               <input
@@ -1647,12 +1647,12 @@ export function MainLogScreen() {
                 placeholder="35"
                 value={protein}
                 onChange={(e) => setProtein(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 font-mono text-sm focus:bg-white focus:outline-none focus:border-emerald-500 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-amber-600 uppercase tracking-wider mb-1.5">
                 Carbs (g) *
               </label>
               <input
@@ -1663,12 +1663,12 @@ export function MainLogScreen() {
                 placeholder="40"
                 value={carbs}
                 onChange={(e) => setCarbs(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 font-mono text-sm focus:bg-white focus:outline-none focus:border-emerald-500 transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-rose-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-semibold text-rose-600 uppercase tracking-wider mb-1.5">
                 Fat (g) *
               </label>
               <input
@@ -1679,7 +1679,7 @@ export function MainLogScreen() {
                 placeholder="12"
                 value={fat}
                 onChange={(e) => setFat(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2 text-white font-mono text-sm focus:outline-none focus:border-emerald-500 transition"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-slate-900 font-mono text-sm focus:bg-white focus:outline-none focus:border-emerald-500 transition"
               />
             </div>
           </div>
@@ -1687,7 +1687,7 @@ export function MainLogScreen() {
           {/* Optional micronutrients & junk flag */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
                 Sugar (g, optional)
               </label>
               <input
@@ -1696,12 +1696,12 @@ export function MainLogScreen() {
                 placeholder="4"
                 value={sugar}
                 onChange={(e) => setSugar(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-white font-mono text-xs focus:outline-none focus:border-slate-700"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono text-xs focus:bg-white focus:outline-none focus:border-slate-400"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
                 Sodium (mg, optional)
               </label>
               <input
@@ -1710,7 +1710,7 @@ export function MainLogScreen() {
                 placeholder="320"
                 value={sodium}
                 onChange={(e) => setSodium(e.target.value === '' ? '' : Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-white font-mono text-xs focus:outline-none focus:border-slate-700"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-slate-900 font-mono text-xs focus:bg-white focus:outline-none focus:border-slate-400"
               />
             </div>
 
@@ -1722,7 +1722,7 @@ export function MainLogScreen() {
                   onChange={(e) => setIsJunk(e.target.checked)}
                   className="w-4 h-4 rounded accent-rose-500 cursor-pointer"
                 />
-                <span className="text-xs font-bold text-slate-300">
+                <span className="text-xs font-bold text-slate-700">
                   Flag as Ultra-Processed / Junk Food
                 </span>
               </label>
@@ -1732,7 +1732,7 @@ export function MainLogScreen() {
           <button
             type="submit"
             disabled={isSubmittingManual}
-            className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 disabled:cursor-not-allowed text-slate-950 font-black py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-[0.99] cursor-pointer mt-4"
+            className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] cursor-pointer mt-4"
           >
             <PlusCircle className="w-4 h-4" />
             <span>{isSubmittingManual ? 'Logging Meal...' : 'Add to Local Food Log'}</span>

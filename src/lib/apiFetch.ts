@@ -105,6 +105,20 @@ function cleanHeaders(headers?: HeadersInit): HeadersInit | undefined {
 }
 
 /**
+ * Retrieves the base API URL from environment configuration.
+ * Allows routing directly to Railway or custom backend service.
+ */
+export function getApiBaseUrl(): string {
+  try {
+    const envUrl = (import.meta as any)?.env?.VITE_API_URL;
+    if (envUrl && typeof envUrl === 'string') {
+      return envUrl.replace(/\/+$/, '');
+    }
+  } catch {}
+  return '';
+}
+
+/**
  * Universal safe fetch wrapper across all frontend components.
  * Guarantees:
  * 1. Inspects response.ok before attempting to parse JSON.
@@ -121,9 +135,17 @@ export async function apiFetch<T = any>(
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
+  let targetUrl = input;
+  if (typeof input === 'string' && input.startsWith('/')) {
+    const baseUrl = getApiBaseUrl();
+    if (baseUrl) {
+      targetUrl = `${baseUrl}${input}`;
+    }
+  }
+
   try {
     const cleanedInit = init ? { ...init, headers: cleanHeaders(init.headers) } : undefined;
-    const res = await fetch(input, {
+    const res = await fetch(targetUrl, {
       ...cleanedInit,
       signal: init?.signal || controller.signal,
     });

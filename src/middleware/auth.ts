@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { adminAuth } from '../lib/firebase-admin';
-import { DecodedIdToken } from 'firebase-admin/auth';
+import { verifyFirebaseToken, DecodedIdToken } from '../lib/tokenVerification';
 
 export interface AuthRequest extends Request {
   user?: DecodedIdToken;
@@ -44,11 +43,19 @@ export const requireAuth = async (
   }
 
   try {
-    const decodedToken = await adminAuth.verifyIdToken(token);
+    const decodedToken = await verifyFirebaseToken(token);
     req.user = decodedToken;
-    next();
-  } catch (error) {
-    console.warn('Firebase ID token verification failed:', error instanceof Error ? error.message : String(error));
-    return res.status(401).json({ success: false, error: 'Unauthorized: Invalid token' });
+    return next();
+  } catch (err: any) {
+    // Try firebase-admin if configured as secondary fallback
+    try {
+      const { adminAuth } = await import('../lib/firebase-admin');
+      const decoded = await adminAuth.verifyIdToken(token);
+      req.user = decoded as DecodedIdToken;
+      return next();
+    } catch {
+      console.warn('Firebase ID token verification failed:', err instanceof Error ? err.message : String(err));
+      return res.status(401).json({ success: false, error: 'Unauthorized: Invalid token' });
+    }
   }
 };

@@ -39,35 +39,35 @@ function AppContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#070b14] flex flex-col items-center justify-center text-slate-300 gap-3">
-        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.2)]">
-          <Activity className="w-6 h-6 animate-spin text-emerald-400" />
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center text-slate-600 gap-3">
+        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shadow-[0_0_25px_rgba(16,185,129,0.15)]">
+          <Activity className="w-6 h-6 animate-spin text-emerald-600" />
         </div>
-        <span className="text-xs font-bold text-slate-400 tracking-wider uppercase">Loading Nutrition Engine...</span>
+        <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">Loading Nutrition Engine...</span>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#070b14] flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 relative overflow-hidden">
         {/* 3D WebGL Ambient Decorative Layer */}
         <AmbientCanvas3D />
 
-        <div className="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl p-7 sm:p-8 rounded-3xl border border-slate-700/60 text-center space-y-6 shadow-2xl relative z-10">
-          <div className="w-16 h-16 bg-gradient-to-tr from-emerald-500 via-teal-400 to-emerald-300 rounded-2xl mx-auto flex items-center justify-center shadow-[0_10px_25px_rgba(16,185,129,0.3)]">
+        <div className="max-w-md w-full bg-white/95 backdrop-blur-2xl p-7 sm:p-8 rounded-3xl border border-slate-200/90 text-center space-y-6 shadow-xl relative z-10">
+          <div className="w-16 h-16 bg-gradient-to-tr from-emerald-500 via-teal-400 to-emerald-300 rounded-2xl mx-auto flex items-center justify-center shadow-[0_10px_25px_rgba(16,185,129,0.25)]">
             <Target className="w-8 h-8 text-slate-950" />
           </div>
 
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-[11px] font-bold mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold mb-2">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
               <span>AI Vision &bull; 3D Plate Engine</span>
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tight">
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight">
               VibeDiet 3D Tracker
             </h1>
-            <p className="text-slate-400 text-xs mt-2 leading-relaxed">
+            <p className="text-slate-500 text-xs mt-2 leading-relaxed">
               Multi-component food vision, tiered nutritional lookup, adaptive biometrics, and intelligent meal swaps.
             </p>
           </div>
@@ -78,7 +78,7 @@ function AppContent() {
               type="button"
               onClick={handleGoogleLogin}
               disabled={isAuthenticating}
-              className="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-3 shadow-xl active:scale-[0.99] disabled:opacity-50 text-sm cursor-pointer"
+              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-2xl transition flex items-center justify-center gap-3 shadow-md active:scale-[0.99] disabled:opacity-50 text-sm cursor-pointer"
             >
               <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
                 <path
@@ -103,17 +103,17 @@ function AppContent() {
 
             <div className="relative my-3">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-800" />
+                <div className="w-full border-t border-slate-200" />
               </div>
               <div className="relative flex justify-center text-[10px] uppercase">
-                <span className="bg-slate-900 px-3 text-slate-400 font-bold tracking-wider">or instant demo</span>
+                <span className="bg-white px-3 text-slate-400 font-bold tracking-wider">or instant demo</span>
               </div>
             </div>
 
             {/* Username Login Form */}
             <form onSubmit={handleUsernameLogin} className="space-y-3 text-left">
               <div>
-                <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">
                   Tracker Username
                 </label>
                 <input
@@ -122,7 +122,7 @@ function AppContent() {
                   onChange={(e) => setUsernameInput(e.target.value)}
                   placeholder="e.g. alex_fitness"
                   disabled={isAuthenticating}
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition disabled:opacity-50 placeholder-slate-500"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-slate-900 text-sm focus:bg-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition disabled:opacity-50 placeholder-slate-400"
                   required
                 />
               </div>
@@ -130,7 +130,7 @@ function AppContent() {
               <button
                 type="submit"
                 disabled={isAuthenticating}
-                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 disabled:opacity-50 text-slate-950 font-black py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 text-xs active:scale-[0.99] cursor-pointer"
+                className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-sm text-xs active:scale-[0.99] cursor-pointer"
               >
                 <LogIn className="w-4 h-4" />
                 <span>Enter Tracker</span>
@@ -149,15 +149,15 @@ function AppContent() {
                 }
               }}
               disabled={isAuthenticating}
-              className="w-full bg-slate-800/80 hover:bg-slate-800 hover:border-emerald-500/40 text-slate-200 font-bold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 border border-slate-700/80 disabled:opacity-50 cursor-pointer"
+              className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl transition text-xs flex items-center justify-center gap-2 border border-slate-200 disabled:opacity-50 cursor-pointer"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <span>Instant 1-Click Guest Demo</span>
             </button>
 
             {authError && (
-              <div className="bg-red-500/15 border border-red-500/30 p-3 rounded-xl mt-4">
-                <p className="text-red-400 text-xs text-center font-medium">{authError}</p>
+              <div className="bg-rose-50 border border-rose-200 p-3 rounded-xl mt-4">
+                <p className="text-rose-600 text-xs text-center font-medium">{authError}</p>
               </div>
             )}
           </div>
@@ -167,7 +167,7 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070b14] relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 relative overflow-hidden">
       {/* 3D WebGL Ambient Decorative Layer (Background) */}
       <AmbientCanvas3D />
 

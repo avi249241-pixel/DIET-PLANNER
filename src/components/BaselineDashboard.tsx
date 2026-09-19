@@ -83,33 +83,33 @@ export function BaselineDashboard() {
   ];
 
   return (
-    <div className="min-h-screen text-slate-100 flex flex-col relative z-10 selection:bg-emerald-500/30 selection:text-emerald-200">
+    <div className="min-h-screen text-slate-800 flex flex-col relative z-10 selection:bg-emerald-500/20 selection:text-emerald-900">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/90 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo */}
           <div
             onClick={() => setActiveScreen('daily-log')}
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-sm shadow-emerald-500/20 group-hover:scale-105 transition">
               <Target className="w-5 h-5 text-slate-950" />
             </div>
             <div>
-              <div className="text-sm font-black tracking-tight text-white flex items-center gap-2">
+              <div className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
                 <span>VibeDiet 3D</span>
-                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-1.5 py-0.2 rounded border border-emerald-500/30">
+                <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.2 rounded border border-emerald-200">
                   AI Pro
                 </span>
               </div>
-              <div className="text-[10px] text-slate-400 font-medium hidden sm:block">
+              <div className="text-[10px] text-slate-500 font-medium hidden sm:block">
                 3D Plate Vision &bull; Nutrition Intelligence
               </div>
             </div>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-900/90 border border-slate-800/80 p-1 rounded-2xl">
+          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 border border-slate-200/80 p-1 rounded-2xl">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeScreen === item.id;
@@ -120,8 +120,8 @@ export function BaselineDashboard() {
                   onClick={() => setActiveScreen(item.id)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
                     isActive
-                      ? 'bg-emerald-500 text-slate-950 shadow-sm shadow-emerald-500/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
+                      ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
@@ -129,7 +129,7 @@ export function BaselineDashboard() {
                   {item.badge && (
                     <span
                       className={`text-[9px] font-mono px-1.5 py-0.2 rounded-full font-bold ${
-                        isActive ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-400'
+                        isActive ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-600'
                       }`}
                     >
                       {item.badge}
@@ -143,7 +143,7 @@ export function BaselineDashboard() {
           {/* Right Action: Quick Tools & User Auth */}
           <div className="flex items-center gap-3">
             {/* Real Quick Action Tools */}
-            <div className="hidden lg:flex items-center gap-1 border-r border-slate-800 pr-3">
+            <div className="hidden lg:flex items-center gap-1 border-r border-slate-200 pr-3">
               {quickTools.map((tool) => {
                 const Icon = tool.icon;
                 return (
@@ -151,12 +151,12 @@ export function BaselineDashboard() {
                     key={tool.name}
                     type="button"
                     onClick={tool.action}
-                    className="p-2 text-slate-400 hover:text-emerald-400 hover:bg-slate-900 rounded-xl transition cursor-pointer relative group"
+                    className="p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-100 rounded-xl transition cursor-pointer relative group"
                     title={tool.title}
                   >
                     <Icon className="w-4 h-4" />
                     <span className="sr-only">{tool.name}</span>
-                    <span className="absolute -top-0.5 -right-0.5 text-[8px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-1 rounded-full">
+                    <span className="absolute -top-0.5 -right-0.5 text-[8px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-1 rounded-full">
                       {tool.badge}
                     </span>
                   </button>
@@ -170,23 +170,23 @@ export function BaselineDashboard() {
               <button
                 type="button"
                 onClick={() => setActiveScreen('history')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 transition cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 transition cursor-pointer shadow-2xs"
                 title="View Streak & Calendar History"
               >
-                <Flame className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
                 <span className="text-xs font-black font-mono">{streakAnalysis.currentStreak}d</span>
                 {streakAnalysis.isGraceActive && (
                   <span title="1-Day Grace Active">
-                    <Shield className="w-3 h-3 text-amber-400" />
+                    <Shield className="w-3 h-3 text-amber-600" />
                   </span>
                 )}
               </button>
 
               <div className="hidden md:flex flex-col text-right">
-                <span className="text-xs font-bold text-white leading-tight">
+                <span className="text-xs font-bold text-slate-900 leading-tight">
                   {user?.displayName || 'Active Athlete'}
                 </span>
-                <span className="text-[10px] text-emerald-400 font-mono font-medium">
+                <span className="text-[10px] text-emerald-600 font-mono font-medium">
                   {userProfile.targetCalories} kcal target
                 </span>
               </div>
@@ -195,14 +195,14 @@ export function BaselineDashboard() {
                 <img
                   src={user.photoURL}
                   alt="avatar"
-                  className="w-8 h-8 rounded-full border border-slate-700 object-cover bg-slate-800"
+                  className="w-8 h-8 rounded-full border border-slate-200 object-cover bg-slate-100"
                 />
               )}
 
               <button
                 type="button"
                 onClick={logOut}
-                className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition cursor-pointer"
+                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer"
                 title="Log Out"
               >
                 <LogOut className="w-4 h-4" />
@@ -213,7 +213,7 @@ export function BaselineDashboard() {
       </header>
 
       {/* Sub-Header Mobile / Tablet Nav Strip */}
-      <div className="lg:hidden border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-md px-4 py-2 overflow-x-auto scrollbar-none flex items-center gap-2">
+      <div className="lg:hidden border-b border-slate-200/90 bg-white/95 backdrop-blur-md px-4 py-2 overflow-x-auto scrollbar-none flex items-center gap-2">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeScreen === item.id;
@@ -224,14 +224,14 @@ export function BaselineDashboard() {
               onClick={() => setActiveScreen(item.id)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition flex items-center gap-1.5 cursor-pointer ${
                 isActive
-                  ? 'bg-emerald-500 text-slate-950 font-black'
-                  : 'bg-slate-900/80 text-slate-400 border border-slate-800'
+                  ? 'bg-slate-900 text-white font-bold shadow-xs'
+                  : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
               <span>{item.label}</span>
               {item.badge && (
-                <span className="text-[9px] font-mono px-1 rounded bg-slate-950/30">
+                <span className="text-[9px] font-mono px-1 rounded bg-slate-200 text-slate-700">
                   {item.badge}
                 </span>
               )}
@@ -242,7 +242,7 @@ export function BaselineDashboard() {
         <button
           type="button"
           onClick={() => setIsBarcodeModalOpen(true)}
-          className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-900/40 text-emerald-400/90 border border-emerald-500/30 flex items-center gap-1 cursor-pointer"
+          className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-100 text-emerald-700 border border-slate-200 flex items-center gap-1 cursor-pointer"
         >
           <Barcode className="w-3 h-3" />
           <span>Barcode</span>
@@ -250,7 +250,7 @@ export function BaselineDashboard() {
         <button
           type="button"
           onClick={() => setIsVoiceModalOpen(true)}
-          className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-900/40 text-emerald-400/90 border border-emerald-500/30 flex items-center gap-1 cursor-pointer"
+          className="px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-100 text-emerald-700 border border-slate-200 flex items-center gap-1 cursor-pointer"
         >
           <Mic className="w-3 h-3" />
           <span>Voice</span>

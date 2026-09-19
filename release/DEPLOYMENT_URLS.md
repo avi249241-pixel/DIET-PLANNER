@@ -10,59 +10,47 @@ You can launch the full application interface directly from your desktop or file
 
 - **Direct File Path**: `release/Diet-Planner-App.html`
 - **File URL**: [Diet-Planner-App.html](file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html)
-- **Features**: All React 19 UI, Tailwind v4 styling, interactive dashboards, habit analysis screens, recipe builders, and offline state calculations are completely bundled into this single 1.70 MB file. Double-click to launch in Chrome, Edge, Safari, or Firefox.
+- **Features**: All React 19 UI, Tailwind v4 styling, calm light theme dashboard, interactive macro progress cards, habit analysis screens, recipe builders, and offline state calculations are completely bundled into this single standalone file. Double-click to launch in Chrome, Edge, Safari, or Firefox.
 
 ---
 
-## 2. One-Word Cloud Deployment Workflows
+## 2. Production Cloud Architecture
 
 ### A. Frontend (Vercel)
-You can deploy using the project's root CLI scripts or the helper batch file in this directory:
-
-- **Deploy Preview**:
-  ```bash
-  bun run deploy:preview
-  ```
-  *Yields a temporary staging URL, e.g.* `https://diet-planner-<hash>.vercel.app`
-
-- **Deploy Production**:
-  ```bash
-  bun run deploy:prod
-  ```
-  *Deploys live to your primary production domain, e.g.* `https://diet-planner.vercel.app`
-
+The frontend is deployed as a high-performance React 19 Single Page Application on Vercel:
+- **Production URL**: **[https://diet-planner-sooty.vercel.app](https://diet-planner-sooty.vercel.app)**
+- **Deploy Command**: `bun run deploy:prod`
 - **Windows One-Click Shortcut**: Double-click [deploy-vercel.bat](file:///c:/Users/code/Desktop/DIET%20PLANNER/release/deploy-vercel.bat) inside this folder.
 
 ---
 
-### B. Cloud Backend Architecture (Vercel Serverless + Firebase)
-The backend service operates on a modern serverless architecture:
-
-- **Fast Endpoints**: Native Vercel Serverless Functions in `api/` (sub-10s responses, zero cold starts, global edge distribution)
-- **Heavy AI Vision**: Firebase Cloud Function 2nd Gen `analyzeFood` (`functions/src/index.ts`) with scale-to-zero (`minInstances: 0`) and 120s timeout (with local/Vercel fallback)
-- **Production URL**: Handled unified under `https://diet-planner-sooty.vercel.app/api/*`
-- **Health Check Endpoint**: `/api/health`
-- **Windows Local Server Runner**: Double-click [start-server.bat](file:///c:/Users/code/Desktop/DIET%20PLANNER/release/start-server.bat) to run the standalone server locally on `http://localhost:3000`.
+### B. Consolidated Backend (Railway)
+All backend routes and heavy AI pipelines are unified into a single long-lived service running `server.ts` on Railway:
+- **Build Engine**: Nixpacks (`bun run server.ts`)
+- **Health Probes**: `GET /health` and `GET /api/health`
+- **Token Verification**: Zero-dependency crypto verification using Google public x509 certs with OAuth2 tokeninfo fallback.
+- **Unified Endpoints**:
+  - `POST /api/ai/analyze-food` (Multimodal vision + tiered USDA/OFF lookup)
+  - `POST /api/ai/match-meal-memory` (Personal food memory recall)
+  - `POST /api/ai/recompute-category-priors` (Adaptive category priors)
+  - `POST /api/ai/weekly-audit` (Habit coaching & macro audit)
+  - `POST /api/ai/smart-grocery-list` (Dynamic grocery generation)
+  - `POST /api/ai/analyze-recipe` (Recipe macro calculation)
+  - `POST /api/ai/calculate-profile` (TDEE & target recalculation)
+  - `POST /api/ai/personalized-recommendations` (Predictive next meal)
+  - `POST /api/ai/voice-quick-log` (Voice logging parser)
+  - `GET /api/food/barcode/:code` (Barcode lookup)
 
 ---
 
-## 3. Dedicated Endpoints & Live Verification URLs
+## 3. Dedicated Endpoints & Verification Summary
 
 | Service | Target URL | Status / Notes |
 | :--- | :--- | :--- |
 | 🚀 **Permanent Vercel Production URL** | **[https://diet-planner-sooty.vercel.app](https://diet-planner-sooty.vercel.app)** | 🟢 **LIVE & ACCESSIBLE WORLDWIDE** |
-| 🔍 **Vercel Direct Deployment** | `https://diet-planner-piew9407v-avi-2f26.vercel.app` | 🟢 Verified & Active |
+| 🚆 **Railway Backend Service** | `https://diet-planner-production.up.railway.app` | 🟢 Verified Nixpacks bun start |
 | 💻 **Local Standalone App** | `file:///c:/Users/code/Desktop/DIET%20PLANNER/release/Diet-Planner-App.html` | ✅ Ready immediately (Double-click) |
-| 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run start` or `start-server.bat` |
-| ⚡ **Vercel API Gateway** | `https://diet-planner-sooty.vercel.app/api/health` | Fast native serverless functions |
-| 🔥 **Firebase Cloud Functions** | `functions/src/index.ts` (`analyzeFood`) | 2nd Gen Cloud Function (scale-to-zero) |
+| 🖥️ **Local Server** | `http://localhost:3000` | Run via `bun run server.ts` or `start-server.bat` |
+| ⚡ **Backend Health Check** | `GET /health` | Instant HTTP 200 health probe |
 | 🤖 **AI Food Analysis Endpoint** | `POST /api/ai/analyze-food` | Gemini vision + tiered nutrition pipeline |
-| **Weekly Habit Audit** | `POST /api/ai/weekly-audit` | Gemini habit coaching & macro analysis |
-| **Personalized Recommendations**| `POST /api/ai/personalized-recommendations` | Gemini meal suggestion engine |
-| **Barcode Lookup** | `GET /api/food/barcode/{code}` | OpenFoodFacts / USDA provider |
-
----
-
-## 4. Unified Architecture: Zero CORS, Direct Routing
-
-With all fast endpoints hosted directly in Vercel (`api/*`) and the vision pipeline supported both in Firebase Cloud Functions and Vercel functions, there are no external proxy bottlenecks or cold-start reverse-proxy drops. All client calls use relative paths (`/api/...`) which Vercel resolves natively.
+| 🔒 **Firestore Security Rules** | `firestore.rules` | User-isolated, append-only correctionLog |
