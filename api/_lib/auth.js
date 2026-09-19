@@ -103,7 +103,8 @@ async function authenticateRequest(req, res) {
     res.status(401).json({ success: false, error: "Unauthorized: Missing token" });
     return false;
   }
-  const allowTestToken = process.env.ALLOW_TEST_TOKEN === "true" || process.env.ALLOW_TEST_TOKEN === '"true"' || process.env.ALLOW_TEST_TOKEN === "1" || process.env.NODE_ENV === "test";
+  const rawAllow = (process.env.ALLOW_TEST_TOKEN || "").trim().toLowerCase().replace(/['"]/g, "");
+  const allowTestToken = rawAllow === "true" || rawAllow === "1" || process.env.NODE_ENV === "test";
   if (allowTestToken && token.startsWith("test-token-")) {
     const uid = token.replace("test-token-", "").trim();
     if (!uid) {

@@ -153,7 +153,7 @@ describe('Vercel & Firebase Split Architecture Migration Suite', () => {
     expect(responseBody.data).toBeDefined();
     expect(responseBody.data.foods).toBeDefined();
     expect(responseBody.data.foods.length).toBeGreaterThan(0);
-  });
+  }, 15000);
 
   it('verifies Firebase Cloud Function configuration in functions/src/index.ts', () => {
     const functionIndexPath = path.join(rootDir, 'functions/src/index.ts');

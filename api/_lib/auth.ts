@@ -154,10 +154,10 @@ export async function authenticateRequest(
   }
 
   // Support test tokens strictly when test mode or ALLOW_TEST_TOKEN is enabled
+  const rawAllow = (process.env.ALLOW_TEST_TOKEN || '').trim().toLowerCase().replace(/['"]/g, '');
   const allowTestToken =
-    process.env.ALLOW_TEST_TOKEN === 'true' ||
-    process.env.ALLOW_TEST_TOKEN === '"true"' ||
-    process.env.ALLOW_TEST_TOKEN === '1' ||
+    rawAllow === 'true' ||
+    rawAllow === '1' ||
     process.env.NODE_ENV === 'test';
   if (allowTestToken && token.startsWith('test-token-')) {
     const uid = token.replace('test-token-', '').trim();
