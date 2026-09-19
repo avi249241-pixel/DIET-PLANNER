@@ -21,8 +21,6 @@ interface StoreContextType {
   resetWater: () => void;
   activeScreen: ScreenType;
   setActiveScreen: (screen: ScreenType) => void;
-  unimplementedFeature: string | null;
-  setUnimplementedFeature: (name: string | null) => void;
   isSyncing: boolean;
 }
 
@@ -34,7 +32,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [foodItems, setFoodItems] = useState<FoodItem[]>(initialMockFoodItems);
   const [dailyStats, setDailyStats] = useState<DailyStats>(initialMockDailyStats);
   const [activeScreen, setActiveScreen] = useState<ScreenType>('daily-log');
-  const [unimplementedFeature, setUnimplementedFeature] = useState<string | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
 
   // Hydrate from Firestore upon user login
@@ -218,8 +215,6 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         resetWater,
         activeScreen,
         setActiveScreen,
-        unimplementedFeature,
-        setUnimplementedFeature,
         isSyncing
       }}
     >
