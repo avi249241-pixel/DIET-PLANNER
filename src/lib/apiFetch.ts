@@ -53,6 +53,15 @@ export function sanitizeErrorMessage(rawMessage: string, fallback = 'Couldn\'t c
     return 'Service is experiencing high demand. Please wait a moment and retry.';
   }
 
+  // Check for ByteString / character encoding errors
+  if (
+    rawMessage.includes('ByteString') ||
+    rawMessage.includes('65279') ||
+    rawMessage.includes('Failed to execute \'fetch\'')
+  ) {
+    return 'Couldn\'t analyze this photo — please try again or log manually below.';
+  }
+
   // Check for network connection failures
   if (
     rawMessage.includes('Failed to fetch') ||
@@ -63,6 +72,36 @@ export function sanitizeErrorMessage(rawMessage: string, fallback = 'Couldn\'t c
   }
 
   return rawMessage;
+}
+
+/**
+ * Strips zero-width characters/BOMs (\uFEFF) from HTTP headers to prevent
+ * browser ByteString conversion exceptions.
+ */
+function cleanHeaders(headers?: HeadersInit): HeadersInit | undefined {
+  if (!headers) return undefined;
+  if (headers instanceof Headers) {
+    const cleaned = new Headers();
+    headers.forEach((val, key) => {
+      const cleanKey = key.replace(/[\uFEFF\u200B]/g, '').trim();
+      const cleanVal = val.replace(/[\uFEFF\u200B]/g, '').trim();
+      cleaned.append(cleanKey, cleanVal);
+    });
+    return cleaned;
+  }
+  if (Array.isArray(headers)) {
+    return headers.map(([k, v]) => [
+      k.replace(/[\uFEFF\u200B]/g, '').trim(),
+      v.replace(/[\uFEFF\u200B]/g, '').trim(),
+    ]);
+  }
+  const cleaned: Record<string, string> = {};
+  for (const [k, v] of Object.entries(headers)) {
+    const cleanKey = k.replace(/[\uFEFF\u200B]/g, '').trim();
+    const cleanVal = typeof v === 'string' ? v.replace(/[\uFEFF\u200B]/g, '').trim() : String(v);
+    cleaned[cleanKey] = cleanVal;
+  }
+  return cleaned;
 }
 
 /**
@@ -83,8 +122,9 @@ export async function apiFetch<T = any>(
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
+    const cleanedInit = init ? { ...init, headers: cleanHeaders(init.headers) } : undefined;
     const res = await fetch(input, {
-      ...init,
+      ...cleanedInit,
       signal: init?.signal || controller.signal,
     });
 

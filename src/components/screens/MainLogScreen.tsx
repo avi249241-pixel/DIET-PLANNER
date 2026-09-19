@@ -44,7 +44,7 @@ import {
   ArrowDown
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { apiFetch } from '../../lib/apiFetch';
+import { apiFetch, sanitizeErrorMessage } from '../../lib/apiFetch';
 
 export function MainLogScreen() {
   const { foodItems, addFoodItem, setActiveScreen } = useStore();
@@ -361,7 +361,10 @@ export function MainLogScreen() {
     } catch (err: any) {
       console.error('Vision analysis pipeline error:', err);
       setAnalysisError(
-        err.message || "Couldn't analyze this photo — try again with better lighting or log manually below."
+        sanitizeErrorMessage(
+          err?.message,
+          "Couldn't analyze this photo — try again with better lighting or log manually below."
+        )
       );
     } finally {
       setIsAnalyzing(false);

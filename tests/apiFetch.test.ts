@@ -104,4 +104,12 @@ describe('Centralized apiFetch Defensive Error Handling Suite', () => {
       globalThis.fetch = originalFetch;
     }
   });
+
+  it('sanitizes ByteString character 65279 conversion errors cleanly', () => {
+    const byteStringErr = 'Cannot convert argument to a ByteString because the character at index 0 has a value of 65279 which is greater than 255.';
+    const sanitized = sanitizeErrorMessage(byteStringErr);
+    expect(sanitized.includes('ByteString')).toBe(false);
+    expect(sanitized.includes('65279')).toBe(false);
+    expect(sanitized).toBe("Couldn't analyze this photo — please try again or log manually below.");
+  });
 });

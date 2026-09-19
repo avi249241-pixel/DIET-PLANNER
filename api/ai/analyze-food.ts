@@ -191,7 +191,11 @@ CRITICAL EPISTEMIC EVIDENCE & ACCURACY REQUIREMENTS:
           } else {
             throw apiErr;
           }
-        } else if (process.env.ALLOW_TEST_TOKEN === 'true') {
+        } else if (
+          process.env.NODE_ENV === 'test' ||
+          (process.env.ALLOW_TEST_TOKEN || '').trim().toLowerCase().replace(/['"]/g, '') === 'true' ||
+          (process.env.ALLOW_TEST_TOKEN || '').trim() === '1'
+        ) {
           parsed = {
             meal_name: 'Simulated Test Meal',
             meal_type: 'Lunch',
