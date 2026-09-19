@@ -115,6 +115,46 @@ describe('Vercel & Firebase Split Architecture Migration Suite', () => {
     expect(responseBody.success).toBe(false);
   });
 
+  it('verifies api/ai/analyze-food.ts processes authenticated request cleanly without ERR_REQUIRE_ESM', async () => {
+    const analyzeFoodModule = await import('../api/ai/analyze-food');
+    const handler = analyzeFoodModule.default;
+
+    let responseStatus = 200;
+    let responseBody: any = null;
+
+    const mockReq: any = {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer test-token-testuser99'
+      },
+      body: {
+        description: 'Grilled chicken breast with steamed broccoli and brown rice'
+      }
+    };
+    const mockRes: any = {
+      setHeader() {
+        return this;
+      },
+      status(code: number) {
+        responseStatus = code;
+        return this;
+      },
+      json(data: any) {
+        responseBody = data;
+        return this;
+      }
+    };
+
+    await handler(mockReq, mockRes);
+
+    expect(responseStatus).toBe(200);
+    expect(responseBody).toBeDefined();
+    expect(responseBody.success).toBe(true);
+    expect(responseBody.data).toBeDefined();
+    expect(responseBody.data.foods).toBeDefined();
+    expect(responseBody.data.foods.length).toBeGreaterThan(0);
+  });
+
   it('verifies Firebase Cloud Function configuration in functions/src/index.ts', () => {
     const functionIndexPath = path.join(rootDir, 'functions/src/index.ts');
     expect(fs.existsSync(functionIndexPath)).toBe(true);
