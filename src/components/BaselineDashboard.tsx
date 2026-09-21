@@ -3,20 +3,17 @@ import { useStore, ScreenType } from '../context/StoreContext';
 import { useAuth } from '../AuthContext';
 import {
   Scale,
-  PlusCircle,
+  Camera,
   Utensils,
-  Compass,
   Droplets,
-  Barcode,
-  Mic,
-  ChefHat,
-  ShoppingCart,
   LogOut,
   Target,
   Sparkles,
-  ShieldCheck,
   Flame,
-  Shield
+  Shield,
+  ChefHat,
+  ShoppingCart,
+  Compass
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ProfileScreen } from './screens/ProfileScreen';
@@ -27,8 +24,6 @@ import { HydrationScreen } from './screens/HydrationScreen';
 import { StreakCalendarView } from './StreakCalendarView';
 import { RecipeBuilder } from './RecipeBuilder';
 import { SmartGroceryList } from './SmartGroceryList';
-import { VoiceMealLoggerModal } from './VoiceMealLoggerModal';
-import { LogFoodModal } from './LogFoodModal';
 import { ApiKeyModal } from './ApiKeyModal';
 import { calculateStreak } from '../lib/streakEngine';
 import { hasGeminiApiKey } from '../lib/geminiClient';
@@ -36,261 +31,195 @@ import { hasGeminiApiKey } from '../lib/geminiClient';
 export function BaselineDashboard() {
   const { user, logOut } = useAuth();
   const { activeScreen, setActiveScreen, foodItems, dailyStats, userProfile } = useStore();
-
-  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
-  const [isBarcodeModalOpen, setIsBarcodeModalOpen] = useState(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
 
   const streakAnalysis = calculateStreak(foodItems);
 
-  const navItems = [
-    { id: 'daily-log' as ScreenType, label: 'Daily Log', icon: Utensils, badge: `${foodItems.length}` },
-    { id: 'main-log' as ScreenType, label: 'Quick Log', icon: PlusCircle },
-    { id: 'recipes' as ScreenType, label: 'Recipes', icon: ChefHat },
-    { id: 'grocery' as ScreenType, label: 'Grocery', icon: ShoppingCart },
-    { id: 'diet-plan' as ScreenType, label: 'Diet Plan', icon: Compass },
+  const primaryNavItems = [
+    { id: 'main-log' as ScreenType, label: 'Log Meal', icon: Camera, highlight: true },
+    { id: 'daily-log' as ScreenType, label: 'Daily Ledger', icon: Utensils, badge: foodItems.length > 0 ? `${foodItems.length}` : undefined },
     { id: 'hydration' as ScreenType, label: 'Hydration', icon: Droplets, badge: `${dailyStats.waterGlasses} gl` },
     { id: 'history' as ScreenType, label: 'Streaks', icon: Flame, badge: `${streakAnalysis.currentStreak}d` },
     { id: 'profile' as ScreenType, label: 'Profile', icon: Scale },
   ];
 
-  const quickTools = [
-    {
-      name: 'Barcode Scanner',
-      icon: Barcode,
-      action: () => setIsBarcodeModalOpen(true),
-      title: 'Scan Barcode (Open Food Facts API)',
-      badge: 'OFF'
-    },
-    {
-      name: 'Voice Meal Logger',
-      icon: Mic,
-      action: () => setIsVoiceModalOpen(true),
-      title: 'Voice Meal Logger (Web Speech API)',
-      badge: 'AI'
-    },
-    {
-      name: 'Recipe Builder',
-      icon: ChefHat,
-      action: () => setActiveScreen('recipes'),
-      title: 'Recipe Builder & Batch Macros',
-      badge: 'PRO'
-    },
-    {
-      name: 'Smart Grocery Sync',
-      icon: ShoppingCart,
-      action: () => setActiveScreen('grocery'),
-      title: 'Smart Grocery Sync & Pantry Checklist',
-      badge: 'SYNC'
-    },
+  const secondaryNavItems = [
+    { id: 'recipes' as ScreenType, label: 'Recipes', icon: ChefHat },
+    { id: 'grocery' as ScreenType, label: 'Grocery', icon: ShoppingCart },
+    { id: 'diet-plan' as ScreenType, label: 'Plan', icon: Compass },
   ];
 
   return (
-    <div className="min-h-screen text-slate-800 flex flex-col relative z-10 selection:bg-emerald-500/20 selection:text-emerald-900">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col relative z-10 selection:bg-emerald-500/30 selection:text-emerald-300 font-sans">
       {/* Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/90 shadow-xs">
+      <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-2xl border-b border-slate-800/80 shadow-xl shadow-black/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           {/* Brand Logo */}
           <div
-            onClick={() => setActiveScreen('daily-log')}
+            onClick={() => setActiveScreen('main-log')}
             className="flex items-center gap-3 cursor-pointer select-none group"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-sm shadow-emerald-500/20 group-hover:scale-105 transition">
-              <Target className="w-5 h-5 text-slate-950" />
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/25 group-hover:scale-105 transition">
+              <Target className="w-5 h-5 text-slate-950 stroke-[2.5]" />
             </div>
             <div>
-              <div className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
+              <div className="text-base font-black tracking-tight text-white flex items-center gap-2">
                 <span>VibeDiet 3D</span>
-                <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-1.5 py-0.2 rounded border border-emerald-200">
-                  AI Pro
+                <span className="text-[10px] bg-emerald-500/20 text-emerald-400 font-extrabold px-2 py-0.5 rounded-full border border-emerald-500/30">
+                  AI
                 </span>
               </div>
-              <div className="text-[10px] text-slate-500 font-medium hidden sm:block">
-                3D Plate Vision &bull; Nutrition Intelligence
+              <div className="text-[11px] text-slate-400 font-medium hidden sm:block">
+                3D Vision Nutrition Engine
               </div>
             </div>
           </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-1 bg-slate-100/90 border border-slate-200/80 p-1 rounded-2xl">
-            {navItems.map((item) => {
+          {/* Center Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1.5 bg-slate-900/90 border border-slate-800/90 p-1.5 rounded-2xl shadow-inner">
+            {primaryNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeScreen === item.id;
               return (
-                <motion.button
+                <button
                   key={item.id}
                   type="button"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.96 }}
                   onClick={() => setActiveScreen(item.id)}
-                  className={`btn-tactile px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer ${
                     isActive
-                      ? 'bg-white text-slate-900 shadow-xs border border-slate-200/80'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
+                      ? 'bg-emerald-500 text-slate-950 font-black shadow-md shadow-emerald-500/20'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/70'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className={`w-4 h-4 ${isActive ? 'stroke-[2.5]' : ''}`} />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span
-                      className={`text-[9px] font-mono px-1.5 py-0.2 rounded-full font-bold ${
-                        isActive ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-600'
+                      className={`text-[9px] font-mono px-1.5 py-0.5 rounded-full font-bold ${
+                        isActive ? 'bg-slate-950 text-emerald-400' : 'bg-slate-800 text-slate-400 border border-slate-700'
                       }`}
                     >
                       {item.badge}
                     </span>
                   )}
-                </motion.button>
+                </button>
+              );
+            })}
+
+            {/* Extra tools dropdown / pill */}
+            <div className="h-4 w-px bg-slate-800 mx-1" />
+            {secondaryNavItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeScreen === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveScreen(item.id)}
+                  className={`px-2.5 py-2 rounded-xl text-xs font-medium transition flex items-center gap-1.5 cursor-pointer ${
+                    isActive
+                      ? 'bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30'
+                      : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800/50'
+                  }`}
+                  title={item.label}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span className="hidden lg:inline">{item.label}</span>
+                </button>
               );
             })}
           </nav>
 
-          {/* Right Action: Quick Tools & User Auth */}
+          {/* Right Action: User Auth, Target, Key */}
           <div className="flex items-center gap-3">
-            {/* Real Quick Action Tools */}
-            <div className="hidden lg:flex items-center gap-1 border-r border-slate-200 pr-3">
-              {quickTools.map((tool) => {
-                const Icon = tool.icon;
-                return (
-                  <motion.button
-                    key={tool.name}
-                    type="button"
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.92 }}
-                    onClick={tool.action}
-                    className="btn-tactile p-2 text-slate-500 hover:text-emerald-700 hover:bg-slate-100 rounded-xl transition cursor-pointer relative group"
-                    title={tool.title}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="sr-only">{tool.name}</span>
-                    <span className="absolute -top-0.5 -right-0.5 text-[8px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 px-1 rounded-full">
-                      {tool.badge}
-                    </span>
-                  </motion.button>
-                );
-              })}
-            </div>
-
-            {/* User Profile / Logout */}
-            <div className="flex items-center gap-2.5">
-              {/* Streak Quick-Pill */}
-              <motion.button
-                type="button"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => setActiveScreen('history')}
-                className="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 transition cursor-pointer shadow-2xs"
-                title="View Streak & Calendar History"
-              >
-                <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-                <span className="text-xs font-black font-mono">{streakAnalysis.currentStreak}d</span>
-                {streakAnalysis.isGraceActive && (
-                  <span title="1-Day Grace Active">
-                    <Shield className="w-3 h-3 text-amber-600" />
-                  </span>
-                )}
-              </motion.button>
-
-              {/* Gemini AI Key Quick Config */}
-              <motion.button
-                type="button"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => setIsApiKeyModalOpen(true)}
-                className={`btn-tactile flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer shadow-2xs ${
-                  hasGeminiApiKey()
-                    ? 'bg-emerald-50 hover:bg-emerald-100 border-emerald-200 text-emerald-800'
-                    : 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-800'
-                }`}
-                title={hasGeminiApiKey() ? 'Gemini AI Key Connected (Click to change)' : 'Connect Free Gemini AI Key'}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline font-mono">
-                  {hasGeminiApiKey() ? 'AI Active' : 'Set AI Key'}
+            {/* Streak Quick-Pill */}
+            <button
+              type="button"
+              onClick={() => setActiveScreen('history')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/25 text-amber-300 transition cursor-pointer"
+              title="View Streak & Adherence Calendar"
+            >
+              <Flame className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <span className="text-xs font-black font-mono">{streakAnalysis.currentStreak}d</span>
+              {streakAnalysis.isGraceActive && (
+                <span title="Grace Period Active">
+                  <Shield className="w-3 h-3 text-amber-400" />
                 </span>
-                <span className={`w-2 h-2 rounded-full ${hasGeminiApiKey() ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
-              </motion.button>
-
-              <div className="hidden md:flex flex-col text-right">
-                <span className="text-xs font-bold text-slate-900 leading-tight">
-                  {user?.displayName || 'Active Athlete'}
-                </span>
-                <span className="text-[10px] text-emerald-600 font-mono font-medium">
-                  {userProfile.targetCalories} kcal target
-                </span>
-              </div>
-
-              {user?.photoURL && (
-                <img
-                  src={user.photoURL}
-                  alt="avatar"
-                  className="w-8 h-8 rounded-full border border-slate-200 object-cover bg-slate-100"
-                />
               )}
+            </button>
 
-              <button
-                type="button"
-                onClick={logOut}
-                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer"
-                title="Log Out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
+            {/* Gemini AI Key Quick Config */}
+            <button
+              type="button"
+              onClick={() => setIsApiKeyModalOpen(true)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer ${
+                hasGeminiApiKey()
+                  ? 'bg-emerald-500/10 hover:bg-emerald-500/20 border-emerald-500/30 text-emerald-400'
+                  : 'bg-slate-900 hover:bg-slate-800 border-slate-800 text-slate-400 hover:text-white'
+              }`}
+              title={hasGeminiApiKey() ? 'Gemini AI Studio Connected' : 'Set Gemini AI Key'}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="hidden sm:inline font-mono">
+                {hasGeminiApiKey() ? 'AI Active' : 'AI Key'}
+              </span>
+              <span className={`w-2 h-2 rounded-full ${hasGeminiApiKey() ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-amber-400'}`} />
+            </button>
+
+            <div className="hidden lg:flex flex-col text-right">
+              <span className="text-xs font-bold text-white leading-tight">
+                {user?.displayName || 'Active Athlete'}
+              </span>
+              <span className="text-[10px] text-emerald-400 font-mono font-medium">
+                {userProfile.targetCalories} kcal goal
+              </span>
             </div>
+
+            {user?.photoURL && (
+              <img
+                src={user.photoURL}
+                alt="avatar"
+                className="w-9 h-9 rounded-xl border border-slate-700 object-cover bg-slate-900"
+              />
+            )}
+
+            <button
+              type="button"
+              onClick={logOut}
+              className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition cursor-pointer"
+              title="Log Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </header>
 
-      {/* Sub-Header Mobile / Tablet Nav Strip */}
-      <div className="lg:hidden border-b border-slate-200/90 bg-white/95 backdrop-blur-md px-4 py-2 overflow-x-auto scrollbar-none flex items-center gap-2">
-        {navItems.map((item) => {
+      {/* Mobile Bottom Navigation Bar (Fixed, never overflows or clips) */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-2xl border-t border-slate-800 px-3 py-2 flex items-center justify-around shadow-2xl">
+        {primaryNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeScreen === item.id;
           return (
-            <motion.button
+            <button
               key={item.id}
               type="button"
-              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveScreen(item.id)}
-              className={`btn-tactile px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition flex items-center gap-1.5 cursor-pointer ${
+              className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-[10px] font-bold transition cursor-pointer ${
                 isActive
-                  ? 'bg-slate-900 text-white font-bold shadow-xs'
-                  : 'bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200'
+                  ? 'text-emerald-400 bg-emerald-500/10'
+                  : 'text-slate-500 hover:text-slate-300'
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
+              <Icon className={`w-5 h-5 mb-0.5 ${isActive ? 'text-emerald-400' : ''}`} />
               <span>{item.label}</span>
-              {item.badge && (
-                <span className="text-[9px] font-mono px-1 rounded bg-slate-200 text-slate-700">
-                  {item.badge}
-                </span>
-              )}
-            </motion.button>
+            </button>
           );
         })}
-        {/* Quick Tools on mobile */}
-        <motion.button
-          type="button"
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsBarcodeModalOpen(true)}
-          className="btn-tactile px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-100 text-emerald-700 border border-slate-200 flex items-center gap-1 cursor-pointer"
-        >
-          <Barcode className="w-3 h-3" />
-          <span>Barcode</span>
-        </motion.button>
-        <motion.button
-          type="button"
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setIsVoiceModalOpen(true)}
-          className="btn-tactile px-2.5 py-1.5 rounded-xl text-[11px] font-semibold shrink-0 bg-slate-100 text-emerald-700 border border-slate-200 flex items-center gap-1 cursor-pointer"
-        >
-          <Mic className="w-3 h-3" />
-          <span>Voice</span>
-        </motion.button>
       </div>
 
-      {/* Main Content Area with Subtle Motion Screen Transitions */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 mb-16 lg:mb-6">
+      {/* Main Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 mb-20 md:mb-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeScreen}
@@ -299,36 +228,19 @@ export function BaselineDashboard() {
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.16, ease: 'easeOut' }}
           >
-            {activeScreen === 'profile' && <ProfileScreen />}
             {activeScreen === 'main-log' && <MainLogScreen />}
             {activeScreen === 'daily-log' && <DailyLogScreen />}
+            {activeScreen === 'history' && <StreakCalendarView />}
+            {activeScreen === 'profile' && <ProfileScreen />}
+            {activeScreen === 'hydration' && <HydrationScreen />}
             {activeScreen === 'recipes' && (
               <RecipeBuilder onFoodLogged={() => setActiveScreen('daily-log')} />
             )}
             {activeScreen === 'grocery' && <SmartGroceryList />}
             {activeScreen === 'diet-plan' && <DietPlanScreen />}
-            {activeScreen === 'hydration' && <HydrationScreen />}
-            {activeScreen === 'history' && <StreakCalendarView />}
           </motion.div>
         </AnimatePresence>
       </main>
-
-      {/* Functional Interactive Modals */}
-      <VoiceMealLoggerModal
-        isOpen={isVoiceModalOpen}
-        onClose={() => setIsVoiceModalOpen(false)}
-      />
-
-      <LogFoodModal
-        isOpen={isBarcodeModalOpen}
-        onClose={() => setIsBarcodeModalOpen(false)}
-        initialTab="barcode"
-        dailyJunkCount={0}
-        onFoodLogged={() => {
-          setIsBarcodeModalOpen(false);
-          setActiveScreen('daily-log');
-        }}
-      />
 
       <ApiKeyModal
         isOpen={isApiKeyModalOpen}

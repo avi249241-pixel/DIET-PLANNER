@@ -91,7 +91,13 @@ export class UsdaFoodDataCentralProvider implements NutritionProvider {
   private baseUrl = 'https://api.nal.usda.gov/fdc/v1';
 
   constructor(apiKey = 'DEMO_KEY') {
-    this.apiKey = process.env.USDA_API_KEY || apiKey;
+    let resolvedKey = apiKey;
+    if (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_USDA_API_KEY) {
+      resolvedKey = (import.meta as any).env.VITE_USDA_API_KEY;
+    } else if (typeof process !== 'undefined' && process.env?.USDA_API_KEY) {
+      resolvedKey = process.env.USDA_API_KEY;
+    }
+    this.apiKey = resolvedKey;
   }
 
   async searchFood(query: string, limit = 5): Promise<NormalizedFoodItem[]> {

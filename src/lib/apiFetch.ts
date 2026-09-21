@@ -225,7 +225,31 @@ export async function apiFetch<T = any>(
   }
 
   try {
-    const cleanedInit = init ? { ...init, headers: cleanHeaders(init.headers) } : undefined;
+    const rawHeaders: Record<string, string> = {
+      ...(init?.headers as Record<string, string> || {})
+    };
+
+    // Auto-attach authorization if targeting /api and not already provided
+    if (typeof input === 'string' && input.startsWith('/api') && !rawHeaders['Authorization'] && !rawHeaders['authorization']) {
+      if (typeof window !== 'undefined') {
+        const uid = localStorage.getItem('customUserId') || 'athlete_guest';
+        rawHeaders['Authorization'] = `Bearer test-token-${uid}`;
+      }
+    }
+
+    // Auto-attach client-side Gemini key if stored
+    if (typeof window !== 'undefined' && !rawHeaders['x-gemini-api-key']) {
+      const clientKey = localStorage.getItem('gemini_api_key');
+      if (clientKey) {
+        rawHeaders['x-gemini-api-key'] = clientKey;
+      }
+    }
+
+    const cleanedInit = {
+      ...init,
+      headers: cleanHeaders(rawHeaders)
+    };
+
     const res = await fetch(targetUrl, {
       ...cleanedInit,
       signal: init?.signal || controller.signal,
@@ -261,7 +285,7 @@ export async function apiFetch<T = any>(
       (res.status === 404 || (res.status === 200 && isHtml))
     ) {
       try {
-        return await handleClientDirectRoute<T>(input, init);
+        return await handleClientDirectRoute<T>(input, cleanedInit);
       } catch (clientErr: any) {
         if (clientErr instanceof ApiError) throw clientErr;
         throw new ApiError(clientErr.message || 'Client AI execution failed', 500, 'Client AI Error');
@@ -269,6 +293,15 @@ export async function apiFetch<T = any>(
     }
 
     if (!res.ok) {
+      // If backend AI or food endpoint returns 500/502/503/401, attempt resilient client-side execution
+      if (typeof input === 'string' && (input.startsWith('/api/ai/') || input.startsWith('/api/food/'))) {
+        try {
+          console.warn(`Backend responded with status ${res.status} on ${input}; invoking client-direct fallback.`);
+          return await handleClientDirectRoute<T>(input, cleanedInit);
+        } catch {
+          // If client-direct also fails, continue to formatted error below
+        }
+      }
       let friendlyMsg =
         init?.fallbackErrorMessage ||
         'Service is temporarily unavailable. Please try again or log manually below.';
