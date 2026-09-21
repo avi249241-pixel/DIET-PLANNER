@@ -47,8 +47,9 @@ If a listed tool isn't connected yet, say so explicitly rather than
 simulating its output.
 
 ## Definition of done for a coding task
-- Code compiles/builds locally.
-- Relevant tests (or a manual smoke check of the changed flow) pass.
+- Code compiles/builds locally (`bun run build`, `bunx tsc --noEmit`).
+- Automated tests pass (`bun test`).
+- **Live Browser Execution & Verification**: For any frontend, UI, or runtime task, start local server, open Chrome via `chrome-devtools`, physically interact with controls, verify console has 0 errors, and confirm visually before declaring complete.
 - Firestore writes go through the enforced-auth path, not a bypass.
 - Change is committed with a clear message and pushed.
 - If it touches the pipeline, confirm the tiered nutrition lookup fallback

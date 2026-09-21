@@ -94,7 +94,7 @@ function cleanHeaders(headers?: HeadersInit): HeadersInit | undefined {
     return headers.map(([k, v]) => [
       k.replace(/[\uFEFF\u200B]/g, '').trim(),
       v.replace(/[\uFEFF\u200B]/g, '').trim(),
-    ]);
+    ] as [string, string]);
   }
   const cleaned: Record<string, string> = {};
   for (const [k, v] of Object.entries(headers)) {
